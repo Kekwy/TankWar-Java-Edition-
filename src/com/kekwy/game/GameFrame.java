@@ -23,7 +23,7 @@ public class GameFrame extends Frame implements Runnable {
 
 	@Override
 	public void run() {
-		while(true) {
+		while (true) {
 			repaint();
 			try {
 				Thread.sleep(FLUSH_INTERVAL);
@@ -45,6 +45,7 @@ public class GameFrame extends Frame implements Runnable {
 		gameState = State.STATE_MENU;
 		menuIndex = 0;
 	}
+
 	private void initFrame() {
 		super.setTitle(GAME_TITLE); // 可以把常量写在配置文件中
 		super.setSize(FRAME_WIDTH, FRAME_HEIGHT);
@@ -52,6 +53,7 @@ public class GameFrame extends Frame implements Runnable {
 		super.setResizable(false);
 		super.setVisible(true);
 	}
+
 	// 不能主动调用，需要通过repaint回调该方法
 	public void update(Graphics g1) {
 
@@ -65,7 +67,7 @@ public class GameFrame extends Frame implements Runnable {
 			case STATE_OVER -> drawOver(g);
 		}
 		// drawMenu(g);
-		g1.drawImage(bufImg,0,0,null);
+		g1.drawImage(bufImg, 0, 0, null);
 	}
 
 	private void initEventListener() {
@@ -89,11 +91,12 @@ public class GameFrame extends Frame implements Runnable {
 					case STATE_OVER -> keyEventOver(keyCode);
 				}
 			}
+
 			@Override
 			public void keyReleased(KeyEvent e) { // 按键松开调用
 				int keyCode = e.getKeyCode();
-				if(gameState == State.STATE_RUN) {
-					switch (keyCode){
+				if (gameState == State.STATE_RUN) {
+					switch (keyCode) {
 						case KeyEvent.VK_W:
 						case KeyEvent.VK_S:
 						case KeyEvent.VK_A:
@@ -112,13 +115,26 @@ public class GameFrame extends Frame implements Runnable {
 
 	private void keyEventRun(int keyCode) {
 		switch (keyCode) {
-			case KeyEvent.VK_W -> myTank.setForward(Tank.Direction.DIR_UP);
-			case KeyEvent.VK_S -> myTank.setForward(Tank.Direction.DIR_DOWN);
-			case KeyEvent.VK_A -> myTank.setForward(Tank.Direction.DIR_LEFT);
-			case KeyEvent.VK_D -> myTank.setForward(Tank.Direction.DIR_RIGHT);
-			default ->{ return; }
+			case KeyEvent.VK_W -> {
+				myTank.setForward(Tank.Direction.DIR_UP);
+				myTank.setState(Tank.State.STATE_MOVE);
+			}
+			case KeyEvent.VK_S -> {
+				myTank.setForward(Tank.Direction.DIR_DOWN);
+				myTank.setState(Tank.State.STATE_MOVE);
+			}
+			case KeyEvent.VK_A -> {
+				myTank.setForward(Tank.Direction.DIR_LEFT);
+				myTank.setState(Tank.State.STATE_MOVE);
+			}
+			case KeyEvent.VK_D -> {
+				myTank.setForward(Tank.Direction.DIR_RIGHT);
+				myTank.setState(Tank.State.STATE_MOVE);
+			}
+			case KeyEvent.VK_J -> myTank.fire();
+
 		}
-		myTank.setState(Tank.State.STATE_MOVE);
+		// myTank.setState(Tank.State.STATE_MOVE);
 	}
 
 	private void keyEventAbout(int keyCode) {
@@ -148,7 +164,7 @@ public class GameFrame extends Frame implements Runnable {
 
 	private void drawMenu(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0,0,FRAME_WIDTH,FRAME_HEIGHT);
+		g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 
 		g.setFont(GAME_FONT);
 		final int STR_WIDTH = 70;
@@ -157,10 +173,9 @@ public class GameFrame extends Frame implements Runnable {
 		int y = FRAME_HEIGHT / 3;
 
 		for (int i = 0; i < State.values().length; i++) {
-			if(i == menuIndex) {
+			if (i == menuIndex) {
 				g.setColor(Color.RED);
-			}
-			else {
+			} else {
 				g.setColor(Color.WHITE);
 			}
 			g.drawString(MENUS[i], x, y + DIS * i);
@@ -172,7 +187,7 @@ public class GameFrame extends Frame implements Runnable {
 
 	private void drawRun(Graphics g) {
 		g.setColor(Color.BLACK);
-		g.fillRect(0,0,FRAME_WIDTH,FRAME_HEIGHT);
+		g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
 		myTank.draw(g);
 	}
 

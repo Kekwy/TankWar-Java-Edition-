@@ -1,6 +1,8 @@
 package com.kekwy.game;
 
 import java.awt.*;
+import java.util.LinkedList;
+import java.util.List;
 
 import com.kekwy.util.MyUtil;
 
@@ -50,7 +52,8 @@ public class Tank {
 	private int hp = DEFAULT_HP;
 	private int speed = DEFAULT_SPEED;
 	private Color color;
-
+	private List<Bullet> bullets = new LinkedList<>();
+//_________________________________________________________________
 	public Tank(int x, int y, Direction forward) {
 		this.x = x;
 		this.y = y;
@@ -91,6 +94,7 @@ public class Tank {
 
 	public void draw(Graphics g) {
 		logic();
+		drawBullets(g);
 		g.drawImage(tankImg[forward.ordinal()], x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS, null);
 		//g.fillOval(x - RADIUS, y - RADIUS, RADIUS << 1, RADIUS << 1);
 
@@ -102,5 +106,26 @@ public class Tank {
 
 	public void setState(State state) {
 		this.state = state;
+	}
+
+	public void fire() {
+		int bulletx = x;
+		int bullety = y;
+		switch (forward) {
+			case DIR_UP -> bullety -= RADIUS;
+			case DIR_DOWN -> bullety += RADIUS;
+			case DIR_LEFT -> bulletx -= RADIUS;
+			case DIR_RIGHT -> bulletx += RADIUS;
+		}
+		Bullet bullet = new Bullet(bulletx, bullety, forward, atk, color);
+		bullets.add(bullet);
+	}
+	/**
+	 * 将当前坦克发射的所有子弹全部绘制出来
+	 */
+	private void drawBullets(Graphics g) {
+		for (Bullet bullet : bullets) {
+			bullet.draw(g);
+		}
 	}
 }
