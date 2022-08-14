@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.kekwy.util.BulletsPool;
 import com.kekwy.util.MyUtil;
 
 import static com.kekwy.util.Constant.*;
@@ -53,7 +54,15 @@ public class Tank {
 	private int speed = DEFAULT_SPEED;
 	private Color color;
 	private List<Bullet> bullets = new LinkedList<>();
-//_________________________________________________________________
+
+	/**
+	 * 对象池思想：
+	 * 提前创建好若干个子类对象，放到一个容器中。
+	 * 需要的时候从该对象池中拿出来一个使用，
+	 * 被销毁时再放回原对象池中。
+	 */
+
+//_____________________________________________________________________________________________
 	public Tank(int x, int y, Direction forward) {
 		this.x = x;
 		this.y = y;
@@ -117,15 +126,32 @@ public class Tank {
 			case DIR_LEFT -> bulletx -= RADIUS;
 			case DIR_RIGHT -> bulletx += RADIUS;
 		}
-		Bullet bullet = new Bullet(bulletx, bullety, forward, atk, color);
+		Bullet bullet = BulletsPool.takeAway();
+		bullet.setX(bulletx);
+		bullet.setY(bullety);
+		bullet.setAtk(atk);
+		bullet.setColor(color);
+		bullet.setForward(forward);
+		bullet.setVisible(true);
 		bullets.add(bullet);
 	}
+
 	/**
 	 * 将当前坦克发射的所有子弹全部绘制出来
 	 */
 	private void drawBullets(Graphics g) {
 		for (Bullet bullet : bullets) {
-			bullet.draw(g);
+			if (bullet.isVisible())
+				bullet.draw(g);
 		}
+		for (int i = 0; i < bullets.size(); i++) {
+			Bullet bullet = bullets.get(i);
+			if(!bullet.isVisible()) {
+				BulletsPool.sendBack(bullet);
+				bullets.remove(i);
+				i--;
+			}
+		}
+		// System.out.println("地图上剩余发射出去的子弹：" + bullets.size());
 	}
 }
