@@ -9,23 +9,8 @@ import com.kekwy.util.MyUtil;
 
 import static com.kekwy.util.Constant.*;
 
-public class Tank {
-	private static Image[] tankImg;
-	private static Image[] enemyImg;
+public abstract class Tank {
 
-	static {
-		tankImg = new Image[4];
-		tankImg[0] = Toolkit.getDefaultToolkit().createImage("res/p1tankU.gif");
-		tankImg[1] = Toolkit.getDefaultToolkit().createImage("res/p1tankD.gif");
-		tankImg[2] = Toolkit.getDefaultToolkit().createImage("res/p1tankL.gif");
-		tankImg[3] = Toolkit.getDefaultToolkit().createImage("res/p1tankR.gif");
-
-		enemyImg = new Image[4];
-		enemyImg[0] = Toolkit.getDefaultToolkit().createImage("res/enemy1U.gif");
-		enemyImg[1] = Toolkit.getDefaultToolkit().createImage("res/enemy1D.gif");
-		enemyImg[2] = Toolkit.getDefaultToolkit().createImage("res/enemy1L.gif");
-		enemyImg[3] = Toolkit.getDefaultToolkit().createImage("res/enemy1R.gif");
-	}
 
 	public enum Direction {
 		DIR_UP,
@@ -47,13 +32,15 @@ public class Tank {
 
 	private int x, y;
 	private Direction forward;
-	private State state = State.STATE_IDLE;
+	protected State state = State.STATE_IDLE;
 
 	private int atk = DEFAULT_ATK;
 	private int hp = DEFAULT_HP;
 	private int speed = DEFAULT_SPEED;
 	private Color color;
 	private List<Bullet> bullets = new LinkedList<>();
+
+	protected boolean isEnemy = false;
 
 	/**
 	 * 对象池思想：
@@ -70,6 +57,7 @@ public class Tank {
 		this.color = MyUtil.getRandomColor();
 	}
 
+
 	private void logic() {
 		switch (state) {
 			case STATE_MOVE -> move();
@@ -84,17 +72,17 @@ public class Tank {
 				}
 			}
 			case DIR_DOWN -> {
-				if (y < FRAME_HEIGHT - RADIUS) {
+				if (y < FRAME_HEIGHT - RADIUS  - 2) {
 					y += speed;
 				}
 			}
 			case DIR_LEFT -> {
-				if (x > RADIUS) {
+				if (x > RADIUS + 6) {
 					x -= speed;
 				}
 			}
 			case DIR_RIGHT -> {
-				if (x < FRAME_WIDTH - RADIUS) {
+				if (x < FRAME_WIDTH - RADIUS - 6) {
 					x += speed;
 				}
 			}
@@ -104,10 +92,12 @@ public class Tank {
 	public void draw(Graphics g) {
 		logic();
 		drawBullets(g);
-		g.drawImage(tankImg[forward.ordinal()], x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS, null);
+		drawImgTank(g);
 		//g.fillOval(x - RADIUS, y - RADIUS, RADIUS << 1, RADIUS << 1);
 
 	}
+
+	protected abstract void drawImgTank(Graphics g);
 
 	public void setForward(Direction forward) {
 		this.forward = forward;
@@ -153,5 +143,17 @@ public class Tank {
 			}
 		}
 		// System.out.println("地图上剩余发射出去的子弹：" + bullets.size());
+	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public Direction getForward() {
+		return forward;
 	}
 }

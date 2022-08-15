@@ -8,6 +8,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
+import java.util.LinkedList;
 
 import static com.kekwy.util.Constant.*;
 import static com.kekwy.util.Constant.State;
@@ -20,6 +21,8 @@ public class GameFrame extends Frame implements Runnable {
 	public static int titleBarH;
 	private static int menuIndex;
 	private Tank myTank;
+
+	private java.util.List<Tank> enemies = new LinkedList<>();
 
 	@Override
 	public void run() {
@@ -159,7 +162,23 @@ public class GameFrame extends Frame implements Runnable {
 
 	private void newGame() {
 		gameState = State.STATE_RUN;
-		myTank = new Tank(200, 400, Tank.Direction.DIR_UP);
+		myTank = new MyTank(200, 400, Tank.Direction.DIR_UP);
+		new Thread() {
+			@Override
+			public void run() {
+				while (true) {
+					if(enemies.size() < MAX_ENEMY_COUNT) {
+						Tank enemy = EnemyTank.createEnemy();
+						enemies.add(enemy);
+					}
+					try {
+						Thread.sleep(BORN_ENEMY_INTERVAL);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+				}
+			}
+		}.start();
 	}
 
 	private void drawMenu(Graphics g) {
@@ -188,9 +207,16 @@ public class GameFrame extends Frame implements Runnable {
 	private void drawRun(Graphics g) {
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+		drawEnemies(g);
 		myTank.draw(g);
 	}
 
+	private void drawEnemies(Graphics g) {
+		for (Tank enemy : enemies) {
+			enemy.draw(g);
+		}
+	}
 	private void drawAbout(Graphics g) {
 
 	}

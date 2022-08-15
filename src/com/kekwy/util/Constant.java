@@ -31,4 +31,7 @@ public class Constant {
 	public static final Font GAME_FONT = new Font("Minecraft 常规", Font.TRUETYPE_FONT, 24);
 
 	public static final int FLUSH_INTERVAL = 33;
+
+	public static final int MAX_ENEMY_COUNT = 10;
+	public static final int BORN_ENEMY_INTERVAL = 5000;
 }
