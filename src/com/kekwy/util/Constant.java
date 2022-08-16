@@ -28,7 +28,10 @@ public class Constant {
 			"退出游戏",
 	};
 
+	public static final String OVER_NOTICE = new String("按Enter键继续...");
+
 	public static final Font GAME_FONT = new Font("Minecraft 常规", 4, 24);
+	public static final Font OVER_FONT = new Font("Minecraft 常规", 4, 18);
 	public static final Font NAME_FONT = new Font("Minecraft 常规", 4, 12);
 
 	public static final int FLUSH_INTERVAL = 33;

@@ -66,5 +66,9 @@ public class EnemyTank extends Tank {
 		}
 	}
 
-
+	@Override
+	public void bulletsReturn() {
+		super.bulletsReturn();
+		// num = 0;
+	}
 }

@@ -4,10 +4,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.kekwy.util.BulletsPool;
-import com.kekwy.util.ExplodesPool;
-import com.kekwy.util.MyUtil;
-import com.kekwy.util.TankPool;
+import com.kekwy.util.*;
 
 import static com.kekwy.util.Constant.*;
 
@@ -61,6 +58,18 @@ public abstract class Tank {
 
 	private HPBar bar = new HPBar();
 	//_____________________________________________________________________________________________
+	public void bulletsReturn() {
+		for (Bullet bullet : bullets) {
+			BulletsPool.sendBack(bullet);
+		}
+		bullets.clear();
+		for (Explode explode : explodes) {
+			explode.setVisible(false);
+			ExplodesPool.sendBack(explode);
+		}
+		explodes.clear();
+	}
+
 	public Tank() {
 		// this.color = MyUtil.getRandomColor();
 	}
@@ -188,27 +197,31 @@ public abstract class Tank {
 			int bulletY = bullet.getY();
 			if (MyUtil.isCollide(x, y, RADIUS, bulletX, bulletY)) {
 				hp -= bullet.getAtk();
-				if(hp < 0) {
-					hp = 0;
-					die();
-				}
 				bullet.setVisible(false);
 				Explode explode = ExplodesPool.takeAway();
 				explode.setX(bulletX);
 				explode.setY(bulletY);
-				explode.setVisible(true);
 				explode.setIndex(0);
+				explode.setVisible(true);
 				explodes.add(explode);
+				// TODO 多余爆炸效果的修复
+				if(hp <= 0) {
+					hp = 0;
+					die();
+				}
 			}
 		}
 	}
 
 	private void die() {
+		state = State.STATE_DIE;
 		if(isEnemy) {
+			this.bulletsReturn();
 			TankPool.sendBack(this);
 		}
 		else {
-			// gameOver TODO
+			// gameOver
+			GameFrame.gameState = Constant.State.STATE_OVER;
 		}
 	}
 

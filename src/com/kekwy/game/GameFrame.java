@@ -2,6 +2,8 @@ package com.kekwy.game;
 
 // import com.kekwy.util.Constant;
 
+import com.kekwy.util.MyUtil;
+
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -119,7 +121,7 @@ public class GameFrame extends Frame implements Runnable {
 	}
 
 	private void keyEventOver(int keyCode) {
-
+		if (keyCode == KeyEvent.VK_ENTER) gameState = State.STATE_MENU;
 	}
 
 	private void keyEventRun(int keyCode) {
@@ -168,23 +170,26 @@ public class GameFrame extends Frame implements Runnable {
 
 	private void newGame() {
 		gameState = State.STATE_RUN;
+		if (myTank != null) myTank.bulletsReturn();
 		myTank = new MyTank(200, 400, Tank.Direction.DIR_UP);
-		new Thread() {
-			@Override
-			public void run() {
-				while (true) {
-					if (enemies.size() < MAX_ENEMY_COUNT) {
-						Tank enemy = EnemyTank.createEnemy();
-						enemies.add(enemy);
-					}
-					try {
-						Thread.sleep(BORN_ENEMY_INTERVAL);
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
+		menuIndex = 0;
+		for (Tank enemy : enemies) {
+			enemy.bulletsReturn();
+		}
+		enemies.clear();
+		new Thread(() -> {
+			while (gameState == State.STATE_RUN) {
+				if (enemies.size() < MAX_ENEMY_COUNT) {
+					Tank enemy = EnemyTank.createEnemy();
+					enemies.add(enemy);
+				}
+				try {
+					Thread.sleep(BORN_ENEMY_INTERVAL);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
 				}
 			}
-		}.start();
+		}).start();
 	}
 
 	private void drawMenu(Graphics g) {
@@ -207,7 +212,29 @@ public class GameFrame extends Frame implements Runnable {
 		}
 	}
 
+	/**
+	 * 绘制游戏结束的方法
+	 *
+	 * @param g
+	 */
+
+	private static Image overImg = null;
+
 	private void drawOver(Graphics g) {
+		if (overImg == null) {
+			overImg = MyUtil.createImage("res/over.gif");
+		}
+		int imgW = overImg.getWidth(null);
+		int imgH = overImg.getHeight(null);
+		// TODO 第一次绘制时触发了bug
+		if (imgW != -1) {
+			// System.out.println(imgH);
+			g.drawImage(overImg, FRAME_WIDTH - 3 * imgW >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) - 20, 3 * imgW,
+					3 * imgH, null);
+			g.setColor(Color.WHITE);
+			g.setFont(OVER_FONT);
+			g.drawString(OVER_NOTICE, FRAME_WIDTH - 125 >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) + 145);
+		}
 	}
 
 	private void drawRun(Graphics g) {
@@ -224,7 +251,7 @@ public class GameFrame extends Frame implements Runnable {
 	private void drawEnemies(Graphics g) {
 		for (int i = 0; i < enemies.size(); i++) {
 			Tank enemy = enemies.get(i);
-			if(enemy.isDie()) {
+			if (enemy.isDie()) {
 				enemies.remove(i);
 				i--;
 				continue;
