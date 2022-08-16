@@ -4,7 +4,8 @@ import java.awt.*;
 
 public class MyTank extends Tank {
 
-	private static Image[] tankImg;
+	private static int num = 0;
+	private static final Image[] tankImg;
 
 	static {
 		tankImg = new Image[4];
@@ -16,6 +17,8 @@ public class MyTank extends Tank {
 
 	public MyTank(int x, int y, Direction forward) {
 		super(x, y, forward);
+		num++;
+		setName("Player" + num);
 	}
 
 	@Override

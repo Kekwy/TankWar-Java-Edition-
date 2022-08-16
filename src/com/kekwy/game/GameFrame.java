@@ -101,10 +101,16 @@ public class GameFrame extends Frame implements Runnable {
 				if (gameState == State.STATE_RUN) {
 					switch (keyCode) {
 						case KeyEvent.VK_W:
+							if (myTank.getForward() == Tank.Direction.DIR_UP) myTank.setState(Tank.State.STATE_IDLE);
+							break;
 						case KeyEvent.VK_S:
+							if (myTank.getForward() == Tank.Direction.DIR_DOWN) myTank.setState(Tank.State.STATE_IDLE);
+							break;
 						case KeyEvent.VK_A:
+							if (myTank.getForward() == Tank.Direction.DIR_LEFT) myTank.setState(Tank.State.STATE_IDLE);
+							break;
 						case KeyEvent.VK_D:
-							myTank.setState(Tank.State.STATE_IDLE);
+							if (myTank.getForward() == Tank.Direction.DIR_RIGHT) myTank.setState(Tank.State.STATE_IDLE);
 							break;
 					}
 				}
@@ -167,7 +173,7 @@ public class GameFrame extends Frame implements Runnable {
 			@Override
 			public void run() {
 				while (true) {
-					if(enemies.size() < MAX_ENEMY_COUNT) {
+					if (enemies.size() < MAX_ENEMY_COUNT) {
 						Tank enemy = EnemyTank.createEnemy();
 						enemies.add(enemy);
 					}
@@ -210,13 +216,23 @@ public class GameFrame extends Frame implements Runnable {
 
 		drawEnemies(g);
 		myTank.draw(g);
+
+		bulletCollideTank();
+		drawExplodes(g);
 	}
 
 	private void drawEnemies(Graphics g) {
-		for (Tank enemy : enemies) {
+		for (int i = 0; i < enemies.size(); i++) {
+			Tank enemy = enemies.get(i);
+			if(enemy.isDie()) {
+				enemies.remove(i);
+				i--;
+				continue;
+			}
 			enemy.draw(g);
 		}
 	}
+
 	private void drawAbout(Graphics g) {
 
 	}
@@ -225,4 +241,17 @@ public class GameFrame extends Frame implements Runnable {
 
 	}
 
+	private void bulletCollideTank() {
+		for (Tank enemy : enemies) {
+			enemy.collideBullets(myTank.getBullets());
+			myTank.collideBullets(enemy.getBullets());
+		}
+	}
+
+	private void drawExplodes(Graphics g) {
+		for (Tank enemy : enemies) {
+			enemy.drawExplodes(g);
+		}
+		myTank.drawExplodes(g);
+	}
 }

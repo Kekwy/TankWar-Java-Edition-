@@ -5,12 +5,18 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.kekwy.util.BulletsPool;
+import com.kekwy.util.ExplodesPool;
 import com.kekwy.util.MyUtil;
+import com.kekwy.util.TankPool;
 
 import static com.kekwy.util.Constant.*;
 
 public abstract class Tank {
 
+
+	protected void setHP(int defaultHp) {
+		hp = defaultHp;
+	}
 
 	public enum Direction {
 		DIR_UP,
@@ -49,14 +55,26 @@ public abstract class Tank {
 	 * 被销毁时再放回原对象池中。
 	 */
 
-//_____________________________________________________________________________________________
+	private List<Explode> explodes = new LinkedList<>();
+
+	private String name;
+
+	private HPBar bar = new HPBar();
+	//_____________________________________________________________________________________________
+	public Tank() {
+		// this.color = MyUtil.getRandomColor();
+	}
+
 	public Tank(int x, int y, Direction forward) {
+		initTank(x, y, forward);
+	}
+
+	protected void initTank(int x, int y, Direction forward) {
 		this.x = x;
 		this.y = y;
 		this.forward = forward;
 		this.color = MyUtil.getRandomColor();
 	}
-
 
 	private void logic() {
 		switch (state) {
@@ -72,7 +90,7 @@ public abstract class Tank {
 				}
 			}
 			case DIR_DOWN -> {
-				if (y < FRAME_HEIGHT - RADIUS  - 2) {
+				if (y < FRAME_HEIGHT - RADIUS - 2) {
 					y += speed;
 				}
 			}
@@ -94,7 +112,14 @@ public abstract class Tank {
 		drawBullets(g);
 		drawImgTank(g);
 		//g.fillOval(x - RADIUS, y - RADIUS, RADIUS << 1, RADIUS << 1);
+		drawName(g);
+		bar.draw(g);
+	}
 
+	private void drawName(Graphics g) {
+		g.setColor(color);
+		g.setFont(NAME_FONT);
+		g.drawString(name, x - RADIUS, y - RADIUS - 14);
 	}
 
 	protected abstract void drawImgTank(Graphics g);
@@ -136,7 +161,7 @@ public abstract class Tank {
 		}
 		for (int i = 0; i < bullets.size(); i++) {
 			Bullet bullet = bullets.get(i);
-			if(!bullet.isVisible()) {
+			if (!bullet.isVisible()) {
 				BulletsPool.sendBack(bullet);
 				bullets.remove(i);
 				i--;
@@ -155,5 +180,76 @@ public abstract class Tank {
 
 	public Direction getForward() {
 		return forward;
+	}
+
+	public void collideBullets(List<Bullet> bullets) {
+		for (Bullet bullet : bullets) {
+			int bulletX = bullet.getX();
+			int bulletY = bullet.getY();
+			if (MyUtil.isCollide(x, y, RADIUS, bulletX, bulletY)) {
+				hp -= bullet.getAtk();
+				if(hp < 0) {
+					hp = 0;
+					die();
+				}
+				bullet.setVisible(false);
+				Explode explode = ExplodesPool.takeAway();
+				explode.setX(bulletX);
+				explode.setY(bulletY);
+				explode.setVisible(true);
+				explode.setIndex(0);
+				explodes.add(explode);
+			}
+		}
+	}
+
+	private void die() {
+		if(isEnemy) {
+			TankPool.sendBack(this);
+		}
+		else {
+			// gameOver TODO
+		}
+	}
+
+	public boolean isDie() {
+		return hp == 0;
+	}
+	public List<Bullet> getBullets() {
+		return bullets;
+	}
+
+	public void drawExplodes(Graphics g) {
+		for (Explode explode : explodes) {
+			explode.draw(g);
+		}
+		for (int i = 0; i < explodes.size(); i++) {
+			Explode explode = explodes.get(i);
+			if (!explode.isVisible()) {
+				ExplodesPool.sendBack(explode);
+				explodes.remove(i);
+				i--;
+			}
+		}
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	private class HPBar {
+		public static final int BAR_LENGTH = 50;
+		public static final int BAR_HEIGHT = 5;
+
+		public void draw(Graphics g) {
+			g.setColor(Color.RED);
+			g.fillRect(x - RADIUS, y - RADIUS - BAR_HEIGHT * 2, hp * BAR_LENGTH / DEFAULT_HP, BAR_HEIGHT);
+			g.setColor(Color.white);
+			g.drawRect(x - RADIUS, y - RADIUS - BAR_HEIGHT * 2, BAR_LENGTH, BAR_HEIGHT);
+		}
 	}
 }

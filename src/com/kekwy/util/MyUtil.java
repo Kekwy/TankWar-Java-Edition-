@@ -29,4 +29,23 @@ public class MyUtil {
 		int blue = getRandomNumber(0, 256);
 		return new Color(red, green, blue);
 	}
+
+	/**
+	 * 判断一个点是否在某一个正方形的内部
+	 * @param rectX 正方形的中心点的x坐标
+	 * @param rectY 正方形的中心点的y左边
+	 * @param radius 正方形边长的一半
+	 * @param pointX 点的x坐标
+	 * @param pointY 点的y坐标
+	 * @return 是否在内部
+	 */
+	public static boolean isCollide(int rectX, int rectY, int radius, int pointX, int pointY) {
+		int disX = Math.abs(rectX - pointX);
+		int disY = Math.abs(rectY - pointY);
+		return (disX < radius && disY < radius);
+	}
+
+	public static final Image createImage(String path) {
+		return Toolkit.getDefaultToolkit().createImage(path);
+	}
 }

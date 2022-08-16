@@ -4,13 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.14 子弹发射&amp;子弹对象池">
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/game/EnemyTank.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/game/MyTank.java" afterDir="false" />
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.15 敌人移动&amp;攻击">
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/game/Explode.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/util/ExplodesPool.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/util/TankPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/game/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/game/EnemyTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/game/GameFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/MyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/game/MyTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/game/Tank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/Constant.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/util/Constant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/MyUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/util/MyUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -94,7 +99,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660462322317</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="8.15 敌人移动&amp;攻击">
+      <created>1660526137184</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1660526137184</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -112,6 +124,7 @@
     <MESSAGE value="8.14 四向移动" />
     <MESSAGE value="8.14 子弹发射" />
     <MESSAGE value="8.14 子弹发射&amp;子弹对象池" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.14 子弹发射&amp;子弹对象池" />
+    <MESSAGE value="8.15 敌人移动&amp;攻击" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.15 敌人移动&amp;攻击" />
   </component>
 </project>

@@ -78,4 +78,16 @@ public class Bullet {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
+
+	public int getX() {
+		return x;
+	}
+
+	public int getY() {
+		return y;
+	}
+
+	public int getAtk() {
+		return atk;
+	}
 }
