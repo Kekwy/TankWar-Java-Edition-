@@ -4,6 +4,7 @@ import java.awt.*;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.kekwy.map.MapTile;
 import com.kekwy.util.*;
 
 import static com.kekwy.util.Constant.*;
@@ -11,8 +12,14 @@ import static com.kekwy.util.Constant.*;
 public abstract class Tank {
 
 
+	private int old_x, old_y;
 	protected void setHP(int defaultHp) {
 		hp = defaultHp;
+	}
+
+	public void back() {
+		x = old_x;
+		y = old_y;
 	}
 
 	public enum Direction {
@@ -57,6 +64,7 @@ public abstract class Tank {
 	private String name;
 
 	private HPBar bar = new HPBar();
+
 	//_____________________________________________________________________________________________
 	public void bulletsReturn() {
 		for (Bullet bullet : bullets) {
@@ -79,6 +87,8 @@ public abstract class Tank {
 	}
 
 	protected void initTank(int x, int y, Direction forward) {
+		this.old_x = x;
+		this.old_y = y;
 		this.x = x;
 		this.y = y;
 		this.forward = forward;
@@ -92,6 +102,8 @@ public abstract class Tank {
 	}
 
 	private void move() {
+		old_x = x;
+		old_y = y;
 		switch (forward) {
 			case DIR_UP -> {
 				if (y > RADIUS + GameFrame.titleBarH) {
@@ -205,7 +217,7 @@ public abstract class Tank {
 				explode.setVisible(true);
 				explodes.add(explode);
 				// TODO 多余爆炸效果的修复
-				if(hp <= 0) {
+				if (hp <= 0) {
 					hp = 0;
 					die();
 				}
@@ -215,11 +227,10 @@ public abstract class Tank {
 
 	private void die() {
 		state = State.STATE_DIE;
-		if(isEnemy) {
+		if (isEnemy) {
 			this.bulletsReturn();
 			TankPool.sendBack(this);
-		}
-		else {
+		} else {
 			// gameOver
 			GameFrame.gameState = Constant.State.STATE_OVER;
 		}
@@ -228,6 +239,7 @@ public abstract class Tank {
 	public boolean isDie() {
 		return hp == 0;
 	}
+
 	public List<Bullet> getBullets() {
 		return bullets;
 	}
@@ -264,5 +276,83 @@ public abstract class Tank {
 			g.setColor(Color.white);
 			g.drawRect(x - RADIUS, y - RADIUS - BAR_HEIGHT * 2, BAR_LENGTH, BAR_HEIGHT);
 		}
+	}
+
+	public void bulletsCollideMapTiles(List<MapTile> tiles) {
+		for (MapTile tile : tiles) {
+			if (tile.isCollideBullet(bullets)) {
+				// 添加爆炸效果
+				int x = tile.getX();
+				int y = tile.getY();
+				Explode explode = ExplodesPool.takeAway();
+				explode.setX(x + RADIUS);
+				explode.setY(y + RADIUS);
+				explode.setIndex(0);
+				explode.setVisible(true);
+				explodes.add(explode);
+			}
+		}
+	}
+
+	/**
+	 * 从tile中提取八个点，判断是否与坦克产生碰撞，其实只判断四个点就可以了
+	 */
+	public boolean isCollideTile(List<MapTile> tiles) {
+		for (MapTile tile : tiles) {
+
+
+			int tileX = tile.getX();
+			int tileY = tile.getY();
+			boolean collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileX = tile.getX() + MapTile.tileW / 2;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileX = tile.getX() + MapTile.tileW;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileY = tile.getY() + MapTile.tileW / 2;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileY = tile.getY() + MapTile.tileW;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileX = tile.getX() + MapTile.tileW / 2;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+			tileX = tile.getX();
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+
+			tileY = tile.getY() + MapTile.tileW / 2;
+			collide = MyUtil.isCollide(x, y, RADIUS, tileX, tileY);
+			if (collide) {
+				return true;
+			}
+
+
+		}
+		return false;
 	}
 }

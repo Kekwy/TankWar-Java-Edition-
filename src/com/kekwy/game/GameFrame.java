@@ -2,6 +2,8 @@ package com.kekwy.game;
 
 // import com.kekwy.util.Constant;
 
+import com.kekwy.map.GameMap;
+import com.kekwy.map.MapTile;
 import com.kekwy.util.MyUtil;
 
 import java.awt.*;
@@ -11,6 +13,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.util.List;
 
 import static com.kekwy.util.Constant.*;
 import static com.kekwy.util.Constant.State;
@@ -25,6 +28,9 @@ public class GameFrame extends Frame implements Runnable {
 	private Tank myTank;
 
 	private java.util.List<Tank> enemies = new LinkedList<>();
+
+	// 定义地图相关的内容
+	private GameMap gameMap;
 
 	@Override
 	public void run() {
@@ -171,6 +177,7 @@ public class GameFrame extends Frame implements Runnable {
 	private void newGame() {
 		gameState = State.STATE_RUN;
 		if (myTank != null) myTank.bulletsReturn();
+		gameMap = new GameMap();
 		myTank = new MyTank(200, 400, Tank.Direction.DIR_UP);
 		menuIndex = 0;
 		for (Tank enemy : enemies) {
@@ -238,13 +245,17 @@ public class GameFrame extends Frame implements Runnable {
 	}
 
 	private void drawRun(Graphics g) {
+
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+
+		gameMap.draw(g);
 
 		drawEnemies(g);
 		myTank.draw(g);
 
 		bulletCollideTank();
+		bulletCollideMapTile();
 		drawExplodes(g);
 	}
 
@@ -273,6 +284,22 @@ public class GameFrame extends Frame implements Runnable {
 			enemy.collideBullets(myTank.getBullets());
 			myTank.collideBullets(enemy.getBullets());
 		}
+	}
+
+	private void bulletCollideMapTile() {
+		myTank.bulletsCollideMapTiles(gameMap.getTiles());
+		for (Tank enemy : enemies) {
+			enemy.bulletsCollideMapTiles(gameMap.getTiles());
+			if(enemy.isCollideTile(gameMap.getTiles())) {
+				enemy.back();
+			}
+		}
+		if(myTank.isCollideTile(gameMap.getTiles())) {
+			myTank.back();
+		}
+
+		gameMap.clearDestroyTile();
+
 	}
 
 	private void drawExplodes(Graphics g) {
