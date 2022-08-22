@@ -4,25 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.18 基地的生成">
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.21 开始重构">
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/GameSettings.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEntry.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameMain.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Position.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/SceneType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/Tank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/RoomMenuScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/Bullet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/EnemyTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/Explode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/GameFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/MyTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/Tank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/game/TankHouse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/map/GameMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/map/MapTile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/GameMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/BulletsPool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/Constant.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/ExplodesPool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/MapTilePool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/MyUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/util/TankPool.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +56,7 @@
 }</component>
   <component name="RunManager">
     <configuration name="GameMain" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.tankwar.GameMain" />
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.gameengine.GameMain" />
       <module name="TankWar" />
       <extension name="coverage">
         <pattern>
@@ -162,7 +160,14 @@
       <option name="project" value="LOCAL" />
       <updated>1660792577715</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="8.21 开始重构">
+      <created>1661076181118</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1661076181118</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -197,6 +202,7 @@
     <MESSAGE value="8.16 游戏结束机制并修复使用对象池导致的爆炸&amp;子弹的显示bug" />
     <MESSAGE value="8.16 地图类" />
     <MESSAGE value="8.18 基地的生成" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.18 基地的生成" />
+    <MESSAGE value="8.21 开始重构" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.21 开始重构" />
   </component>
 </project>
