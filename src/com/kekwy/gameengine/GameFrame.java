@@ -1,10 +1,10 @@
 package com.kekwy.gameengine;
 
-public class GameFrame {
+import java.awt.*;
+
+public class GameFrame extends Frame {
 
 	GameScene gameScene;
-
-
 
 	public GameScene getGameScene() {
 		return gameScene;

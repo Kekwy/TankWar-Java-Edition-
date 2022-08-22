@@ -1,4 +1,4 @@
-package com.kekwy.tankwar;
+package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameObject;
 
