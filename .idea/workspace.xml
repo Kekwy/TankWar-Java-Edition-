@@ -4,15 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.22 胡乱搭框架">
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.22 步入正轨">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/GameSettings.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" afterDir="false" />
@@ -171,7 +168,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661163504287</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="8.22 步入正轨">
+      <created>1661178278023</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1661178278023</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -208,6 +212,7 @@
     <MESSAGE value="8.18 基地的生成" />
     <MESSAGE value="8.21 开始重构" />
     <MESSAGE value="8.22 胡乱搭框架" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.22 胡乱搭框架" />
+    <MESSAGE value="8.22 步入正轨" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.22 步入正轨" />
   </component>
 </project>

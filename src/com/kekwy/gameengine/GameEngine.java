@@ -19,17 +19,16 @@ public final class GameEngine {
 
 	/**
 	 * 仅可在GameScene中被调用
+	 *
 	 * @param nextScene 下一个场景的序号
 	 */
 	public void setNextScene(int nextScene) {
-		if(nextScene < 0 || nextScene >= sceneNumber)
-		{
+		if (nextScene < -1 || nextScene >= sceneNumber) {
 			System.out.println("场景跳转时提供了非法编号");
 			System.exit(0);
 		}
 		NextScene = nextScene;
 	}
-
 
 
 	private GameFrame gameFrame;
@@ -40,7 +39,7 @@ public final class GameEngine {
 		return gameEntry;
 	}
 
-	private Thread currentThread;
+
 	private GameScene currentScene;
 
 	public GameScene getCurrentScene() {
@@ -52,11 +51,8 @@ public final class GameEngine {
 		 }
 		*/
 
-	public Thread getCurrentThread() {
-		return currentThread;
-	}
 
-	public GameEngine (GameEntry gameEntry) {
+	public GameEngine(GameEntry gameEntry) {
 
 		List<Class<? extends GameScene>> gameScenes = gameEntry.getGameScenes();
 
@@ -72,13 +68,16 @@ public final class GameEngine {
 		while (true) {
 
 			try {
-				currentScene = (GameScene) gameScenes.get(NextScene).getConstructor(GameFrame.class).newInstance(gameFrame);
+				currentScene = gameScenes.get(NextScene).
+						getConstructor(GameFrame.class, GameEngine.class).newInstance(gameFrame, this);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException |
 			         NoSuchMethodException e) {
 				throw new RuntimeException(e);
 			}
 
-			if(NextScene == -1)
+			currentScene.start();
+
+			if (NextScene == -1)
 				System.exit(0);
 
 		}
