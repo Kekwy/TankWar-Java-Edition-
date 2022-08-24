@@ -285,6 +285,7 @@ public abstract class GameScene {
 		active = false;
 		if (frameType == FrameType.FRAME_TYPE_PRIVATE)
 			gameFrame.setVisible(false);
+		gameFrame.reset();
 	}
 
 	/**

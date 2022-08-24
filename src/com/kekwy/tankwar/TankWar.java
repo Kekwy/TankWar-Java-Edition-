@@ -18,6 +18,13 @@ public class TankWar extends GameEntry {
 		return gameScenes;
 	}
 
+	public static final int INDEX_MAIN_MENU = 0;
+	public static final int INDEX_ROOM_MENU = 1;
+	public static final int INDEX_HELP = 2;
+	public static final int INDEX_ABOUT = 3;
+	public static final int INDEX_PLAY = 4;
+
+
 	public TankWar() {
 		gameScenes.add(MainMenuScene.class);
 		gameScenes.add(RoomMenuScene.class);

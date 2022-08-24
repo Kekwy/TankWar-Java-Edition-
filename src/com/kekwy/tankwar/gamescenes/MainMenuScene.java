@@ -4,25 +4,30 @@ import com.kekwy.gameengine.GameEngine;
 import com.kekwy.gameengine.GameFrame;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
+import com.kekwy.tankwar.TankWar;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
 
+
 public class MainMenuScene extends GameScene {
 
 
-	//=========================================================================
+	private static final Font GAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 24);
+	private static final String GAME_TITLE = "坦克大战v1.0.0 by kekwy - 主界面";
+	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 540;
+
 
 	/**
-	 * 场景布置
+	 * 主菜单背景对象
 	 */
-	static class BackGround extends GameObject {
+	class BackGround extends GameObject {
 
 		int menuIndex;
 
 		private static final String[] MENUS = {
-				"开始游戏",
-				"继续游戏",
+				"单人游戏",
+				"多人游戏",
 				"游戏帮助",
 				"关于游戏",
 				"退出游戏",
@@ -33,6 +38,10 @@ public class MainMenuScene extends GameScene {
 			setLayer(0);
 		}
 
+		/**
+		 * 背景的
+		 * @param g 底层提供的画笔对象
+		 */
 		@Override
 		public void render(Graphics g) {
 			g.setColor(Color.BLACK);
@@ -54,21 +63,29 @@ public class MainMenuScene extends GameScene {
 			}
 		}
 
+		/**
+		 * 注册键盘监听事件
+		 * @param keyCode 底层提供的键码
+		 */
 		@Override
 		public void keyPressedEvent(int keyCode) {
 			switch (keyCode) {
 				case KeyEvent.VK_W -> menuIndex = (menuIndex + MENUS.length - 1) % MENUS.length;
 				case KeyEvent.VK_S -> menuIndex = (menuIndex + 1) % MENUS.length;
+				case KeyEvent.VK_J -> {
+					switch (menuIndex) {
+						case 0->setInactive(TankWar.INDEX_PLAY);
+						case 1->setInactive(TankWar.INDEX_ROOM_MENU);
+						case 2->setInactive(TankWar.INDEX_HELP);
+						case 3->setInactive(TankWar.INDEX_ABOUT);
+						case 4->setInactive(-1);
+					}
+				}
 			}
 		}
 	}
-	//=========================================================================
 
 
-	private static final Font GAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 24);
-
-	private static final String GAME_TITLE = "坦克大战v1.0.0 by kekwy - 主界面";
-	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 540;
 
 	public MainMenuScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
@@ -79,18 +96,14 @@ public class MainMenuScene extends GameScene {
 		// 新建私有窗口
 		// setGameFrame(new GameFrame(), FrameType.FRAME_TYPE_PRIVATE);
 
-
+		// 初始化场景
 		setTitle(GAME_TITLE);
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setResizable(false);
 		setLocation();
-
 		setActive();
 
-		BackGround backGround = new BackGround(this);
-
-		addGameObject(backGround);
-
+		addGameObject(new BackGround(this));
 	}
 
 }

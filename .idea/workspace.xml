@@ -4,17 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.22 步入正轨">
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.24 整理代码1">
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/RoomMenuScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/RoomMenuScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -175,7 +174,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661178278023</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="8.23 渲染与事件监听完成，底层框架基本完成，底层碰撞检测待实现">
+      <created>1661270550781</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1661270550781</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -213,6 +219,8 @@
     <MESSAGE value="8.21 开始重构" />
     <MESSAGE value="8.22 胡乱搭框架" />
     <MESSAGE value="8.22 步入正轨" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.22 步入正轨" />
+    <MESSAGE value="8.23 渲染与事件监听完成，底层框架基本完成，底层碰撞检测待实现" />
+    <MESSAGE value="8.24 整理代码1" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.24 整理代码1" />
   </component>
 </project>
