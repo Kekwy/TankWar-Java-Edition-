@@ -102,6 +102,8 @@ public abstract class GameObject {
 	public int getAttribute() {
 		return attribute;
 	}
+
+	@SuppressWarnings("unchecked")
 	private void setAttribute() {
 
 		attribute = 0;
@@ -114,57 +116,60 @@ public abstract class GameObject {
 			return;
 		}
 
-		boolean temp = true;
+		while (!c.equals(GameObject.class)) {
+			boolean temp = true;
 
-		try {
-			c.getDeclaredMethod("keyReleasedEvent", int.class);
-		} catch (NoSuchMethodException e) {
-			temp = false; // System.out.println("null");// throw new RuntimeException(e);
-		}
-		if (temp) {
-			attribute |= RELOAD_keyReleasedEvent;
-		}
+			try {
+				c.getDeclaredMethod("keyReleasedEvent", int.class);
+			} catch (NoSuchMethodException e) {
+				temp = false; // System.out.println("null");// throw new RuntimeException(e);
+			}
+			if (temp) {
+				attribute |= RELOAD_keyReleasedEvent;
+			}
 
-		temp = true;
-		try {
-			c.getDeclaredMethod("keyPressedEvent", int.class);
-		} catch (NoSuchMethodException e) {
-			temp = false;
-		}
-		if (temp) {
-			attribute |= RELOAD_keyPressedEvent;
-		}
+			temp = true;
+			try {
+				c.getDeclaredMethod("keyPressedEvent", int.class);
+			} catch (NoSuchMethodException e) {
+				temp = false;
+			}
+			if (temp) {
+				attribute |= RELOAD_keyPressedEvent;
+			}
 
-		temp = true;
-		try {
-			c.getDeclaredMethod("collide", GameObject.class);
-		} catch (NoSuchMethodException e) {
-			temp = false;
-		}
-		if (temp) {
-			attribute |= RELOAD_collide;
-		}
+			temp = true;
+			try {
+				c.getDeclaredMethod("collide", GameObject.class);
+			} catch (NoSuchMethodException e) {
+				temp = false;
+			}
+			if (temp) {
+				attribute |= RELOAD_collide;
+			}
 
-		temp = true;
-		try {
-			c.getDeclaredMethod("fixedUpdate");
-		} catch (NoSuchMethodException e) {
-			temp = false;
-		}
-		if (temp) {
-			attribute |= RELOAD_fixUpdate;
-		}
+			temp = true;
+			try {
+				c.getDeclaredMethod("fixedUpdate");
+			} catch (NoSuchMethodException e) {
+				temp = false;
+			}
+			if (temp) {
+				attribute |= RELOAD_fixUpdate;
+			}
 
-		temp = true;
-		try {
-			c.getDeclaredMethod("update");
-		} catch (NoSuchMethodException e) {
-			temp = false;
-		}
-		if (temp) {
-			attribute |= RELOAD_update;
-		}
+			temp = true;
+			try {
+				c.getDeclaredMethod("update");
+			} catch (NoSuchMethodException e) {
+				temp = false;
+			}
+			if (temp) {
+				attribute |= RELOAD_update;
+			}
 
+			c = (Class<? extends GameObject>) c.getSuperclass();
+		}
 		classAttribute.put(c, attribute);
 
 	}
@@ -216,6 +221,7 @@ public abstract class GameObject {
 		System.out.println(this.getClass());
 		this.parent = parent;
 		setAttribute();
+		setActive(true);
 	}
 
 	public GameScene getParent() {
@@ -258,8 +264,5 @@ public abstract class GameObject {
 
 	//=============================================================
 
-	public GameObject() {
-		setAttribute();
-	}
 
 }

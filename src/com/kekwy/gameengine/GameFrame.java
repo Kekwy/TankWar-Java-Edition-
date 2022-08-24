@@ -156,9 +156,9 @@ public class GameFrame extends Frame {
 			public void windowClosing(WindowEvent e) {
 				gameScene.setInactive();
 				// gameScene.setNextScene(-1);
-				gameScene = null;
 				reset();
 				setVisible(false);
+				gameScene = null;
 			}
 		});
 

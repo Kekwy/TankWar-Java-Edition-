@@ -86,7 +86,6 @@ public class MainMenuScene extends GameScene {
 	}
 
 
-
 	public MainMenuScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
 		System.out.println("初始化");
@@ -101,9 +100,10 @@ public class MainMenuScene extends GameScene {
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setResizable(false);
 		setLocation();
-		setActive();
 
 		addGameObject(new BackGround(this));
+
+		setActive();
 	}
 
 }

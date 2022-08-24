@@ -10,6 +10,7 @@ import java.util.concurrent.Semaphore;
 public abstract class GameScene {
 
 
+
 	public boolean isActive() {
 		return active;
 	}
@@ -197,6 +198,26 @@ public abstract class GameScene {
 		return gameFrame;
 	}
 
+	public long currentTimeMillis() {
+		return gameTime;
+	}
+
+	public int getUpBound() {
+		return gameFrame.getInsets().top;
+	}
+
+	public int getDownBound() {
+		return frameHeight;
+	}
+
+	public int getLeftBound() {
+		return 0;
+	}
+
+	public int getRightBound() {
+		return frameWidth;
+	}
+
 
 	protected enum FrameType {
 		FRAME_TYPE_PUBLIC,
@@ -211,6 +232,7 @@ public abstract class GameScene {
 	 * @param gameFrame 搭载场景的窗口
 	 */
 	public void setGameFrame(GameFrame gameFrame, FrameType frameType) {
+		gameFrame.reset();
 		this.gameFrame = gameFrame;
 		this.frameType = frameType;
 		this.gameFrame.setGameScene(this);
@@ -282,10 +304,10 @@ public abstract class GameScene {
 
 	protected void setInactive(int nextScene) {
 		gameEngine.setNextScene(nextScene);
-		active = false;
 		if (frameType == FrameType.FRAME_TYPE_PRIVATE)
 			gameFrame.setVisible(false);
-		gameFrame.reset();
+		// gameFrame.reset();
+		active = false;
 	}
 
 	/**

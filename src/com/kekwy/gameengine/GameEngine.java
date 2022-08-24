@@ -53,7 +53,10 @@ public final class GameEngine {
 
 
 	public GameEngine(GameEntry gameEntry) {
+		this.gameEntry = gameEntry;
+	}
 
+	public void start() {
 		List<Class<? extends GameScene>> gameScenes = gameEntry.getGameScenes();
 
 		if (gameScenes == null) {
@@ -82,5 +85,6 @@ public final class GameEngine {
 
 		}
 	}
+
 }
 

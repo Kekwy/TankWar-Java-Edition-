@@ -36,6 +36,7 @@ public class TankWar extends GameEntry {
 	public static void main(String[] args) {
 
 		GameEngine gameEngine = new GameEngine(new TankWar());
+		gameEngine.start();
 
 	}
 
