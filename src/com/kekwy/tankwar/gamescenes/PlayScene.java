@@ -6,7 +6,7 @@ import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 import com.kekwy.gameengine.util.Position;
 import com.kekwy.tankwar.tank.PlayerTank;
-import com.kekwy.tankwar.tank.Tank;
+import com.kekwy.tankwar.util.Direction;
 
 import java.awt.*;
 
@@ -46,11 +46,15 @@ public class PlayScene extends GameScene {
 
 		addGameObject(new BackGround(this));
 
-		addGameObject(new PlayerTank(this, new Position(200, 400), Tank.Direction.DIR_UP));
+		addGameObject(new PlayerTank(this, 200, 400, Direction.DIR_UP));
 
 		setActive();
 
 		// 定时生成敌人
 
 	}
+
+
+
+
 }

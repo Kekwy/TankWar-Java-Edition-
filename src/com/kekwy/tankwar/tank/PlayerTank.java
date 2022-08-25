@@ -2,6 +2,8 @@ package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameScene;
 import com.kekwy.gameengine.util.Position;
+import com.kekwy.tankwar.util.Direction;
+
 import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
@@ -9,16 +11,15 @@ import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.kekwy.tankwar.tank.Tank.Direction.*;
 import static com.kekwy.tankwar.tank.Tank.State.*;
+import static com.kekwy.tankwar.util.Direction.*;
 
 public class PlayerTank extends Tank {
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 
-	public PlayerTank(GameScene parent, Position position, Direction forward) {
-		super(parent, position, forward);
-		setPosition(position);
+	public PlayerTank(GameScene parent, int x, int y, Direction forward) {
+		super(parent, x, y, forward);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 	}
 
@@ -35,7 +36,7 @@ public class PlayerTank extends Tank {
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(tankImg[getForward().ordinal()], getPosition().x - getRadius(), getPosition().y - getRadius(),
+		g.drawImage(tankImg[getForward().ordinal()], position.getX() - getRadius(), position.getY() - getRadius(),
 				2 * getRadius(), 2 * getRadius(), null);
 	}
 

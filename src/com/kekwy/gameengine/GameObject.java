@@ -66,15 +66,7 @@ public abstract class GameObject {
 
 
 
-	private Position position = new Position();
-	public Position getPosition() {
-		return position;
-	}
-
-	public void setPosition(Position position) {
-		this.position = position;
-	}
-
+	public final Position position = new Position();
 
 
 
@@ -115,6 +107,8 @@ public abstract class GameObject {
 			attribute = classAttribute.get(c);
 			return;
 		}
+
+		System.out.println(this.getClass());
 
 		while (!c.equals(GameObject.class)) {
 			boolean temp = true;
@@ -218,7 +212,7 @@ public abstract class GameObject {
 
 	public GameObject(GameScene parent) {
 
-		System.out.println(this.getClass());
+
 		this.parent = parent;
 		setAttribute();
 		setActive(true);

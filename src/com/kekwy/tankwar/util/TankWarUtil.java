@@ -14,7 +14,7 @@ public class TankWarUtil {
 	 * @param max 区间最大值，不包含
 	 * @return 随机数
 	 */
-	public static final int getRandomNumber(int min, int max) {
+	public static int getRandomNumber(int min, int max) {
 		return (int) (Math.random() * (max - min) + min);
 	}
 
@@ -23,7 +23,7 @@ public class TankWarUtil {
 	 *
 	 * @return 颜色
 	xx*/
-	public static final Color getRandomColor() {
+	public static Color getRandomColor() {
 		int red = getRandomNumber(0, 256);
 		int green = getRandomNumber(0, 256);
 		int blue = getRandomNumber(0, 256);
@@ -45,7 +45,7 @@ public class TankWarUtil {
 		return (disX < radius && disY < radius);
 	}
 
-	public static final Image createImage(String path) {
+	public static Image createImage(String path) {
 		return Toolkit.getDefaultToolkit().createImage(path);
 	}
 }

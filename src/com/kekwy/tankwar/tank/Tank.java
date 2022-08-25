@@ -3,18 +3,14 @@ package com.kekwy.tankwar.tank;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 import com.kekwy.gameengine.util.Position;
+import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
 
 public abstract class Tank extends GameObject {
 
-	public enum Direction {
-		DIR_UP,
-		DIR_DOWN,
-		DIR_LEFT,
-		DIR_RIGHT,
-	}
+
 
 	public enum State {
 		STATE_IDLE,
@@ -42,23 +38,39 @@ public abstract class Tank extends GameObject {
 		// initTank();
 	}
 
-	public Tank(GameScene parent, Position position, Direction forward) {
+	public Tank(GameScene parent, int x, int y, Direction forward) {
 		super(parent);
-		initTank(position, forward);
+		initTank(x, y, forward);
 	}
 
-	long fireTime;
 
-	protected void initTank(Position position, Direction forward) {
-		setPosition(position);
+
+	protected void initTank(int x, int y, Direction forward) {
+		this.position.setX(x);
+		this.position.setY(y);
 		fireTime = getParent().currentTimeMillis();
 		this.forward = forward;
 		this.color = TankWarUtil.getRandomColor();
 	}
 
+	private static final long FIRE_INTERVAL = 500;
+	long fireTime;
 
 	public void fire() {
-
+		if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
+			return;
+		fireTime = getParent().currentTimeMillis();
+		// Position position = getPosition();
+		int bulletX = this.position.getX();
+		int bulletY = this.position.getY();
+		switch (forward) {
+			case DIR_UP -> bulletY -= radius;
+			case DIR_DOWN -> bulletY += radius;
+			case DIR_LEFT -> bulletX -= radius;
+			case DIR_RIGHT -> bulletX += radius;
+		}
+		Bullet bullet = Bullet.createBullet(getParent(), atk, color, bulletX, bulletY, forward, this);
+		getParent().addGameObject(bullet);
 	}
 
 	public int getHp() {
@@ -112,32 +124,36 @@ public abstract class Tank extends GameObject {
 
 	public synchronized void move() {
 
-		Position position = getPosition();
+		// Position position = getPosition();
+		int x = this.position.getX();
+		int y = this.position.getY();
 
 		switch (forward) {
 			case DIR_UP -> {
-				if (position.y > radius + getParent().getUpBound()) {
-					position.y -= speed;
+				if (y > radius + getParent().getUpBound()) {
+					y -= speed;
 				}
 			}
 			case DIR_DOWN -> {
-				if (position.y < getParent().getDownBound() - radius - 2) {
-					position.y += speed;
+				if (y < getParent().getDownBound() - radius - 6) {
+					y += speed;
 				}
 			}
 			case DIR_LEFT -> {
-				if (position.x > getParent().getLeftBound() + radius + 6) {
-					position.x -= speed;
+				if (x > getParent().getLeftBound() + radius + 6) {
+					x -= speed;
 				}
 			}
 			case DIR_RIGHT -> {
-				if (position.x < getParent().getRightBound() - radius - 6) {
-					position.x += speed;
+				if (x < getParent().getRightBound() - radius - 6) {
+					x += speed;
 				}
 			}
 		}
 
-		setPosition(position);
+		// setPosition(position);
+		this.position.setX(x);
+		this.position.setY(y);
 
 	}
 
