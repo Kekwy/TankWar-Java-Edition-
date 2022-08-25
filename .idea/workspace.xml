@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.24 优化移动">
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/Direction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/ObjectPool.java" afterDir="false" />
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”">
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Monitor.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Position.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Position.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Position.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -196,7 +196,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661350090400</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”">
+      <created>1661415832606</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1661415832606</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -237,6 +244,7 @@
     <MESSAGE value="8.23 渲染与事件监听完成，底层框架基本完成，底层碰撞检测待实现" />
     <MESSAGE value="8.24 整理代码1" />
     <MESSAGE value="8.24 优化移动" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.24 优化移动" />
+    <MESSAGE value="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”" />
   </component>
 </project>

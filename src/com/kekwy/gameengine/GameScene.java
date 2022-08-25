@@ -28,11 +28,19 @@ public abstract class GameScene {
 				throw new RuntimeException(e);
 			}
 
-			for (GameObject gameObject : doUpdate) {
-				gameObject.update();
+			for (int i = 0; i < doUpdate.size(); i++) {
+				GameObject gameObject = doUpdate.get(i);
+				if(gameObject.isActive()) {
+					gameObject.update();
+				}
+				else {
+					doUpdate.remove(i);
+					i--;
+				}
 			}
 
 			mutex_doUpdate.release();
+
 
 			try {
 				Thread.sleep(33);
@@ -52,8 +60,15 @@ public abstract class GameScene {
 				throw new RuntimeException(e);
 			}
 
-			for (GameObject gameObject : doFixedUpdate) {
-				gameObject.fixedUpdate();
+			for (int i = 0; i < doFixedUpdate.size(); i++) {
+				GameObject gameObject = doFixedUpdate.get(i);
+				if(gameObject.isActive()) {
+					gameObject.fixedUpdate();
+				}
+				else {
+					doFixedUpdate.remove(i);
+					i--;
+				}
 			}
 
 			mutex_doFixedUpdate.release();

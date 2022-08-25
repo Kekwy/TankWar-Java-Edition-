@@ -2,7 +2,7 @@ package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
-import com.kekwy.gameengine.util.Position;
+
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.ObjectPool;
 

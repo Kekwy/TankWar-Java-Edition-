@@ -1,7 +1,7 @@
 package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameScene;
-import com.kekwy.gameengine.util.Position;
+
 import com.kekwy.tankwar.util.Direction;
 
 import com.kekwy.tankwar.util.TankWarUtil;
@@ -42,6 +42,8 @@ public class PlayerTank extends Tank {
 
 	List<Integer> keyStack = new LinkedList<>();
 
+	boolean isFired = false;
+
 	@Override
 	public void keyPressedEvent(int keyCode) {
 		if (getState().equals(STATE_DIE))
@@ -53,8 +55,10 @@ public class PlayerTank extends Tank {
 				|| keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
 			if (!keyStack.contains(keyCode))
 				keyStack.add(keyCode);
+		} else if (keyCode == KeyEvent.VK_J && !isFired) {
+			fire();
+			isFired = true;
 		}
-
 	}
 
 	@Override
@@ -66,6 +70,8 @@ public class PlayerTank extends Tank {
 				|| keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
 			if (keyStack.contains(keyCode))
 				keyStack.remove(Integer.valueOf(keyCode));
+		} else if (keyCode == KeyEvent.VK_J && isFired) {
+			isFired = false;
 		}
 
 		if (keyStack.isEmpty())
@@ -93,7 +99,7 @@ public class PlayerTank extends Tank {
 				setForward(DIR_RIGHT);
 				setState(STATE_MOVE);
 			}
-			case KeyEvent.VK_J -> fire();
+			// case KeyEvent.VK_J -> fire();
 
 		}
 	}

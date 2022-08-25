@@ -41,17 +41,37 @@ public class GameFrame extends Frame {
 			throw new RuntimeException(e);
 		}
 
-		for (GameObject gameObject : doRender0) {
-			gameObject.render(g1);
+		for (int i = 0; i < doRender0.size(); i++) {
+			GameObject gameObject = doRender0.get(i);
+			if(gameObject.isActive()) {
+				gameObject.render(g1);
+			}
+			else {
+				doRender0.remove(i);
+				i--;
+			}
 		}
 
-		for (GameObject gameObject : doRender1) {
-			// System.out.println("render1");
-			gameObject.render(g1);
+		for (int i = 0; i < doRender1.size(); i++) {
+			GameObject gameObject = doRender1.get(i);
+			if(gameObject.isActive()) {
+				gameObject.render(g1);
+			}
+			else {
+				doRender1.remove(i);
+				i--;
+			}
 		}
 
-		for (GameObject gameObject : doRender2) {
-			gameObject.render(g1);
+		for (int i = 0; i < doRender2.size(); i++) {
+			GameObject gameObject = doRender2.get(i);
+			if(gameObject.isActive()) {
+				gameObject.render(g1);
+			}
+			else {
+				doRender2.remove(i);
+				i--;
+			}
 		}
 
 		mutex_doRender.release();
@@ -67,7 +87,7 @@ public class GameFrame extends Frame {
 	private final List<GameObject> doKeyReleasedEvent = new ArrayList<>();
 
 
-	public synchronized void addKeyPressedEvent(GameObject gameObject) {
+	public void addKeyPressedEvent(GameObject gameObject) {
 		try {
 			mutex_doKeyPressedEvent.acquire();
 		} catch (InterruptedException ex) {
@@ -77,7 +97,7 @@ public class GameFrame extends Frame {
 		mutex_doKeyPressedEvent.release();
 	}
 
-	public synchronized void addKeyReleasedEvent(GameObject gameObject) {
+	public void addKeyReleasedEvent(GameObject gameObject) {
 		try {
 			mutex_doKeyReleasedEvent.acquire();
 		} catch (InterruptedException e) {
@@ -87,7 +107,7 @@ public class GameFrame extends Frame {
 		mutex_doKeyReleasedEvent.release();
 	}
 
-	public synchronized void addRender(GameObject gameObject) {
+	public void addRender(GameObject gameObject) {
 		try {
 			mutex_doRender.acquire();
 		} catch (InterruptedException e) {
@@ -177,8 +197,14 @@ public class GameFrame extends Frame {
 				} catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
 				}
-				for (GameObject gameObject : doKeyPressedEvent) {
-					gameObject.keyPressedEvent(keyCode);
+				for (int i = 0; i < doKeyPressedEvent.size(); i++) {
+					GameObject gameObject = doKeyPressedEvent.get(i);
+					if(gameObject.isActive())
+						gameObject.keyPressedEvent(keyCode);
+					else {
+						doKeyPressedEvent.remove(i);
+						i--;
+					}
 				}
 				mutex_doKeyPressedEvent.release();
 			}
@@ -196,8 +222,14 @@ public class GameFrame extends Frame {
 				} catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
 				}
-				for (GameObject gameObject : doKeyReleasedEvent) {
-					gameObject.keyReleasedEvent(keyCode);
+				for (int i = 0; i < doKeyReleasedEvent.size(); i++) {
+					GameObject gameObject = doKeyReleasedEvent.get(i);
+					if(gameObject.isActive())
+						gameObject.keyReleasedEvent(keyCode);
+					else {
+						doKeyReleasedEvent.remove(i);
+						i--;
+					}
 				}
 				mutex_doKeyReleasedEvent.release();
 			}

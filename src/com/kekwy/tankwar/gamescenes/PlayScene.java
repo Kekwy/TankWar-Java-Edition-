@@ -4,7 +4,7 @@ import com.kekwy.gameengine.GameEngine;
 import com.kekwy.gameengine.GameFrame;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
-import com.kekwy.gameengine.util.Position;
+
 import com.kekwy.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.util.Direction;
 

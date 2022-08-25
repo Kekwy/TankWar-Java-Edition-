@@ -2,7 +2,7 @@ package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
-import com.kekwy.gameengine.util.Position;
+
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
@@ -48,18 +48,18 @@ public abstract class Tank extends GameObject {
 	protected void initTank(int x, int y, Direction forward) {
 		this.position.setX(x);
 		this.position.setY(y);
-		fireTime = getParent().currentTimeMillis();
+		// fireTime = getParent().currentTimeMillis();
 		this.forward = forward;
 		this.color = TankWarUtil.getRandomColor();
 	}
 
 	private static final long FIRE_INTERVAL = 500;
-	long fireTime;
+	// long fireTime;
 
 	public void fire() {
-		if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
-			return;
-		fireTime = getParent().currentTimeMillis();
+		// if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
+			// return;
+		// fireTime = getParent().currentTimeMillis();
 		// Position position = getPosition();
 		int bulletX = this.position.getX();
 		int bulletY = this.position.getY();
@@ -109,7 +109,7 @@ public abstract class Tank extends GameObject {
 		return forward;
 	}
 
-	public synchronized void setForward(Direction forward) {
+	public void setForward(Direction forward) {
 		this.forward = forward;
 	}
 
@@ -117,7 +117,7 @@ public abstract class Tank extends GameObject {
 		return state;
 	}
 
-	public synchronized void setState(State state) {
+	public void setState(State state) {
 		this.state = state;
 	}
 

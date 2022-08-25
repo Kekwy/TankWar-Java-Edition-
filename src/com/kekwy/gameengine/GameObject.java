@@ -1,10 +1,12 @@
 package com.kekwy.gameengine;
 
-import com.kekwy.gameengine.util.Position;
+
 
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Condition;
 
 public abstract class GameObject {
 
@@ -64,6 +66,48 @@ public abstract class GameObject {
 	}
 
 
+	public class Position {
+
+		private int x, y;
+
+		public Position() {
+			this.x = 0;
+			this.y = 0;
+		}
+
+		public Position(int x, int y) {
+			this.x = x;
+			this.y = y;
+		}
+
+		public void setX(int x) {
+			toWrite();
+			this.x = x;
+			finishWrite();
+		}
+
+		public int getX() {
+			int x;
+			toRead();
+			x = this.x;
+			finishRead();
+			return x;
+		}
+
+		public int getY() {
+			int y;
+			toRead();
+			y = this.y;
+			finishRead();
+			return y;
+		}
+
+		public void setY(int y) {
+			toWrite();
+			this.y = y;
+			finishWrite();
+		}
+	}
 
 
 	public final Position position = new Position();
@@ -185,6 +229,7 @@ public abstract class GameObject {
 	private int layer;
 
 	public int getLayer() {
+		// toRead();
 		return layer;
 	}
 
@@ -211,19 +256,23 @@ public abstract class GameObject {
 	GameScene parent;
 
 	public GameObject(GameScene parent) {
-
-
 		this.parent = parent;
 		setAttribute();
 		setActive(true);
 	}
 
 	public GameScene getParent() {
+		GameScene parent;
+		toRead();
+		parent = this.parent;
+		finishRead();
 		return parent;
 	}
 
 	public void setParent(GameScene parent) {
+		toWrite();
 		this.parent = parent;
+		finishWrite();
 	}
 
 
@@ -241,11 +290,17 @@ public abstract class GameObject {
 	 */
 	private boolean active;
 	public boolean isActive() {
+		boolean active;
+		toRead();
+		active = this.active;
+		finishRead();
 		return active;
 	}
 
 	public void setActive(boolean active) {
+		toWrite();
 		this.active = active;
+		finishWrite();
 	}
 
 
@@ -258,5 +313,94 @@ public abstract class GameObject {
 
 	//=============================================================
 
+	/**
+	 * 读写锁，写者优先
+	 */
+
+	private final Semaphore mutex_reader = new Semaphore(1);
+	private final Semaphore mutex_writer = new Semaphore(1);
+	private final Semaphore mutex_rw = new Semaphore(1) ;
+
+	private int count_reader = 0;
+	private int count_writer = 0;
+
+	protected void toRead() {
+		try {
+			mutex_reader.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		count_reader++;
+		// System.out.println(count_reader);
+		if(count_reader == 1) {
+			try {
+				mutex_rw.acquire();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		try {
+			mutex_writer.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		if (count_writer > 0) {
+			mutex_writer.release();
+			try {
+				mutex_rw.acquire();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+		}
+		else
+			mutex_writer.release();
+
+		mutex_reader.release();
+
+
+
+	}
+
+	protected void finishRead() {
+		try {
+			mutex_reader.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		count_reader--;
+		if(count_reader == 0) {
+			mutex_rw.release();
+		}
+		mutex_reader.release();
+	}
+
+	protected void toWrite() {
+		try {
+			mutex_writer.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		count_writer++;
+		mutex_writer.release();
+
+		try {
+			mutex_rw.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	protected void finishWrite() {
+		try {
+			mutex_writer.acquire();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		count_writer--;
+		System.out.println(count_writer);
+		mutex_writer.release();
+
+		mutex_rw.release();
+	}
 
 }
