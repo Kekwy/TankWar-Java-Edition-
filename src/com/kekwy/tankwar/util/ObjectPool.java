@@ -55,7 +55,7 @@ public class ObjectPool {
 			throw new RuntimeException(e);
 		}
 
-		if (pool.size() == 0) {
+		if (pool.size() == 0 || !pool.get(0).isDestroyed()) {
 			try {
 				gameObject = (GameObject)constructor.newInstance((GameScene)null);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
@@ -78,13 +78,17 @@ public class ObjectPool {
 			throw new RuntimeException(e);
 		}
 
+		System.out.println("对象池中剩余：" + pool.size());
+
 		if (pool.size() == maxSize) {
+			mutex_pool.release();
 			return;
 		}
 		pool.add(gameObject);
-		// System.out.println("对象池中剩余：" + pool.size());
+
 
 		mutex_pool.release();
+
 
 	}
 }

@@ -24,6 +24,7 @@ public class PlayScene extends GameScene {
 		public BackGround(GameScene parent) {
 			super(parent);
 			setLayer(0);
+			setActive(true);
 			parent.addGameObject(this);
 		}
 

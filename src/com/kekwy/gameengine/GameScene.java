@@ -1,14 +1,11 @@
 package com.kekwy.gameengine;
 
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
 
 public abstract class GameScene {
-
 
 
 	public boolean isActive() {
@@ -20,7 +17,7 @@ public abstract class GameScene {
 
 	private void render() {
 		while (active) {
-
+			// System.out.println("render");
 			gameFrame.repaint();
 
 
@@ -33,10 +30,9 @@ public abstract class GameScene {
 				GameObject gameObject = doUpdate.get(i);
 				mutex_doUpdate.release();
 
-				if(gameObject.isActive()) {
+				if (gameObject.isActive()) {
 					gameObject.update();
-				}
-				else {
+				} else {
 					try {
 						mutex_doUpdate.acquire();
 					} catch (InterruptedException e) {
@@ -45,10 +41,9 @@ public abstract class GameScene {
 					doUpdate.remove(i);
 					mutex_doUpdate.release();
 					i--;
+					gameObject.setDestroyed(GameObject.RELOAD_update);
 				}
 			}
-
-
 
 
 			try {
@@ -64,6 +59,8 @@ public abstract class GameScene {
 		while (active) {
 			gameTime += 20;
 
+			// System.out.println("fixUpdate");
+
 			for (int i = 0; i < doFixedUpdate.size(); i++) {
 				try {
 					mutex_doFixedUpdate.acquire();
@@ -72,10 +69,9 @@ public abstract class GameScene {
 				}
 				GameObject gameObject = doFixedUpdate.get(i);
 				mutex_doFixedUpdate.release();
-				if(gameObject.isActive()) {
+				if (gameObject.isActive()) {
 					gameObject.fixedUpdate();
-				}
-				else {
+				} else {
 					try {
 						mutex_doFixedUpdate.acquire();
 					} catch (InterruptedException e) {
@@ -84,9 +80,9 @@ public abstract class GameScene {
 					doFixedUpdate.remove(i);
 					mutex_doFixedUpdate.release();
 					i--;
+					gameObject.setDestroyed(GameObject.RELOAD_fixUpdate);
 				}
 			}
-
 
 
 			try {
@@ -100,17 +96,12 @@ public abstract class GameScene {
 	private void collide() {
 		while (active) {
 
-			try {
-				mutex_doCollide.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+
+			for (int i = 0; i < doCollide.size(); i++) {
+
 			}
 
-			for (GameObject gameObject : doCollide) {
-				// TODO 碰撞检测
-			}
 
-			mutex_doCollide.release();
 
 			try {
 				Thread.sleep(20);
@@ -123,7 +114,7 @@ public abstract class GameScene {
 	public void start() {
 
 		gameTime = 0;
-		gameEngine.setNextScene(-1);
+		setNextScene(-1);
 
 		Thread renderThread = new Thread(this::render);
 		Thread fixUpdateThread = new Thread(this::fixUpdate);
@@ -168,22 +159,20 @@ public abstract class GameScene {
 	Semaphore mutex_doCollide = new Semaphore(1);
 
 
-
-
-
 	/**
 	 * 向当前场景中添加游戏对象
+	 *
 	 * @param gameObject 待添加的游戏对象
 	 */
 	public void addGameObject(GameObject gameObject) {
 
-		if((gameObject.getAttribute() & GameObject.RELOAD_keyReleasedEvent) != 0) {
+		if ((gameObject.getAttribute() & GameObject.RELOAD_keyReleasedEvent) != 0) {
 			gameFrame.addKeyReleasedEvent(gameObject);
 		}
-		if((gameObject.getAttribute() & GameObject.RELOAD_keyPressedEvent) != 0) {
+		if ((gameObject.getAttribute() & GameObject.RELOAD_keyPressedEvent) != 0) {
 			gameFrame.addKeyPressedEvent(gameObject);
 		}
-		if((gameObject.getAttribute() & GameObject.RELOAD_collide) != 0) {
+		if ((gameObject.getAttribute() & GameObject.RELOAD_collide) != 0) {
 			try {
 				mutex_doCollide.acquire();
 			} catch (InterruptedException e) {
@@ -192,7 +181,7 @@ public abstract class GameScene {
 			doCollide.add(gameObject);
 			mutex_doCollide.release();
 		}
-		if((gameObject.getAttribute() & GameObject.RELOAD_fixUpdate) != 0) {
+		if ((gameObject.getAttribute() & GameObject.RELOAD_fixUpdate) != 0) {
 			try {
 				mutex_doFixedUpdate.acquire();
 			} catch (InterruptedException e) {
@@ -201,7 +190,7 @@ public abstract class GameScene {
 			doFixedUpdate.add(gameObject);
 			mutex_doFixedUpdate.release();
 		}
-		if((gameObject.getAttribute() & GameObject.RELOAD_update) != 0) {
+		if ((gameObject.getAttribute() & GameObject.RELOAD_update) != 0) {
 			try {
 				mutex_doUpdate.acquire();
 			} catch (InterruptedException e) {
@@ -215,8 +204,6 @@ public abstract class GameScene {
 		gameFrame.addRender(gameObject);
 
 	}
-
-
 
 
 	public GameScene(GameFrame gameFrame, GameEngine gameEngine) {
@@ -294,6 +281,7 @@ public abstract class GameScene {
 		frameWidth = width;
 		frameHeight = height;
 		gameFrame.setSize(width, height);
+		blockX = width / BLOCK_WIDTH + 1;
 	}
 
 	/**
@@ -350,5 +338,40 @@ public abstract class GameScene {
 		gameFrame.setResizable(b);
 	}
 
+
+	/**
+	 * Key：区块编号
+	 * Value：保存该区块中所有游戏对象的列表
+	 */
+	Map<Integer, List<GameObject>> positionMap = new HashMap<>();
+	Semaphore mutex_positionMap = new Semaphore(1);
+
+	private static final int BLOCK_WIDTH = 20;
+
+	private int blockX;
+
+	public void updatePositionMap(GameObject gameObject, int old_x, int old_y, int x, int y) {
+
+		int old_block = (old_x / BLOCK_WIDTH + 1) + blockX * (old_y / BLOCK_WIDTH);
+		int block = (x / BLOCK_WIDTH + 1) + blockX * (y / BLOCK_WIDTH);
+
+		if (old_block != block) {
+			try {
+				mutex_positionMap.acquire();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			if (positionMap.containsKey(old_block))
+				positionMap.get(old_block).remove(gameObject);
+			if(!positionMap.containsKey(block))
+				positionMap.put(block, new LinkedList<>());
+			positionMap.get(block).add(gameObject);
+
+			mutex_positionMap.release();
+		}
+
+
+
+	}
 
 }

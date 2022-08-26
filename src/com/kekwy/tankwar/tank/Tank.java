@@ -26,18 +26,20 @@ public abstract class Tank extends GameObject {
 	public static final State DEFAULT_STATE = State.STATE_IDLE;
 
 
-	private int hp = DEFAULT_HP, atk = DEFAULT_ATK, speed = DEFAULT_SPEED, radius = DEFAULT_RADIUS;
+	private int hp = DEFAULT_HP, atk = DEFAULT_ATK, speed = DEFAULT_SPEED;
 
 	private Direction forward = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
 
 	private Color color;
 
-	private HPBar hpBar;
+	private final HPBar hpBar;
 
 	public Tank(GameScene parent) {
 		super(parent);
 		hpBar = new HPBar(parent);
+		setRadius(DEFAULT_RADIUS);
+		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		setLayer(1);
 		// initTank();
 	}
@@ -45,6 +47,8 @@ public abstract class Tank extends GameObject {
 	public Tank(GameScene parent, int x, int y, Direction forward, String name) {
 		super(parent);
 		hpBar = new HPBar(parent);
+		setRadius(DEFAULT_RADIUS);
+		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, forward, name);
 		setLayer(1);
 	}
@@ -56,13 +60,15 @@ public abstract class Tank extends GameObject {
 		this.position.setY(y);
 		// fireTime = getParent().currentTimeMillis();
 		this.forward = forward;
-		this.color = TankWarUtil.getRandomColor();
+
+		// 防止颜色过暗
+		do {
+			this.color = TankWarUtil.getRandomColor();
+		} while (color.getRed() + color.getGreen() + color.getBlue() < 100);
 		this.name = name;
 		setActive(true);
 	}
 
-	private static final long FIRE_INTERVAL = 500;
-	// long fireTime;
 
 	public void fire() {
 		// if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
@@ -72,10 +78,10 @@ public abstract class Tank extends GameObject {
 		int bulletX = this.position.getX();
 		int bulletY = this.position.getY();
 		switch (forward) {
-			case DIR_UP -> bulletY -= radius;
-			case DIR_DOWN -> bulletY += radius;
-			case DIR_LEFT -> bulletX -= radius;
-			case DIR_RIGHT -> bulletX += radius;
+			case DIR_UP -> bulletY -= getRadius();
+			case DIR_DOWN -> bulletY += getRadius();
+			case DIR_LEFT -> bulletX -= getRadius();
+			case DIR_RIGHT -> bulletX += getRadius();
 		}
 		Bullet bullet = Bullet.createBullet(getParent(), atk, color, bulletX, bulletY, forward, this);
 		getParent().addGameObject(bullet);
@@ -106,14 +112,6 @@ public abstract class Tank extends GameObject {
 		this.speed = speed;
 	}
 
-	public int getRadius() {
-		return radius;
-	}
-
-	public void setRadius(int radius) {
-		this.radius = radius;
-	}
-
 	public Direction getForward() {
 		return forward;
 	}
@@ -139,22 +137,22 @@ public abstract class Tank extends GameObject {
 
 		switch (forward) {
 			case DIR_UP -> {
-				if (y > radius + getParent().getUpBound()) {
+				if (y > getRadius() + getParent().getUpBound()) {
 					y -= speed;
 				}
 			}
 			case DIR_DOWN -> {
-				if (y < getParent().getDownBound() - radius - 6) {
+				if (y < getParent().getDownBound() - getRadius() - 6) {
 					y += speed;
 				}
 			}
 			case DIR_LEFT -> {
-				if (x > getParent().getLeftBound() + radius + 6) {
+				if (x > getParent().getLeftBound() + getRadius() + 6) {
 					x -= speed;
 				}
 			}
 			case DIR_RIGHT -> {
-				if (x < getParent().getRightBound() - radius - 6) {
+				if (x < getParent().getRightBound() - getRadius() - 6) {
 					x += speed;
 				}
 			}
@@ -180,6 +178,7 @@ public abstract class Tank extends GameObject {
 
 		public HPBar(GameScene parent) {
 			super(parent);
+			setLayer(1);
 			if(parent != null)
 				parent.addGameObject(this);
 		}
@@ -189,9 +188,11 @@ public abstract class Tank extends GameObject {
 			int y = Tank.this.position.getY();
 			// System.out.println("HPBar render");
 			g.setColor(Color.RED);
-			g.fillRect(x - radius, y - radius - BAR_HEIGHT * 2, hp * BAR_LENGTH / DEFAULT_HP, BAR_HEIGHT);
+			g.fillRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
+					hp * BAR_LENGTH / DEFAULT_HP, BAR_HEIGHT);
 			g.setColor(Color.white);
-			g.drawRect(x - radius, y - radius - BAR_HEIGHT * 2, BAR_LENGTH, BAR_HEIGHT);
+			g.drawRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
+					BAR_LENGTH, BAR_HEIGHT);
 		}
 
 		@Override
@@ -200,15 +201,13 @@ public abstract class Tank extends GameObject {
 		}
 	}
 
-	// private class Name
-
 	String name;
 	static final Font NAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 14);
 	@Override
 	public void render(Graphics g) {
 		g.setColor(color);
 		g.setFont(NAME_FONT);
-		g.drawString(name, position.getX() - radius, position.getY() - radius - 14);
+		g.drawString(name, position.getX() - getRadius(), position.getY() - getRadius() - 14);
 	}
 
 	@Override

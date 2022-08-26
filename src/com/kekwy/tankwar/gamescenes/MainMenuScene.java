@@ -37,6 +37,7 @@ public class MainMenuScene extends GameScene {
 			super(parent);
 			setLayer(0);
 			parent.addGameObject(this);
+			setActive(true);
 		}
 
 		/**

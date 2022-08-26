@@ -22,6 +22,7 @@ public class PlayerTank extends Tank {
 		super(parent, x, y, forward, name);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 		parent.addGameObject(this);
+		setActive(true);
 	}
 
 	private static final Image[] tankImg;

@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
 	public static final int DEFAULT_BULLET_SPEED = 6;
 	public static final int DEFAULT_BULLET_RADIUS = 4;
 
-	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class);
+	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 1);
 	private int atk;
 
 	public int getSpeed() {
@@ -27,7 +27,7 @@ public class Bullet extends GameObject {
 	private int speed = DEFAULT_BULLET_SPEED;
 
 
-	private final int radius = DEFAULT_BULLET_RADIUS;
+	// private final int radius = DEFAULT_BULLET_RADIUS;
 	private Direction forward;
 	private Color color;
 
@@ -36,6 +36,7 @@ public class Bullet extends GameObject {
 	public static Bullet createBullet(GameScene parent, int atk, Color color, int x, int y,
 	                                  Direction forward, Tank from) {
 		Bullet bullet = (Bullet) bulletPool.getObject();
+		// Bullet bullet = new Bullet(null);
 		bullet.setParent(parent);
 		bullet.setAtk(atk);
 		bullet.setColor(color);
@@ -66,6 +67,7 @@ public class Bullet extends GameObject {
 	@Override
 	public void render(Graphics g) {
 		// Position position = getPosition();
+		int radius = getRadius();
 		g.setColor(color);
 		g.fillOval(this.position.getX() - radius, this.position.getY() - radius,
 				radius << 1, radius << 1);
@@ -102,6 +104,8 @@ public class Bullet extends GameObject {
 	 */
 	public Bullet(GameScene parent) {
 		super(parent);
+		setRadius(DEFAULT_BULLET_RADIUS);
+		setColliderType(ColliderType.COLLIDER_TYPE_CIRCLE);
 	}
 
 
@@ -112,4 +116,7 @@ public class Bullet extends GameObject {
 	public void setFrom(Tank from) {
 		this.from = from;
 	}
+
+
+
 }

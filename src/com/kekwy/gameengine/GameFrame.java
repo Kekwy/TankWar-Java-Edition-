@@ -49,6 +49,7 @@ public class GameFrame extends Frame {
 			else {
 				doRender0.remove(i);
 				i--;
+				gameObject.setDestroyed(GameObject.RELOAD_render);
 			}
 		}
 
@@ -60,6 +61,7 @@ public class GameFrame extends Frame {
 			else {
 				doRender1.remove(i);
 				i--;
+				gameObject.setDestroyed(GameObject.RELOAD_render);
 			}
 		}
 
@@ -71,6 +73,7 @@ public class GameFrame extends Frame {
 			else {
 				doRender2.remove(i);
 				i--;
+				gameObject.setDestroyed(GameObject.RELOAD_render);
 			}
 		}
 
@@ -204,6 +207,7 @@ public class GameFrame extends Frame {
 					else {
 						doKeyPressedEvent.remove(i);
 						i--;
+						gameObject.setDestroyed(GameObject.RELOAD_keyPressedEvent);
 					}
 				}
 				mutex_doKeyPressedEvent.release();
@@ -229,6 +233,7 @@ public class GameFrame extends Frame {
 					else {
 						doKeyReleasedEvent.remove(i);
 						i--;
+						gameObject.setDestroyed(GameObject.RELOAD_keyReleasedEvent);
 					}
 				}
 				mutex_doKeyReleasedEvent.release();

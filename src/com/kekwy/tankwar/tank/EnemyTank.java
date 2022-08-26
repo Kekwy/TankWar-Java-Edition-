@@ -23,11 +23,14 @@ public class EnemyTank extends Tank {
 
 	public static final long FIRE_INTERVAL = 500;
 
+	private int changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
+
 	@Override
 	public void fixedUpdate() {
 		super.fixedUpdate();
-		if (getParent().currentTimeMillis() - lastChangTime > 1500) {
+		if (getParent().currentTimeMillis() - lastChangTime > changeInterval) {
 			// 随机一个状态
+			changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
 			setState(State.values()[TankWarUtil.getRandomNumber(0, 2)]);
 			setForward(Direction.values()[TankWarUtil.getRandomNumber(0, 4)]);
 			lastChangTime = getParent().currentTimeMillis();
@@ -38,7 +41,7 @@ public class EnemyTank extends Tank {
 		}
 	}
 
-	private static Image[] tankImg;
+	private static final Image[] tankImg;
 
 	static {
 		tankImg = new Image[4];
@@ -59,8 +62,9 @@ public class EnemyTank extends Tank {
 
 	public static Tank createEnemyTank(GameScene parent, int x, int y, String name) {
 		Tank tank = (Tank) tankPool.getObject();
-		tank.initTank(x, y, Direction.DIR_DOWN, name);
+
 		tank.setParent(parent);
+		tank.initTank(x, y, Direction.DIR_DOWN, name);
 		tank.setState(State.STATE_MOVE);
 
 		try {

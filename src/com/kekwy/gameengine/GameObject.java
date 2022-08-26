@@ -1,12 +1,9 @@
 package com.kekwy.gameengine;
 
-
-
 import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Condition;
 
 public abstract class GameObject {
 
@@ -22,6 +19,7 @@ public abstract class GameObject {
 
 	/**
 	 * 游戏实体的渲染样式
+	 *
 	 * @param g 底层提供的画笔对象
 	 */
 	public abstract void render(Graphics g);
@@ -51,6 +49,7 @@ public abstract class GameObject {
 
 	/**
 	 * 按键按下时被调用
+	 *
 	 * @param keyCode 底层提供的键码
 	 */
 	public void keyPressedEvent(int keyCode) {
@@ -59,6 +58,7 @@ public abstract class GameObject {
 
 	/**
 	 * 按键抬起时被调用
+	 *
 	 * @param keyCode 底层提供的键码
 	 */
 	public void keyReleasedEvent(int keyCode) {
@@ -82,6 +82,7 @@ public abstract class GameObject {
 
 		public void setX(int x) {
 			toWrite();
+			//parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.x = x;
 			finishWrite();
 		}
@@ -104,6 +105,7 @@ public abstract class GameObject {
 
 		public void setY(int y) {
 			toWrite();
+			//parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.y = y;
 			finishWrite();
 		}
@@ -123,6 +125,7 @@ public abstract class GameObject {
 	  ===================================================================
 	 */
 
+	public static final int RELOAD_render = 32;
 	public static final int RELOAD_keyReleasedEvent = 16;
 	public static final int RELOAD_keyPressedEvent = 8;
 	public static final int RELOAD_collide = 4;
@@ -135,6 +138,7 @@ public abstract class GameObject {
 	 */
 	private int attribute;
 	private static final Map<Class<? extends GameObject>, Integer> classAttribute = new HashMap<>();
+
 	public int getAttribute() {
 		return attribute;
 	}
@@ -147,7 +151,7 @@ public abstract class GameObject {
 		Class<? extends GameObject> c = this.getClass();
 
 
-		if(classAttribute.containsKey(c)) {
+		if (classAttribute.containsKey(c)) {
 			attribute = classAttribute.get(c);
 			return;
 		}
@@ -208,7 +212,7 @@ public abstract class GameObject {
 
 			c = (Class<? extends GameObject>) c.getSuperclass();
 		}
-		classAttribute.put(c, attribute);
+		classAttribute.put(this.getClass(), attribute);
 
 	}
 
@@ -258,7 +262,8 @@ public abstract class GameObject {
 	public GameObject(GameScene parent) {
 		this.parent = parent;
 		setAttribute();
-		setActive(true);
+		setDestroyed(true);
+		// setActive(true);
 	}
 
 	public GameScene getParent() {
@@ -276,7 +281,7 @@ public abstract class GameObject {
 	}
 
 
-	/* ====================================================
+	/*=====================================================
 	      ___           __     _
 	     /   |  _____  / /_   (_) _   __  ___
 	    / /| | / ___/ / __/  / / | | / / / _ \
@@ -289,6 +294,32 @@ public abstract class GameObject {
 	 * 游戏对象的活动状态
 	 */
 	private boolean active;
+
+	public boolean isDestroyed() {
+		boolean res;
+		toRead();
+		res = (destroyed & RELOAD_render) != 0 && (destroyed & 31) == this.attribute;
+		finishRead();
+		return res;
+	}
+
+	private void setDestroyed(boolean b) {
+		if(b){
+			this.destroyed = RELOAD_render | this.attribute;
+		}
+		else {
+			this.destroyed = 0;
+		}
+	}
+
+	public void setDestroyed(int cycle) {
+		toWrite();
+		this.destroyed |= cycle;
+		finishWrite();
+	}
+
+	private int destroyed = 0;
+
 	public boolean isActive() {
 		boolean active;
 		toRead();
@@ -300,26 +331,24 @@ public abstract class GameObject {
 	public void setActive(boolean active) {
 		toWrite();
 		this.active = active;
+		setDestroyed(false);
 		finishWrite();
 	}
 
 
-
-
-
-
-
-
-
-	//=============================================================
-
-	/**
-	 * 读写锁，写者优先
+	/*======================================================
+	    ______    __                               __
+	   /_  __/   / /_    _____  ___   ____ _  ____/ /
+	    / /     / __ \  / ___/ / _ \ / __ `/ / __  /
+	   / /     / / / / / /    /  __// /_/ / / /_/ /
+	  /_/     /_/ /_/ /_/     \___/ \__,_/  \__,_/
+	  ======================================================
 	 */
+
 
 	private final Semaphore mutex_reader = new Semaphore(1);
 	private final Semaphore mutex_writer = new Semaphore(1);
-	private final Semaphore mutex_rw = new Semaphore(1) ;
+	private final Semaphore mutex_rw = new Semaphore(1);
 
 	private int count_reader = 0;
 	private int count_writer = 0;
@@ -332,7 +361,7 @@ public abstract class GameObject {
 		}
 		count_reader++;
 		// System.out.println(count_reader);
-		if(count_reader == 1) {
+		if (count_reader == 1) {
 			try {
 				mutex_rw.acquire();
 			} catch (InterruptedException e) {
@@ -351,12 +380,10 @@ public abstract class GameObject {
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-		}
-		else
+		} else
 			mutex_writer.release();
 
 		mutex_reader.release();
-
 
 
 	}
@@ -368,7 +395,7 @@ public abstract class GameObject {
 			throw new RuntimeException(e);
 		}
 		count_reader--;
-		if(count_reader == 0) {
+		if (count_reader == 0) {
 			mutex_rw.release();
 		}
 		mutex_reader.release();
@@ -403,4 +430,37 @@ public abstract class GameObject {
 		mutex_rw.release();
 	}
 
+
+	/*======================================================
+	     ______           __    __    _        __
+	    / ____/  ____    / /   / /   (_)  ____/ /  ___
+	   / /      / __ \  / /   / /   / /  / __  /  / _ \
+	  / /___   / /_/ / / /   / /   / /  / /_/ /  /  __/
+	  \____/   \____/ /_/   /_/   /_/   \__,_/   \___/
+	  ======================================================
+	 */
+
+	public enum ColliderType {
+		COLLIDER_TYPE_RECT,
+		COLLIDER_TYPE_CIRCLE,
+	}
+
+	ColliderType colliderType;
+	int radius = 0;
+
+	public ColliderType getColliderType() {
+		return colliderType;
+	}
+
+	public void setColliderType(ColliderType colliderType) {
+		this.colliderType = colliderType;
+	}
+
+	public int getRadius() {
+		return radius;
+	}
+
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
 }
