@@ -22,24 +22,33 @@ public abstract class GameScene {
 		while (active) {
 
 			gameFrame.repaint();
-			try {
-				mutex_doUpdate.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
+
 
 			for (int i = 0; i < doUpdate.size(); i++) {
+				try {
+					mutex_doUpdate.acquire();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
 				GameObject gameObject = doUpdate.get(i);
+				mutex_doUpdate.release();
+
 				if(gameObject.isActive()) {
 					gameObject.update();
 				}
 				else {
+					try {
+						mutex_doUpdate.acquire();
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
 					doUpdate.remove(i);
+					mutex_doUpdate.release();
 					i--;
 				}
 			}
 
-			mutex_doUpdate.release();
+
 
 
 			try {
@@ -54,24 +63,31 @@ public abstract class GameScene {
 	private void fixUpdate() {
 		while (active) {
 			gameTime += 20;
-			try {
-				mutex_doFixedUpdate.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
 
 			for (int i = 0; i < doFixedUpdate.size(); i++) {
+				try {
+					mutex_doFixedUpdate.acquire();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
 				GameObject gameObject = doFixedUpdate.get(i);
+				mutex_doFixedUpdate.release();
 				if(gameObject.isActive()) {
 					gameObject.fixedUpdate();
 				}
 				else {
+					try {
+						mutex_doFixedUpdate.acquire();
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
 					doFixedUpdate.remove(i);
+					mutex_doFixedUpdate.release();
 					i--;
 				}
 			}
 
-			mutex_doFixedUpdate.release();
+
 
 			try {
 				Thread.sleep(20);

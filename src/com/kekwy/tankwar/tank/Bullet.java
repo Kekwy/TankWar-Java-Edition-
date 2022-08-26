@@ -43,6 +43,7 @@ public class Bullet extends GameObject {
 		bullet.position.setY(y);
 		bullet.setForward(forward);
 		bullet.setFrom(from);
+		bullet.setActive(true);
 		return bullet;
 	}
 
@@ -78,8 +79,10 @@ public class Bullet extends GameObject {
 		int y = this.position.getY();
 
 		if (x < getParent().getLeftBound() || x > getParent().getRightBound()
-				|| y < getParent().getUpBound() || y > getParent().getDownBound())
+				|| y < getParent().getUpBound() || y > getParent().getDownBound()) {
 			setActive(false);
+			bulletPool.returnObject(this);
+		}
 
 		switch (forward) {
 			case DIR_UP -> y -= speed;

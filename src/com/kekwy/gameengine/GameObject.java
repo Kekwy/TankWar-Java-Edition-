@@ -397,7 +397,7 @@ public abstract class GameObject {
 			throw new RuntimeException(e);
 		}
 		count_writer--;
-		System.out.println(count_writer);
+		// System.out.println(count_writer);
 		mutex_writer.release();
 
 		mutex_rw.release();

@@ -5,8 +5,11 @@ import com.kekwy.gameengine.GameFrame;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
+import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.PlayerTank;
+import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.Direction;
+import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
 
@@ -20,6 +23,8 @@ public class PlayScene extends GameScene {
 
 		public BackGround(GameScene parent) {
 			super(parent);
+			setLayer(0);
+			parent.addGameObject(this);
 		}
 
 		@Override
@@ -44,17 +49,47 @@ public class PlayScene extends GameScene {
 		setResizable(false);
 		setLocation();
 
-		addGameObject(new BackGround(this));
+		new BackGround(this);
 
-		addGameObject(new PlayerTank(this, 200, 400, Direction.DIR_UP));
+		new PlayerTank(this, 200, 400, Direction.DIR_UP, "Player1");
 
 		setActive();
 
 		// 定时生成敌人
+		new Thread(() -> {
+			int enemyCount = 0, spawnX;
 
+			while (isActive()) {
+				try {
+					Thread.sleep(BORN_ENEMY_INTERVAL);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+
+				if(EnemyTank.getCount() >= MAX_ENEMY_COUNT)
+				{
+					continue;
+				}
+
+				int number = TankWarUtil.getRandomNumber(0, 2);
+				if (number == 0) {
+					spawnX = getLeftBound() + Tank.DEFAULT_RADIUS;
+				} else {
+					spawnX = getRightBound() - Tank.DEFAULT_RADIUS;
+				}
+
+				Tank enemyTank = EnemyTank.createEnemyTank(this, spawnX,
+						getUpBound() + Tank.DEFAULT_RADIUS, "Enemy" + enemyCount);
+
+				enemyCount++;
+
+				addGameObject(enemyTank);
+
+			}
+		}).start();
 	}
 
-
-
+	public static final int MAX_ENEMY_COUNT = 10;
+	public static final int BORN_ENEMY_INTERVAL = 5000;
 
 }

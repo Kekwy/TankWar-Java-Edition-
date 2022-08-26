@@ -36,6 +36,7 @@ public class MainMenuScene extends GameScene {
 		public BackGround(GameScene parent) {
 			super(parent);
 			setLayer(0);
+			parent.addGameObject(this);
 		}
 
 		/**
@@ -101,7 +102,7 @@ public class MainMenuScene extends GameScene {
 		setResizable(false);
 		setLocation();
 
-		addGameObject(new BackGround(this));
+		new BackGround(this);
 
 		setActive();
 	}

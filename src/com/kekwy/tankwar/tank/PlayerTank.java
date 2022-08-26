@@ -18,9 +18,10 @@ public class PlayerTank extends Tank {
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 
-	public PlayerTank(GameScene parent, int x, int y, Direction forward) {
-		super(parent, x, y, forward);
+	public PlayerTank(GameScene parent, int x, int y, Direction forward, String name) {
+		super(parent, x, y, forward, name);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
+		parent.addGameObject(this);
 	}
 
 	private static final Image[] tankImg;
@@ -36,6 +37,7 @@ public class PlayerTank extends Tank {
 
 	@Override
 	public void render(Graphics g) {
+		super.render(g);
 		g.drawImage(tankImg[getForward().ordinal()], position.getX() - getRadius(), position.getY() - getRadius(),
 				2 * getRadius(), 2 * getRadius(), null);
 	}
