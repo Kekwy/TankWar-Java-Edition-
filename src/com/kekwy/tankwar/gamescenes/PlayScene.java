@@ -58,7 +58,7 @@ public class PlayScene extends GameScene {
 
 		// 定时生成敌人
 		new Thread(() -> {
-			int enemyCount = 0, spawnX;
+			int enemyCount = 1, spawnX;
 
 			while (isActive()) {
 				try {
@@ -74,9 +74,9 @@ public class PlayScene extends GameScene {
 
 				int number = TankWarUtil.getRandomNumber(0, 2);
 				if (number == 0) {
-					spawnX = getLeftBound() + Tank.DEFAULT_RADIUS;
+					spawnX = getLeftBound() + Tank.DEFAULT_RADIUS + 6;
 				} else {
-					spawnX = getRightBound() - Tank.DEFAULT_RADIUS;
+					spawnX = getRightBound() - Tank.DEFAULT_RADIUS - 6;
 				}
 
 				Tank enemyTank = EnemyTank.createEnemyTank(this, spawnX,

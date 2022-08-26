@@ -2,6 +2,7 @@ package com.kekwy.gameengine;
 
 import java.awt.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.Semaphore;
 
@@ -41,9 +42,9 @@ public abstract class GameObject {
 	/**
 	 * 当产生碰撞时被调用
 	 *
-	 * @param obj 与其碰撞的物体
+	 * @param gameObjects 与其碰撞的游戏对象
 	 */
-	public void collide(GameObject obj) {
+	public void collide(List<GameObject> gameObjects) {
 		System.exit(-1);
 	}
 
@@ -82,7 +83,7 @@ public abstract class GameObject {
 
 		public void setX(int x) {
 			toWrite();
-			//parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
+			parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.x = x;
 			finishWrite();
 		}
@@ -105,7 +106,7 @@ public abstract class GameObject {
 
 		public void setY(int y) {
 			toWrite();
-			//parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
+			parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.y = y;
 			finishWrite();
 		}
@@ -182,7 +183,7 @@ public abstract class GameObject {
 
 			temp = true;
 			try {
-				c.getDeclaredMethod("collide", GameObject.class);
+				c.getDeclaredMethod("collide", List.class);
 			} catch (NoSuchMethodException e) {
 				temp = false;
 			}
@@ -240,7 +241,6 @@ public abstract class GameObject {
 	public void setLayer(int layer) {
 		this.layer = layer;
 	}
-
 
 
 
@@ -447,6 +447,7 @@ public abstract class GameObject {
 
 	ColliderType colliderType;
 	int radius = 0;
+
 
 	public ColliderType getColliderType() {
 		return colliderType;

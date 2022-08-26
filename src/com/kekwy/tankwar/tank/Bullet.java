@@ -13,7 +13,7 @@ public class Bullet extends GameObject {
 	public static final int DEFAULT_BULLET_SPEED = 6;
 	public static final int DEFAULT_BULLET_RADIUS = 4;
 
-	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 1);
+	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 100);
 	private int atk;
 
 	public int getSpeed() {
@@ -116,7 +116,5 @@ public class Bullet extends GameObject {
 	public void setFrom(Tank from) {
 		this.from = from;
 	}
-
-
 
 }

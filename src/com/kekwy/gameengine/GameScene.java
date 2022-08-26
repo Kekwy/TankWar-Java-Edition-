@@ -1,5 +1,7 @@
 package com.kekwy.gameengine;
 
+import com.kekwy.tankwar.util.TankWarUtil;
+
 import java.awt.*;
 import java.util.*;
 import java.util.List;
@@ -17,7 +19,7 @@ public abstract class GameScene {
 
 	private void render() {
 		while (active) {
-			// System.out.println("render");
+			System.out.println("render");
 			gameFrame.repaint();
 
 
@@ -59,7 +61,7 @@ public abstract class GameScene {
 		while (active) {
 			gameTime += 20;
 
-			// System.out.println("fixUpdate");
+			System.out.println("fixUpdate");
 
 			for (int i = 0; i < doFixedUpdate.size(); i++) {
 				try {
@@ -93,14 +95,74 @@ public abstract class GameScene {
 		}
 	}
 
+
+	List<GameObject> colliders = new LinkedList<>();
+
+
+	private boolean rectRectCollider(int x1, int y1, int radius1, int x2, int y2, int radius2) {
+		return false;
+	}
+
+	private boolean rectCircleCollider(int x1, int y1, int radius1, int x2, int y2, int radius2) {
+		return TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 + radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 - radius2);
+	}
+
 	private void collide() {
 		while (active) {
 
 
 			for (int i = 0; i < doCollide.size(); i++) {
+				try {
+					mutex_doCollide.acquire();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				GameObject gameObject = doCollide.get(i);
+				mutex_doCollide.release();
 
+				if (gameObject.isActive()) {
+					// 碰撞检测
+					int x = gameObject.position.getX();
+					int y = gameObject.position.getY();
+					int radius = gameObject.getRadius();
+					int block = getBlock(x, y);
+
+					List<GameObject> gameObjects = positionMap.get(block);
+					for (GameObject object : gameObjects) {
+						if(object == gameObject)
+							continue;
+						int _x = object.position.getX();
+						int _y = object.position.getY();
+						int _radius = object.getRadius();
+						boolean isCollide = false;
+						switch (object.getColliderType()) {
+							case COLLIDER_TYPE_CIRCLE -> isCollide = rectCircleCollider(x, y, radius, _x, _y, _radius);
+							case COLLIDER_TYPE_RECT -> isCollide = rectRectCollider(x, y, radius, _x, _y, _radius);
+						}
+						if (isCollide) {
+							colliders.add(object);
+						}
+					}
+					// mutex_positionMap.release();
+					if (!colliders.isEmpty()) {
+						gameObject.collide(colliders);
+						colliders.clear();
+					}
+				} else {
+					try {
+						mutex_doCollide.acquire();
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+					doCollide.remove(i);
+					mutex_doCollide.release();
+					i--;
+					gameObject.setDestroyed(GameObject.RELOAD_collide);
+				}
 			}
-
 
 
 			try {
@@ -350,10 +412,15 @@ public abstract class GameScene {
 
 	private int blockX;
 
+
+	private int getBlock(int x, int y) {
+		return (x / BLOCK_WIDTH + 1) + blockX * (y / BLOCK_WIDTH);
+	}
+
 	public void updatePositionMap(GameObject gameObject, int old_x, int old_y, int x, int y) {
 
-		int old_block = (old_x / BLOCK_WIDTH + 1) + blockX * (old_y / BLOCK_WIDTH);
-		int block = (x / BLOCK_WIDTH + 1) + blockX * (y / BLOCK_WIDTH);
+		int old_block = getBlock(old_x, old_y);
+		int block = getBlock(x, y);
 
 		if (old_block != block) {
 			try {
@@ -363,13 +430,12 @@ public abstract class GameScene {
 			}
 			if (positionMap.containsKey(old_block))
 				positionMap.get(old_block).remove(gameObject);
-			if(!positionMap.containsKey(block))
+			if (!positionMap.containsKey(block))
 				positionMap.put(block, new LinkedList<>());
 			positionMap.get(block).add(gameObject);
 
 			mutex_positionMap.release();
 		}
-
 
 
 	}

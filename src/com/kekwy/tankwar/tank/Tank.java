@@ -7,6 +7,7 @@ import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
+import java.util.List;
 
 public abstract class Tank extends GameObject {
 
@@ -53,7 +54,18 @@ public abstract class Tank extends GameObject {
 		setLayer(1);
 	}
 
-
+	@Override
+	public void collide(List<GameObject> gameObjects) {
+		for (GameObject gameObject : gameObjects) {
+			if(gameObject.getClass().equals(Bullet.class)) {
+				Bullet bullet = (Bullet)gameObject;
+				if(!bullet.getFrom().getClass().equals(this.getClass())) {
+					hp -= bullet.getAtk();
+					bullet.setActive(false);
+				}
+			}
+		}
+	}
 
 	protected void initTank(int x, int y, Direction forward, String name) {
 		this.position.setX(x);

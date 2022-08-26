@@ -78,7 +78,7 @@ public class ObjectPool {
 			throw new RuntimeException(e);
 		}
 
-		System.out.println("对象池中剩余：" + pool.size());
+		// System.out.println("对象池中剩余：" + pool.size());
 
 		if (pool.size() == maxSize) {
 			mutex_pool.release();
