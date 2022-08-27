@@ -320,6 +320,26 @@ public abstract class GameScene {
 		return frameWidth;
 	}
 
+	protected void sceneClear() {
+		try {
+
+			mutex_gameObjects.acquire();
+			for (GameObject gameObject : gameObjects) {
+				gameObject.setActive(false);
+			}
+
+			mutex_gameObjects.release();
+
+
+
+
+
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
 
 	protected enum FrameType {
 		FRAME_TYPE_PUBLIC,

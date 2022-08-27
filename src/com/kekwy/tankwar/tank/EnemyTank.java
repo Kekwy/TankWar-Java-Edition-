@@ -71,6 +71,7 @@ public class EnemyTank extends Tank {
 
 	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 1);
 
+	public static final int ENEMY_TANK_MAX_HP = 500;
 	public static Tank createEnemyTank(GameScene parent, int x, int y, String name) {
 		Tank tank = (Tank) tankPool.getObject();
 
@@ -85,7 +86,8 @@ public class EnemyTank extends Tank {
 		}
 		count++;
 		mutex_count.release();
-		tank.setHp(500);
+		tank.setHp(ENEMY_TANK_MAX_HP);
+		tank.setMaxHp(ENEMY_TANK_MAX_HP);
 		return tank;
 	}
 

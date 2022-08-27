@@ -2,6 +2,7 @@ package com.kekwy.tankwar.tank;
 
 import com.kekwy.gameengine.GameScene;
 
+import com.kekwy.tankwar.gamescenes.PlayScene;
 import com.kekwy.tankwar.util.Direction;
 
 import com.kekwy.tankwar.util.TankWarUtil;
@@ -15,6 +16,21 @@ import static com.kekwy.tankwar.tank.Tank.State.*;
 import static com.kekwy.tankwar.util.Direction.*;
 
 public class PlayerTank extends Tank {
+
+	@Override
+	public void fixedUpdate() {
+		super.fixedUpdate();
+		if (getState() == STATE_DIE) {
+			new Thread(()->{
+				try {
+					Thread.sleep(1500);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				((PlayScene)getParent()).gameOver();
+			}).start();
+		}
+	}
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 

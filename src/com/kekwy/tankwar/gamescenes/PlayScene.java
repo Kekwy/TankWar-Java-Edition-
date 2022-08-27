@@ -12,6 +12,7 @@ import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class PlayScene extends GameScene {
 
@@ -36,6 +37,9 @@ public class PlayScene extends GameScene {
 	}
 
 
+	BackGround backGround;
+
+	boolean gaming = false;
 	public PlayScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
 
@@ -50,17 +54,18 @@ public class PlayScene extends GameScene {
 		setResizable(false);
 		setLocation();
 
-		new BackGround(this);
+		backGround = new BackGround(this);
 
 		new PlayerTank(this, 200, 400, Direction.DIR_UP, "Player1");
 
 		setActive();
 
+		gaming = true;
 		// 定时生成敌人
 		new Thread(() -> {
 			int enemyCount = 1, spawnX;
 
-			while (isActive()) {
+			while (gaming) {
 				try {
 					Thread.sleep(BORN_ENEMY_INTERVAL);
 				} catch (InterruptedException e) {
@@ -92,5 +97,51 @@ public class PlayScene extends GameScene {
 
 	public static final int MAX_ENEMY_COUNT = 10;
 	public static final int BORN_ENEMY_INTERVAL = 5000;
+
+
+
+	class OverBackGround extends GameObject{
+
+		static Image overImg = null;
+		public static final Font OVER_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
+		public static final String OVER_NOTICE = new String("按Enter键继续...");
+		public OverBackGround(GameScene parent) {
+			super(parent);
+			setActive(true);
+		}
+
+		@Override
+		public void render(Graphics g) {
+			if (overImg == null) {
+				overImg = TankWarUtil.createImage("/over.gif");
+			}
+			int imgW = overImg.getWidth(null);
+			int imgH = overImg.getHeight(null);
+			// TODO 第一次绘制时触发了bug
+			if (imgW != -1) {
+				// System.out.println(imgH);
+				g.drawImage(overImg, FRAME_WIDTH - 3 * imgW >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) - 20, 3 * imgW,
+						3 * imgH, null);
+				g.setColor(Color.WHITE);
+				g.setFont(OVER_FONT);
+				g.drawString(OVER_NOTICE, FRAME_WIDTH - 125 >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) + 145);
+			}
+		}
+
+		@Override
+		public void keyReleasedEvent(int keyCode) {
+			if(keyCode == KeyEvent.VK_ENTER) {
+				PlayScene.this.setInactive(0);
+			}
+		}
+	}
+
+	public void gameOver() {
+		gaming = false;
+		backGround.setActive(false);
+		sceneClear();
+		OverBackGround overBackGround = new OverBackGround(this);
+		addGameObject(overBackGround);
+	}
 
 }

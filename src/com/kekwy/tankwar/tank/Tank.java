@@ -29,6 +29,7 @@ public abstract class Tank extends GameObject {
 
 
 	private int hp = DEFAULT_HP, atk = DEFAULT_ATK, speed = DEFAULT_SPEED;
+	private int maxHp = DEFAULT_HP;
 
 	private Direction forward = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
@@ -118,6 +119,9 @@ public abstract class Tank extends GameObject {
 		this.hp = hp;
 	}
 
+	public void setMaxHp(int hp) {
+		this.maxHp = hp;
+	}
 	public int getAtk() {
 		return atk;
 	}
@@ -204,7 +208,7 @@ public abstract class Tank extends GameObject {
 			// System.out.println("HPBar render");
 			g.setColor(Color.RED);
 			g.fillRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
-					hp * BAR_LENGTH / DEFAULT_HP, BAR_HEIGHT);
+					hp * BAR_LENGTH / maxHp, BAR_HEIGHT);
 			g.setColor(Color.white);
 			g.drawRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
 					BAR_LENGTH, BAR_HEIGHT);
