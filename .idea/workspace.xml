@@ -9,19 +9,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.26 简陋的碰撞检测机制（有bug">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/TankWar_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/blast.java" afterDir="false" />
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/TankWar.iml" beforeDir="false" afterPath="$PROJECT_DIR$/TankWar.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Blast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +244,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661524993389</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。">
+      <created>1661600377732</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1661600377732</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -299,7 +298,9 @@
     <MESSAGE value="8.26 修复因线程同步造成的bug，加入敌人坦克并增加敌人坦克的机动性" />
     <MESSAGE value="8.26 修复对象归还对象池时造成的死锁；增加GameObject属性，保证对象池对象被从场景完全移出后，才会再次使用；优化敌人移动方式，使其更加随机。" />
     <MESSAGE value="8.26 简陋的碰撞检测机制（有bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.26 简陋的碰撞检测机制（有bug" />
+    <MESSAGE value="8.26 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。" />
+    <MESSAGE value="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

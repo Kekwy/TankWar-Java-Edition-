@@ -3,15 +3,16 @@ package com.kekwy.tankwar.tank;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
+import com.kekwy.tankwar.effect.Blast;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
 import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
 
 public abstract class Tank extends GameObject {
-
-
 
 	public enum State {
 		STATE_IDLE,
@@ -55,20 +56,22 @@ public abstract class Tank extends GameObject {
 	@Override
 	public void collide(List<GameObject> gameObjects) {
 		for (GameObject gameObject : gameObjects) {
-			if(gameObject.getClass().equals(Bullet.class)) {
-				Bullet bullet = (Bullet)gameObject;
-				if(!bullet.getFrom().getClass().equals(this.getClass())) {
+			if (gameObject.getClass().equals(Bullet.class)) {
+				Bullet bullet = (Bullet) gameObject;
+				if (!bullet.getFrom().getClass().equals(this.getClass())) {
 					hp -= bullet.getAtk();
+					Blast blast = Blast.createBlast(getParent(), this.position.getX(), this.position.getY());
+					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				}
 			} else if (gameObject instanceof Tank && !gameObject.getClass().equals(this.getClass())) {
 				this.hp = 0;
-				((Tank)gameObject).setHp(0);
-				((Tank)gameObject).setState(State.STATE_DIE);
+				((Tank) gameObject).setHp(0);
+				((Tank) gameObject).setState(State.STATE_DIE);
 			}
 		}
 
-		if(hp <= 0) {
+		if (hp <= 0) {
 			setState(State.STATE_DIE);
 		}
 
@@ -91,7 +94,7 @@ public abstract class Tank extends GameObject {
 
 	public void fire() {
 		// if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
-			// return;
+		// return;
 		// fireTime = getParent().currentTimeMillis();
 		// Position position = getPosition();
 		int bulletX = this.position.getX();
@@ -191,7 +194,7 @@ public abstract class Tank extends GameObject {
 		}
 	}
 
-	private class HPBar{
+	private class HPBar {
 		public static final int BAR_LENGTH = 50;
 		public static final int BAR_HEIGHT = 5;
 
@@ -210,12 +213,14 @@ public abstract class Tank extends GameObject {
 
 	String name;
 	static final Font NAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 14);
+
 	@Override
 	public void render(Graphics g) {
 		hpBar.render(g);
 		g.setColor(color);
 		g.setFont(NAME_FONT);
 		g.drawString(name, position.getX() - getRadius(), position.getY() - getRadius() - 14);
+
 	}
 
 }

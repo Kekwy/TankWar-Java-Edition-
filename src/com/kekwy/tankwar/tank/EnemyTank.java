@@ -13,7 +13,7 @@ public class EnemyTank extends Tank {
 	long lastChangTime = 0;
 
 	static int count = 0;
-	static Semaphore mutex_count = new Semaphore(1);
+	static Semaphore mutex_count = new Semaphore(10);
 
 	public EnemyTank(GameScene parent) {
 		super(parent);
@@ -37,6 +37,7 @@ public class EnemyTank extends Tank {
 			count--;
 			mutex_count.release();
 			setActive(false);
+			tankPool.returnObject(this);
 		}
 		if (getParent().currentTimeMillis() - lastChangTime > changeInterval) {
 			// 随机一个状态
@@ -68,7 +69,7 @@ public class EnemyTank extends Tank {
 				2 * getRadius(), 2 * getRadius(), null);
 	}
 
-	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 10);
+	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 1);
 
 	public static Tank createEnemyTank(GameScene parent, int x, int y, String name) {
 		Tank tank = (Tank) tankPool.getObject();
@@ -84,6 +85,7 @@ public class EnemyTank extends Tank {
 		}
 		count++;
 		mutex_count.release();
+		tank.setHp(500);
 		return tank;
 	}
 
