@@ -15,21 +15,28 @@ import java.util.List;
 import static com.kekwy.tankwar.tank.Tank.State.*;
 import static com.kekwy.tankwar.util.Direction.*;
 
+
 public class PlayerTank extends Tank {
 
+	Thread waiting = null;
 	@Override
 	public void fixedUpdate() {
 		super.fixedUpdate();
 		if (getState() == STATE_DIE) {
-			new Thread(()->{
-				try {
-					Thread.sleep(1500);
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-				((PlayScene)getParent()).gameOver();
-			}).start();
+			if(waiting == null) {
+				waiting = new Thread(() -> {
+					try {
+						Thread.sleep(1500);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+					((PlayScene) getParent()).gameOver();
+				});
+				waiting.start();
+			}
+			// setActive(false);
 		}
+
 	}
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;

@@ -37,6 +37,7 @@ public class PlayScene extends GameScene {
 	}
 
 
+	Thread game;
 	BackGround backGround;
 
 	boolean gaming = false;
@@ -62,7 +63,7 @@ public class PlayScene extends GameScene {
 
 		gaming = true;
 		// 定时生成敌人
-		new Thread(() -> {
+		game = new Thread(() -> {
 			int enemyCount = 1, spawnX;
 
 			while (gaming) {
@@ -92,7 +93,8 @@ public class PlayScene extends GameScene {
 				addGameObject(enemyTank);
 
 			}
-		}).start();
+		});
+		game.start();
 	}
 
 	public static final int MAX_ENEMY_COUNT = 10;
@@ -107,6 +109,7 @@ public class PlayScene extends GameScene {
 		public static final String OVER_NOTICE = new String("按Enter键继续...");
 		public OverBackGround(GameScene parent) {
 			super(parent);
+			setLayer(2);
 			setActive(true);
 		}
 
@@ -138,6 +141,11 @@ public class PlayScene extends GameScene {
 
 	public void gameOver() {
 		gaming = false;
+		try {
+			game.join();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 		backGround.setActive(false);
 		sceneClear();
 		OverBackGround overBackGround = new OverBackGround(this);
