@@ -28,6 +28,16 @@ public class EnemyTank extends Tank {
 	@Override
 	public void fixedUpdate() {
 		super.fixedUpdate();
+		if(getState() == State.STATE_DIE) {
+			try {
+				mutex_count.acquire();
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			count--;
+			mutex_count.release();
+			setActive(false);
+		}
 		if (getParent().currentTimeMillis() - lastChangTime > changeInterval) {
 			// 随机一个状态
 			changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
@@ -45,10 +55,10 @@ public class EnemyTank extends Tank {
 
 	static {
 		tankImg = new Image[4];
-		tankImg[0] = Toolkit.getDefaultToolkit().createImage("res/enemy1U.gif");
-		tankImg[1] = Toolkit.getDefaultToolkit().createImage("res/enemy1D.gif");
-		tankImg[2] = Toolkit.getDefaultToolkit().createImage("res/enemy1L.gif");
-		tankImg[3] = Toolkit.getDefaultToolkit().createImage("res/enemy1R.gif");
+		tankImg[0] = TankWarUtil.createImage("/enemy1U.gif");
+		tankImg[1] = TankWarUtil.createImage("/enemy1D.gif");
+		tankImg[2] = TankWarUtil.createImage("/enemy1L.gif");
+		tankImg[3] = TankWarUtil.createImage("/enemy1R.gif");
 	}
 
 	@Override
@@ -58,7 +68,7 @@ public class EnemyTank extends Tank {
 				2 * getRadius(), 2 * getRadius(), null);
 	}
 
-	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 5);
+	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 10);
 
 	public static Tank createEnemyTank(GameScene parent, int x, int y, String name) {
 		Tank tank = (Tank) tankPool.getObject();

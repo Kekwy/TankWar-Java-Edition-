@@ -27,12 +27,14 @@ public class PlayerTank extends Tank {
 
 	private static final Image[] tankImg;
 
+	// URL url = this.class.getResource("/white.jpg");
+
 	static {
 		tankImg = new Image[4];
-		tankImg[0] = TankWarUtil.createImage("res/p1tankU.gif");
-		tankImg[1] = TankWarUtil.createImage("res/p1tankD.gif");
-		tankImg[2] = TankWarUtil.createImage("res/p1tankL.gif");
-		tankImg[3] = TankWarUtil.createImage("res/p1tankR.gif");
+		tankImg[0] = TankWarUtil.createImage("/p1tankU.gif");
+		tankImg[1] = TankWarUtil.createImage("/p1tankD.gif");
+		tankImg[2] = TankWarUtil.createImage("/p1tankL.gif");
+		tankImg[3] = TankWarUtil.createImage("/p1tankR.gif");
 	}
 
 

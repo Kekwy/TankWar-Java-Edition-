@@ -34,11 +34,10 @@ public abstract class Tank extends GameObject {
 
 	private Color color;
 
-	private final HPBar hpBar;
+	private final HPBar hpBar = new HPBar();
 
 	public Tank(GameScene parent) {
 		super(parent);
-		hpBar = new HPBar(parent);
 		setRadius(DEFAULT_RADIUS);
 		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		setLayer(1);
@@ -47,7 +46,6 @@ public abstract class Tank extends GameObject {
 
 	public Tank(GameScene parent, int x, int y, Direction forward, String name) {
 		super(parent);
-		hpBar = new HPBar(parent);
 		setRadius(DEFAULT_RADIUS);
 		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, forward, name);
@@ -63,8 +61,17 @@ public abstract class Tank extends GameObject {
 					hp -= bullet.getAtk();
 					bullet.setActive(false);
 				}
+			} else if (gameObject instanceof Tank && !gameObject.getClass().equals(this.getClass())) {
+				this.hp = 0;
+				((Tank)gameObject).setHp(0);
+				((Tank)gameObject).setState(State.STATE_DIE);
 			}
 		}
+
+		if(hp <= 0) {
+			setState(State.STATE_DIE);
+		}
+
 	}
 
 	protected void initTank(int x, int y, Direction forward, String name) {
@@ -178,22 +185,15 @@ public abstract class Tank extends GameObject {
 
 	@Override
 	public void fixedUpdate() {
-		switch (state) {
-			case STATE_DIE -> setActive(false);
-			case STATE_MOVE -> move();
+		// case STATE_DIE -> setActive(false);
+		if (state == State.STATE_MOVE) {
+			move();
 		}
 	}
 
-	private class HPBar extends GameObject{
+	private class HPBar{
 		public static final int BAR_LENGTH = 50;
 		public static final int BAR_HEIGHT = 5;
-
-		public HPBar(GameScene parent) {
-			super(parent);
-			setLayer(1);
-			if(parent != null)
-				parent.addGameObject(this);
-		}
 
 		public void render(Graphics g) {
 			int x = Tank.this.position.getX();
@@ -206,26 +206,16 @@ public abstract class Tank extends GameObject {
 			g.drawRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
 					BAR_LENGTH, BAR_HEIGHT);
 		}
-
-		@Override
-		public boolean isActive() {
-			return Tank.this.isActive();
-		}
 	}
 
 	String name;
 	static final Font NAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 14);
 	@Override
 	public void render(Graphics g) {
+		hpBar.render(g);
 		g.setColor(color);
 		g.setFont(NAME_FONT);
 		g.drawString(name, position.getX() - getRadius(), position.getY() - getRadius() - 14);
 	}
 
-	@Override
-	public void setParent(GameScene parent) {
-		super.setParent(parent);
-		hpBar.setParent(parent);
-		parent.addGameObject(hpBar);
-	}
 }

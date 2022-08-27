@@ -90,7 +90,7 @@ public class MainMenuScene extends GameScene {
 
 	public MainMenuScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
-		System.out.println("初始化");
+		// System.out.println("初始化");
 
 		// 使用公共窗口
 		setGameFrame(gameFrame, FrameType.FRAME_TYPE_PUBLIC);

@@ -46,6 +46,6 @@ public class TankWarUtil {
 	}
 
 	public static Image createImage(String path) {
-		return Toolkit.getDefaultToolkit().createImage(path);
+		return Toolkit.getDefaultToolkit().createImage(TankWarUtil.class.getResource(path));
 	}
 }

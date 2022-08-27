@@ -82,33 +82,33 @@ public abstract class GameObject {
 		}
 
 		public void setX(int x) {
-			toWrite();
-			parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
+			// toWrite();
+			// parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.x = x;
-			finishWrite();
+			// finishWrite();
 		}
 
 		public int getX() {
 			int x;
-			toRead();
+			// toRead();
 			x = this.x;
-			finishRead();
+			// finishRead();
 			return x;
 		}
 
 		public int getY() {
 			int y;
-			toRead();
+			// toRead();
 			y = this.y;
-			finishRead();
+			// finishRead();
 			return y;
 		}
 
 		public void setY(int y) {
-			toWrite();
-			parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
+			// toWrite();
+			// parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.y = y;
-			finishWrite();
+			// finishWrite();
 		}
 	}
 
@@ -157,7 +157,7 @@ public abstract class GameObject {
 			return;
 		}
 
-		System.out.println(this.getClass());
+		// System.out.println(this.getClass());
 
 		while (!c.equals(GameObject.class)) {
 			boolean temp = true;
@@ -263,21 +263,22 @@ public abstract class GameObject {
 		this.parent = parent;
 		setAttribute();
 		setDestroyed(true);
+		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
 		// setActive(true);
 	}
 
 	public GameScene getParent() {
 		GameScene parent;
-		toRead();
+		// toRead();
 		parent = this.parent;
-		finishRead();
+		// finishRead();
 		return parent;
 	}
 
 	public void setParent(GameScene parent) {
-		toWrite();
+		// toWrite();
 		this.parent = parent;
-		finishWrite();
+		// finishWrite();
 	}
 
 
@@ -297,9 +298,9 @@ public abstract class GameObject {
 
 	public boolean isDestroyed() {
 		boolean res;
-		toRead();
+		// toRead();
 		res = (destroyed & RELOAD_render) != 0 && (destroyed & 31) == this.attribute;
-		finishRead();
+		// finishRead();
 		return res;
 	}
 
@@ -313,26 +314,26 @@ public abstract class GameObject {
 	}
 
 	public void setDestroyed(int cycle) {
-		toWrite();
+		// toWrite();
 		this.destroyed |= cycle;
-		finishWrite();
+		// finishWrite();
 	}
 
 	private int destroyed = 0;
 
 	public boolean isActive() {
 		boolean active;
-		toRead();
+		// toRead();
 		active = this.active;
-		finishRead();
+		// finishRead();
 		return active;
 	}
 
 	public void setActive(boolean active) {
-		toWrite();
+		// toWrite();
 		this.active = active;
 		setDestroyed(false);
-		finishWrite();
+		// finishWrite();
 	}
 
 
@@ -441,6 +442,7 @@ public abstract class GameObject {
 	 */
 
 	public enum ColliderType {
+		COLLIDER_TYPE_NULL,
 		COLLIDER_TYPE_RECT,
 		COLLIDER_TYPE_CIRCLE,
 	}

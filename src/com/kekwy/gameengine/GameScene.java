@@ -19,7 +19,7 @@ public abstract class GameScene {
 
 	private void render() {
 		while (active) {
-			System.out.println("render");
+			// System.out.println("render");
 			gameFrame.repaint();
 
 
@@ -61,7 +61,7 @@ public abstract class GameScene {
 		while (active) {
 			gameTime += 20;
 
-			System.out.println("fixUpdate");
+			// System.out.println("fixUpdate");
 
 			for (int i = 0; i < doFixedUpdate.size(); i++) {
 				try {
@@ -100,7 +100,10 @@ public abstract class GameScene {
 
 
 	private boolean rectRectCollider(int x1, int y1, int radius1, int x2, int y2, int radius2) {
-		return false;
+		return TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 + radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 + radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 - radius2);
 	}
 
 	private boolean rectCircleCollider(int x1, int y1, int radius1, int x2, int y2, int radius2) {
@@ -128,25 +131,43 @@ public abstract class GameScene {
 					int x = gameObject.position.getX();
 					int y = gameObject.position.getY();
 					int radius = gameObject.getRadius();
-					int block = getBlock(x, y);
+					//int block = getBlock(x, y);
 
-					List<GameObject> gameObjects = positionMap.get(block);
-					for (GameObject object : gameObjects) {
-						if(object == gameObject)
-							continue;
-						int _x = object.position.getX();
-						int _y = object.position.getY();
-						int _radius = object.getRadius();
-						boolean isCollide = false;
-						switch (object.getColliderType()) {
-							case COLLIDER_TYPE_CIRCLE -> isCollide = rectCircleCollider(x, y, radius, _x, _y, _radius);
-							case COLLIDER_TYPE_RECT -> isCollide = rectRectCollider(x, y, radius, _x, _y, _radius);
+					//List<GameObject> gameObjects = positionMap.get(block);
+					try {
+						mutex_gameObjects.acquire();
+						for (int i1 = 0; i1 < gameObjects.size(); i1++) {
+							GameObject object = gameObjects.get(i1);
+							mutex_gameObjects.release();
+							if (object == gameObject) {
+								mutex_gameObjects.acquire();
+								continue;
+							}
+							if (!object.isActive()) {
+								mutex_gameObjects.acquire();
+								gameObjects.remove(i1);
+								i1--;
+								// object.setDestroyed();
+								continue;
+							}
+							int _x = object.position.getX();
+							int _y = object.position.getY();
+							int _radius = object.getRadius();
+							boolean isCollide = false;
+							switch (object.getColliderType()) {
+								case COLLIDER_TYPE_CIRCLE ->
+										isCollide = rectCircleCollider(x, y, radius, _x, _y, _radius);
+								case COLLIDER_TYPE_RECT -> isCollide = rectRectCollider(x, y, radius, _x, _y, _radius);
+							}
+							if (isCollide) {
+								colliders.add(object);
+							}
+							mutex_gameObjects.acquire();
 						}
-						if (isCollide) {
-							colliders.add(object);
-						}
+						mutex_gameObjects.release();
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
 					}
-					// mutex_positionMap.release();
 					if (!colliders.isEmpty()) {
 						gameObject.collide(colliders);
 						colliders.clear();
@@ -228,44 +249,45 @@ public abstract class GameScene {
 	 */
 	public void addGameObject(GameObject gameObject) {
 
-		if ((gameObject.getAttribute() & GameObject.RELOAD_keyReleasedEvent) != 0) {
-			gameFrame.addKeyReleasedEvent(gameObject);
-		}
-		if ((gameObject.getAttribute() & GameObject.RELOAD_keyPressedEvent) != 0) {
-			gameFrame.addKeyPressedEvent(gameObject);
-		}
-		if ((gameObject.getAttribute() & GameObject.RELOAD_collide) != 0) {
-			try {
+		try {
+			if ((gameObject.getAttribute() & GameObject.RELOAD_keyReleasedEvent) != 0) {
+				gameFrame.addKeyReleasedEvent(gameObject);
+			}
+			if ((gameObject.getAttribute() & GameObject.RELOAD_keyPressedEvent) != 0) {
+				gameFrame.addKeyPressedEvent(gameObject);
+			}
+			if ((gameObject.getAttribute() & GameObject.RELOAD_collide) != 0) {
 				mutex_doCollide.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+				doCollide.add(gameObject);
+				mutex_doCollide.release();
 			}
-			doCollide.add(gameObject);
-			mutex_doCollide.release();
-		}
-		if ((gameObject.getAttribute() & GameObject.RELOAD_fixUpdate) != 0) {
-			try {
+			if ((gameObject.getAttribute() & GameObject.RELOAD_fixUpdate) != 0) {
 				mutex_doFixedUpdate.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+				doFixedUpdate.add(gameObject);
+				mutex_doFixedUpdate.release();
 			}
-			doFixedUpdate.add(gameObject);
-			mutex_doFixedUpdate.release();
-		}
-		if ((gameObject.getAttribute() & GameObject.RELOAD_update) != 0) {
-			try {
+			if ((gameObject.getAttribute() & GameObject.RELOAD_update) != 0) {
 				mutex_doUpdate.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
+				doUpdate.add(gameObject);
+				mutex_doUpdate.release();
 			}
-			doUpdate.add(gameObject);
-			mutex_doUpdate.release();
-		}
 
-		// System.out.println("加入render");
-		gameFrame.addRender(gameObject);
+			// System.out.println("加入render");
+			gameFrame.addRender(gameObject);
+
+
+			mutex_gameObjects.acquire();
+			gameObjects.add(gameObject);
+			mutex_gameObjects.release();
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
 
 	}
+
+	List<GameObject> gameObjects = new LinkedList<>();
+	Semaphore mutex_gameObjects = new Semaphore(1);
 
 
 	public GameScene(GameFrame gameFrame, GameEngine gameEngine) {
