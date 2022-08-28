@@ -4,6 +4,7 @@ import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
 import com.kekwy.tankwar.effect.Blast;
+import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
@@ -13,6 +14,16 @@ import java.util.List;
 import java.util.concurrent.Semaphore;
 
 public abstract class Tank extends GameObject {
+
+	boolean visible = true;
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public boolean isVisible() {
+		return visible;
+	}
 
 	public enum State {
 		STATE_IDLE,
@@ -56,9 +67,10 @@ public abstract class Tank extends GameObject {
 
 	@Override
 	public void collide(List<GameObject> gameObjects) {
+		boolean isCover = true;
+
 		for (GameObject gameObject : gameObjects) {
-			if (gameObject.getClass().equals(Bullet.class)) {
-				Bullet bullet = (Bullet) gameObject;
+			if (gameObject instanceof Bullet bullet) {
 				if (!bullet.getFrom().getClass().equals(this.getClass())) {
 					hp -= bullet.getAtk();
 					Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
@@ -71,11 +83,38 @@ public abstract class Tank extends GameObject {
 				((Tank) gameObject).setState(State.STATE_DIE);
 				Blast blast = Blast.createBlast(getParent(), this.position.getX(), this.position.getY());
 				getParent().addGameObject(blast);
+			} else if (gameObject instanceof MapTile mapTile) {
+				if (mapTile.getType() == MapTile.Type.TYPE_COVER) {
+					setVisible(false);
+					isCover = false;
+				} else {
+					int x1 = position.getX(), y1 = position.getY();
+					int x2 = mapTile.position.getX(), y2 = mapTile.position.getY();
+					if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+						if(x1 > x2) {
+							x1 = x2 + mapTile.getRadius() + this.getRadius() + 1;
+						} else {
+							x1 = x2 - mapTile.getRadius() - this.getRadius() - 1;
+						}
+					} else {
+						if(y1 > y2) {
+							y1 = y2 + mapTile.getRadius() + this.getRadius() + 1;
+						} else {
+							y1 = y2 - mapTile.getRadius() - this.getRadius() - 1;
+						}
+					}
+					this.position.setX(x1);
+					this.position.setY(y1);
+				}
 			}
 		}
 
 		if (hp <= 0) {
 			setState(State.STATE_DIE);
+		}
+
+		if (isCover) {
+			setVisible(true);
 		}
 
 	}
@@ -124,6 +163,7 @@ public abstract class Tank extends GameObject {
 	public void setMaxHp(int hp) {
 		this.maxHp = hp;
 	}
+
 	public int getAtk() {
 		return atk;
 	}
@@ -205,6 +245,7 @@ public abstract class Tank extends GameObject {
 		public static final int BAR_HEIGHT = 5;
 
 		public void render(Graphics g) {
+
 			int x = Tank.this.position.getX();
 			int y = Tank.this.position.getY();
 			// System.out.println("HPBar render");
@@ -222,6 +263,8 @@ public abstract class Tank extends GameObject {
 
 	@Override
 	public void render(Graphics g) {
+		if (!isVisible())
+			return;
 		hpBar.render(g);
 		g.setColor(color);
 		g.setFont(NAME_FONT);

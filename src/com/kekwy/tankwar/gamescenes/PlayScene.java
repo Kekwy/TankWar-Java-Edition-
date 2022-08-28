@@ -78,6 +78,7 @@ public class PlayScene extends GameScene {
 
 				if(EnemyTank.getCount() >= MAX_ENEMY_COUNT)
 				{
+					System.out.println("max");
 					continue;
 				}
 
@@ -151,6 +152,7 @@ public class PlayScene extends GameScene {
 		}
 		backGround.setActive(false);
 		sceneClear();
+		EnemyTank.setCount(0);
 		OverBackGround overBackGround = new OverBackGround(this);
 		addGameObject(overBackGround);
 	}

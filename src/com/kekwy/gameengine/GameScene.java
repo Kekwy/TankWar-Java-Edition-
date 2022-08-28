@@ -103,7 +103,11 @@ public abstract class GameScene {
 		return TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 + radius2)
 				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 - radius2)
 				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 + radius2)
-				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 - radius2);
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 + radius2);
 	}
 
 	private boolean rectCircleCollider(int x1, int y1, int radius1, int x2, int y2, int radius2) {
@@ -168,10 +172,8 @@ public abstract class GameScene {
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);
 					}
-					if (!colliders.isEmpty()) {
-						gameObject.collide(colliders);
-						colliders.clear();
-					}
+					gameObject.collide(colliders);
+					colliders.clear();
 				} else {
 					try {
 						mutex_doCollide.acquire();
@@ -309,7 +311,7 @@ public abstract class GameScene {
 	}
 
 	public int getDownBound() {
-		return frameHeight;
+		return frameHeight + gameFrame.getInsets().top;
 	}
 
 	public int getLeftBound() {

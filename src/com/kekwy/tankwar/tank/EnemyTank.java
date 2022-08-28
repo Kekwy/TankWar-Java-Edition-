@@ -25,6 +25,10 @@ public class EnemyTank extends Tank {
 
 	private int changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
 
+	public static void setCount(int i) {
+		count = i;
+	}
+
 	@Override
 	public void fixedUpdate() {
 		super.fixedUpdate();
