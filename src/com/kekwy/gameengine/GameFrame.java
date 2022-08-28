@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-public class GameFrame extends Frame {
+public final class GameFrame extends Frame {
 
 	GameScene gameScene;
 

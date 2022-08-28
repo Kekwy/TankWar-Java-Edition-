@@ -61,7 +61,7 @@ public abstract class Tank extends GameObject {
 				Bullet bullet = (Bullet) gameObject;
 				if (!bullet.getFrom().getClass().equals(this.getClass())) {
 					hp -= bullet.getAtk();
-					Blast blast = Blast.createBlast(getParent(), this.position.getX(), this.position.getY());
+					Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
 					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				}
@@ -69,6 +69,8 @@ public abstract class Tank extends GameObject {
 				this.hp = 0;
 				((Tank) gameObject).setHp(0);
 				((Tank) gameObject).setState(State.STATE_DIE);
+				Blast blast = Blast.createBlast(getParent(), this.position.getX(), this.position.getY());
+				getParent().addGameObject(blast);
 			}
 		}
 

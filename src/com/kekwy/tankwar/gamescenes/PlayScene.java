@@ -5,6 +5,7 @@ import com.kekwy.gameengine.GameFrame;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
+import com.kekwy.tankwar.gamemap.GameMap;
 import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.tank.Tank;
@@ -18,9 +19,9 @@ public class PlayScene extends GameScene {
 
 
 	private static final String GAME_TITLE = "坦克大战v1.0.0 by kekwy - 单人游戏";
-	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 540;
+	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 560;
 
-	static class BackGround extends GameObject {
+	class BackGround extends GameObject {
 
 		public BackGround(GameScene parent) {
 			super(parent);
@@ -32,7 +33,7 @@ public class PlayScene extends GameScene {
 		@Override
 		public void render(Graphics g) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+			g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
 		}
 	}
 
@@ -56,6 +57,8 @@ public class PlayScene extends GameScene {
 		setLocation();
 
 		backGround = new BackGround(this);
+
+		GameMap.createGameMap(this, "./map/level1.xlsx");
 
 		new PlayerTank(this, 200, 400, Direction.DIR_UP, "Player1");
 

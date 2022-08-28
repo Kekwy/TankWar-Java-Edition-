@@ -15,7 +15,7 @@ public class MainMenuScene extends GameScene {
 
 	private static final Font GAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 24);
 	private static final String GAME_TITLE = "坦克大战v1.0.0 by kekwy - 主界面";
-	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 540;
+	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 560;
 
 
 	/**
@@ -47,7 +47,7 @@ public class MainMenuScene extends GameScene {
 		@Override
 		public void render(Graphics g) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
+			g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
 
 			g.setFont(GAME_FONT);
 			final int STR_WIDTH = 70;

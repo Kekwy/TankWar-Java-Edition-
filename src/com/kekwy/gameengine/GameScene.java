@@ -384,7 +384,7 @@ public abstract class GameScene {
 	protected void setSize(int width, int height) {
 		frameWidth = width;
 		frameHeight = height;
-		gameFrame.setSize(width, height);
+		gameFrame.setSize(width, height + gameFrame.getInsets().top);
 		blockX = width / BLOCK_WIDTH + 1;
 	}
 

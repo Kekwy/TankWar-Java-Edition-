@@ -1,6 +1,15 @@
 package com.kekwy.tankwar.util;
 
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import java.awt.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 public class TankWarUtil {
 	private TankWarUtil() {
@@ -48,4 +57,35 @@ public class TankWarUtil {
 	public static Image createImage(String path) {
 		return Toolkit.getDefaultToolkit().createImage(TankWarUtil.class.getResource(path));
 	}
+
+	public static int[][] readWorkBook(String filepath, int rowFrom, int colFrom, int rowN, int colN, int sheetIndex) {
+		int[][] content = new int[rowN][colN];
+
+		Workbook workbook = null;
+		String suffix = filepath.substring(filepath.lastIndexOf('.'));
+		try {
+			if (suffix.equals(".xlsx")) {
+
+				workbook = new XSSFWorkbook(new FileInputStream(filepath));//Excel 2007
+			} else if (suffix.equals(".xls")) {
+				workbook = new HSSFWorkbook(new FileInputStream(filepath));//Excel 2003
+			} else {
+				// System.out.println("目标文件不是合法的Excel文件");
+				System.exit(-2);
+			}
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		Sheet sheet = workbook.getSheetAt(sheetIndex);
+		for (int i = 0; i < rowN; i++) {
+			Row row = sheet.getRow(i+ rowFrom);
+			for (int j = 0; j < colN; j++) {
+				Cell cell = row.getCell(j + colFrom);
+				content[i][j] = Double.valueOf(cell.getNumericCellValue()).intValue();
+			}
+		}
+
+		return content;
+	}
+
 }
