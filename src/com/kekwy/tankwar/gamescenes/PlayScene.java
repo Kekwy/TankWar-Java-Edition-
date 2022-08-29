@@ -6,15 +6,21 @@ import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
 import com.kekwy.tankwar.gamemap.GameMap;
+import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
 
+import java.applet.Applet;
+import java.applet.AudioClip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.net.MalformedURLException;
 
+@SuppressWarnings("removal")
 public class PlayScene extends GameScene {
 
 
@@ -42,6 +48,7 @@ public class PlayScene extends GameScene {
 	BackGround backGround;
 
 	boolean gaming = false;
+
 	public PlayScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
 
@@ -60,6 +67,17 @@ public class PlayScene extends GameScene {
 
 		GameMap.createGameMap(this, "./map/level1.xlsx");
 
+		try {
+			audioClip = Applet.newAudioClip(new File("/res/start.wav").toURL());
+
+			audioClip.play();
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+
+
+
+		// audioClip.loop();
 		new PlayerTank(this, 200, 400, Direction.DIR_UP, "Player1");
 
 		setActive();
@@ -76,8 +94,7 @@ public class PlayScene extends GameScene {
 					throw new RuntimeException(e);
 				}
 
-				if(EnemyTank.getCount() >= MAX_ENEMY_COUNT)
-				{
+				if (EnemyTank.getCount() >= MAX_ENEMY_COUNT) {
 					System.out.println("max");
 					continue;
 				}
@@ -105,12 +122,12 @@ public class PlayScene extends GameScene {
 	public static final int BORN_ENEMY_INTERVAL = 5000;
 
 
-
-	class OverBackGround extends GameObject{
+	class OverBackGround extends GameObject {
 
 		static Image overImg = null;
 		public static final Font OVER_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
 		public static final String OVER_NOTICE = new String("按Enter键继续...");
+
 		public OverBackGround(GameScene parent) {
 			super(parent);
 			setLayer(2);
@@ -137,13 +154,17 @@ public class PlayScene extends GameScene {
 
 		@Override
 		public void keyReleasedEvent(int keyCode) {
-			if(keyCode == KeyEvent.VK_ENTER) {
+			if (keyCode == KeyEvent.VK_ENTER) {
 				PlayScene.this.setInactive(0);
 			}
 		}
 	}
 
+	public static AudioClip audioClip;
+
+
 	public void gameOver() {
+		// audioClip.stop();
 		gaming = false;
 		try {
 			game.join();
@@ -152,6 +173,7 @@ public class PlayScene extends GameScene {
 		}
 		backGround.setActive(false);
 		sceneClear();
+		MapTile.base = 2;
 		EnemyTank.setCount(0);
 		OverBackGround overBackGround = new OverBackGround(this);
 		addGameObject(overBackGround);

@@ -9,13 +9,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.28 实现完全自定义地图">
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.28 坦克与地图的碰撞检测，草地隐藏坦克">
+      <change afterPath="$PROJECT_DIR$/lib/jlayer-1.0.1.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/gameBGM.wav" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/res/gameBgm.mp3" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/AudioPlayer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map/level1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/map/level1.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -44,19 +46,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/Javaproj/TankWar/res&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;project.scopes&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "last_opened_file_path": "F:/Javaproj/TankWar/res",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="TankWar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.tankwar.TankWar" />
@@ -282,7 +284,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661671151280</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="8.28 坦克与地图的碰撞检测，草地隐藏坦克">
+      <created>1661682049585</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1661682049585</updated>
+    </task>
+    <option name="localTasksCounter" value="30" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -310,7 +319,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="8.14 四向移动" />
     <MESSAGE value="8.14 子弹发射" />
     <MESSAGE value="8.14 子弹发射&amp;子弹对象池" />
     <MESSAGE value="8.15 敌人移动&amp;攻击" />
@@ -335,12 +343,18 @@
     <MESSAGE value="8.27 实现游戏结束并重新开始" />
     <MESSAGE value="8.27 修复了场景切换的bug（由playerTank中多次创建等待线程，导致多次调用游戏结束方法所导致）" />
     <MESSAGE value="8.28 实现完全自定义地图" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.28 实现完全自定义地图" />
+    <MESSAGE value="8.28 坦克与地图的碰撞检测，草地隐藏坦克" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.28 坦克与地图的碰撞检测，草地隐藏坦克" />
   </component>
   <component name="XDebuggerManager">
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="javax.sound.sampled.AudioFormat" memberName="sampleRate" />
+      </pinned-members>
+    </pin-to-top-manager>
     <watches-manager>
       <configuration name="Application">
-        <watch expression="((NonfairSync)mutex_reader.sync).head" custom="java.util.concurrent.Semaphore.NonfairSync" />
+        <watch expression="((NonfairSync)mutex_reader.sync).head" language="JAVA" custom="java.util.concurrent.Semaphore.NonfairSync" />
       </configuration>
     </watches-manager>
   </component>

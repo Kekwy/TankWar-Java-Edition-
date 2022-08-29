@@ -92,15 +92,15 @@ public abstract class Tank extends GameObject {
 					int x2 = mapTile.position.getX(), y2 = mapTile.position.getY();
 					if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
 						if(x1 > x2) {
-							x1 = x2 + mapTile.getRadius() + this.getRadius() + 1;
+							x1 = x2 + mapTile.getRadius() + this.getRadius();
 						} else {
-							x1 = x2 - mapTile.getRadius() - this.getRadius() - 1;
+							x1 = x2 - mapTile.getRadius() - this.getRadius();
 						}
 					} else {
 						if(y1 > y2) {
-							y1 = y2 + mapTile.getRadius() + this.getRadius() + 1;
+							y1 = y2 + mapTile.getRadius() + this.getRadius();
 						} else {
-							y1 = y2 - mapTile.getRadius() - this.getRadius() - 1;
+							y1 = y2 - mapTile.getRadius() - this.getRadius();
 						}
 					}
 					this.position.setX(x1);

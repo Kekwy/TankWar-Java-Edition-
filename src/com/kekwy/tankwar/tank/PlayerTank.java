@@ -26,7 +26,7 @@ public class PlayerTank extends Tank {
 			if(waiting == null) {
 				waiting = new Thread(() -> {
 					try {
-						Thread.sleep(1500);
+						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);
 					}

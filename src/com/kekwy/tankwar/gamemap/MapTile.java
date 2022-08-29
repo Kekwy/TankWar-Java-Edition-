@@ -3,6 +3,7 @@ package com.kekwy.tankwar.gamemap;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 import com.kekwy.tankwar.effect.Blast;
+import com.kekwy.tankwar.gamescenes.PlayScene;
 import com.kekwy.tankwar.tank.Bullet;
 import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.TankWarUtil;
@@ -47,6 +48,7 @@ public class MapTile extends GameObject {
 		parent.addGameObject(this);
 	}
 
+	public static int base = 2;
 
 	@Override
 	public void collide(List<GameObject> gameObjects) {
@@ -63,6 +65,10 @@ public class MapTile extends GameObject {
 		}
 		if (hp <= 0) {
 			setActive(false);
+			if(type == Type.TYPE_BASE)
+				base--;
+			if(base==0)
+				((PlayScene)getParent()).gameOver();
 		}
 	}
 
