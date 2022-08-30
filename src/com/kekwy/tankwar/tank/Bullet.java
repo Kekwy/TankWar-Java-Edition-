@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class Bullet extends GameObject {
 
-	public static final int DEFAULT_BULLET_SPEED = 6;
+	private static int BULLET_SPEED = 6;
 	public static final int DEFAULT_BULLET_RADIUS = 4;
 
 	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 100);
@@ -20,11 +20,11 @@ public class Bullet extends GameObject {
 		return speed;
 	}
 
-	public void setSpeed(int speed) {
-		this.speed = speed;
+	public static void setSpeed(int speed) {
+		BULLET_SPEED = speed;
 	}
 
-	private int speed = DEFAULT_BULLET_SPEED;
+	private int speed = BULLET_SPEED;
 
 
 	// private final int radius = DEFAULT_BULLET_RADIUS;
@@ -45,6 +45,7 @@ public class Bullet extends GameObject {
 		bullet.setForward(forward);
 		bullet.setFrom(from);
 		bullet.setActive(true);
+		bullet.speed = BULLET_SPEED;
 		return bullet;
 	}
 

@@ -164,6 +164,9 @@ public abstract class Tank extends GameObject {
 	}
 
 	public void setMaxHp(int hp) {
+		if(this.hp > hp) {
+			this.hp = hp;
+		}
 		this.maxHp = hp;
 	}
 

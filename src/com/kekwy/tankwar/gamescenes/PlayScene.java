@@ -5,7 +5,7 @@ import com.kekwy.gameengine.GameFrame;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
-import com.kekwy.tankwar.gamemap.GameMap;
+import com.kekwy.tankwar.TankWar;
 import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.PlayerTank;
@@ -17,38 +17,42 @@ import javafx.scene.media.AudioClip;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.net.MalformedURLException;
 import java.util.Objects;
 
 
+/**
+ * 游戏进行时的场景
+ */
 public class PlayScene extends GameScene {
-
-
-	private static final String GAME_TITLE = "坦克大战v1.0.0 by kekwy - 单人游戏";
+	/**
+	 * 当前场景的窗口标题
+	 */
+	private static final String GAME_TITLE = "坦克大战v2.0 by kekwy - 单人游戏";
+	/**
+	 * 当前场景的窗口大小
+	 */
 	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 560;
 
-	class BackGround extends GameObject {
 
-		public BackGround(GameScene parent) {
-			super(parent);
-			setLayer(0);
-			setActive(true);
-			parent.addGameObject(this);
-		}
+	/**
+	 * 游戏进行时用于生成敌方坦克的线程
+	 */
+	Thread gameThread;
 
-		@Override
-		public void render(Graphics g) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
-		}
-	}
-
-
-	Thread game;
+	/**
+	 * 游戏背景对象
+	 */
 	BackGround backGround;
 
-	boolean gaming = false;
+	/**
+	 * 游戏时背景音乐
+	 */
+	public static AudioClip audioClip;
+
+	/**
+	 * 判断游戏是否正在进行
+	 */
+	boolean isActive;
 
 	public PlayScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
@@ -66,7 +70,7 @@ public class PlayScene extends GameScene {
 
 		backGround = new BackGround(this);
 
-		GameMap.createGameMap(this, "./map/level1.xlsx");
+		// GameMap.createGameMap(this, "./maps/level1.xlsx");
 
 		audioClip = new AudioClip(Objects.requireNonNull(PlayScene.class.getResource("/gameBGM1.wav")).toString());
 
@@ -77,50 +81,78 @@ public class PlayScene extends GameScene {
 
 
 		// audioClip.loop();
-		new PlayerTank(this, 200, 400, Direction.DIR_UP, "Player1");
+		Tank player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
 
 		setActive();
 
-		gaming = true;
-		// 定时生成敌人
-		game = new Thread(() -> {
-			int enemyCount = 1, spawnX;
+		TankWar.levels[0].setParent(this);
+		TankWar.levels[0].setPlayer(player);
+		TankWar.levels[0].start();
 
-			while (gaming) {
-				try {
-					Thread.sleep(BORN_ENEMY_INTERVAL);
-				} catch (InterruptedException e) {
-					throw new RuntimeException(e);
-				}
-
-				if (EnemyTank.getCount() >= MAX_ENEMY_COUNT) {
-					System.out.println("max");
-					continue;
-				}
-
-				int number = TankWarUtil.getRandomNumber(0, 2);
-				if (number == 0) {
-					spawnX = getLeftBound() + Tank.DEFAULT_RADIUS + 6;
-				} else {
-					spawnX = getRightBound() - Tank.DEFAULT_RADIUS - 6;
-				}
-
-				Tank enemyTank = EnemyTank.createEnemyTank(this, spawnX,
-						getUpBound() + Tank.DEFAULT_RADIUS, "Enemy" + enemyCount);
-
-				enemyCount++;
-
-				addGameObject(enemyTank);
-
-			}
-		});
-		game.start();
 	}
 
 	public static final int MAX_ENEMY_COUNT = 10;
 	public static final int BORN_ENEMY_INTERVAL = 5000;
 
 
+
+
+
+	public void levelPass() {
+
+	}
+	/**
+	 * 用于设置游戏结束的方法
+	 */
+	public void gameOver() {
+		audioClip.stop();
+
+		// audioClip.isPlaying();
+
+		isActive = false;
+		try {
+			gameThread.join();
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+		backGround.setActive(false);
+		sceneClear();
+		MapTile.base = 2;
+		EnemyTank.setCount(0);
+		OverBackGround overBackGround = new OverBackGround(this);
+		addGameObject(overBackGround);
+	}
+
+
+	/**
+	 * 关卡类，每一关对应该类的一个对象
+	 */
+	class level extends Thread {
+
+	}
+
+	/**
+	 * 用于渲染背景的内部类
+	 */
+	class BackGround extends GameObject {
+
+		public BackGround(GameScene parent) {
+			super(parent);
+			setLayer(0);
+			setActive(true);
+			parent.addGameObject(this);
+		}
+
+		@Override
+		public void render(Graphics g) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
+		}
+	}
+
+	/**
+	 * 用于渲染游戏结束画面的内部类
+	 */
 	class OverBackGround extends GameObject {
 
 		static Image overImg = null;
@@ -154,28 +186,9 @@ public class PlayScene extends GameScene {
 		@Override
 		public void keyReleasedEvent(int keyCode) {
 			if (keyCode == KeyEvent.VK_ENTER) {
-				PlayScene.this.setInactive(0);
+				PlayScene.this.setInactive(TankWar.INDEX_MAIN_MENU);
 			}
 		}
-	}
-
-	public static AudioClip audioClip;
-
-
-	public void gameOver() {
-		audioClip.stop();
-		gaming = false;
-		try {
-			game.join();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		backGround.setActive(false);
-		sceneClear();
-		MapTile.base = 2;
-		EnemyTank.setCount(0);
-		OverBackGround overBackGround = new OverBackGround(this);
-		addGameObject(overBackGround);
 	}
 
 }

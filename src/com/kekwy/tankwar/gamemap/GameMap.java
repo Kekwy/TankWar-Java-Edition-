@@ -5,16 +5,19 @@ import com.kekwy.tankwar.util.TankWarUtil;
 
 public class GameMap {
 
-	private GameMap() {
+	int[][] mapData;
+
+	public GameMap(String filePath) {
+		mapData = TankWarUtil.readWorkBook(filePath, 1, 1,
+				GAME_MAP_ROW, GAME_MAP_COL, 0);
 	}
 
 	public static final int GAME_MAP_ROW = 14;
 	public static final int GAME_MAP_COL = 24;
 
-	public static void createGameMap(GameScene parent, String filePath) {
 
-		int[][] mapData = TankWarUtil.readWorkBook(filePath, 1, 1,
-				GAME_MAP_ROW, GAME_MAP_COL, 0);
+
+	public void createGameMap(GameScene parent) {
 
 		for (int i = 0; i < mapData.length; i++) {
 			int[] mapDatum = mapData[i];
@@ -31,6 +34,5 @@ public class GameMap {
 		}
 
 	}
-
 
 }

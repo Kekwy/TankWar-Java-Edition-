@@ -8,8 +8,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.awt.*;
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Properties;
 
 public class TankWarUtil {
 	private TankWarUtil() {
@@ -88,4 +91,22 @@ public class TankWarUtil {
 		return content;
 	}
 
+	public static Properties loadProperties(String filepath) {
+		BufferedInputStream bis = null;
+		try {
+			bis = new BufferedInputStream(
+					new FileInputStream(filepath));
+		} catch (FileNotFoundException e) {
+			System.out.println("未找到配置文件：./game.properties");
+			throw new RuntimeException(e);
+		}
+		Properties props = new Properties();
+		try {
+			props.load(bis);
+		} catch (IOException e) {
+			System.out.println("配置文件载入失败");
+			throw new RuntimeException(e);
+		}
+		return props;
+	}
 }
