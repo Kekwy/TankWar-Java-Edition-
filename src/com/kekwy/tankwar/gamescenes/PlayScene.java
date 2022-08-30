@@ -12,15 +12,16 @@ import com.kekwy.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
+import javafx.scene.media.AudioClip;
 
-import java.applet.Applet;
-import java.applet.AudioClip;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.util.Objects;
 
-@SuppressWarnings("removal")
+
 public class PlayScene extends GameScene {
 
 
@@ -67,13 +68,11 @@ public class PlayScene extends GameScene {
 
 		GameMap.createGameMap(this, "./map/level1.xlsx");
 
-		try {
-			audioClip = Applet.newAudioClip(new File("/res/start.wav").toURL());
+		audioClip = new AudioClip(Objects.requireNonNull(PlayScene.class.getResource("/gameBGM1.wav")).toString());
 
-			audioClip.play();
-		} catch (MalformedURLException e) {
-			throw new RuntimeException(e);
-		}
+		audioClip.setCycleCount(9999999);
+
+		audioClip.play(0.5);
 
 
 
@@ -164,7 +163,7 @@ public class PlayScene extends GameScene {
 
 
 	public void gameOver() {
-		// audioClip.stop();
+		audioClip.stop();
 		gaming = false;
 		try {
 			game.join();

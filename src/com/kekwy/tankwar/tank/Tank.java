@@ -7,6 +7,7 @@ import com.kekwy.tankwar.effect.Blast;
 import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.TankWarUtil;
+import javafx.scene.media.AudioClip;
 
 import java.awt.*;
 import java.util.LinkedList;
@@ -72,12 +73,14 @@ public abstract class Tank extends GameObject {
 		for (GameObject gameObject : gameObjects) {
 			if (gameObject instanceof Bullet bullet) {
 				if (!bullet.getFrom().getClass().equals(this.getClass())) {
+					audioClip.play();
 					hp -= bullet.getAtk();
 					Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
 					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				}
 			} else if (gameObject instanceof Tank && !gameObject.getClass().equals(this.getClass())) {
+				audioClip.play();
 				this.hp = 0;
 				((Tank) gameObject).setHp(0);
 				((Tank) gameObject).setState(State.STATE_DIE);
@@ -271,5 +274,8 @@ public abstract class Tank extends GameObject {
 		g.drawString(name, position.getX() - getRadius(), position.getY() - getRadius() - 14);
 
 	}
+
+
+	static AudioClip audioClip = new AudioClip(Tank.class.getResource("/fire.wav").toString());
 
 }
