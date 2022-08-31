@@ -9,21 +9,21 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.29 音效添加完成，解决导出jar包找不到依赖类的问题">
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/levels/level1.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/levels/level2.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/maps/level2.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" afterDir="false" />
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.properties" beforeDir="false" afterPath="$PROJECT_DIR$/game.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/map/level1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/maps/level1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level1.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level2.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/fire.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/gameBGM.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/gameBGM1.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/hit.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/start.wav" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,19 +51,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "last_opened_file_path": "F:/Javaproj/TankWar/maps",
-    "project.structure.last.edited": "工件",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "File.Encoding"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;F:/Javaproj/TankWar/maps&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;工件&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\Javaproj\TankWar\maps" />
@@ -315,7 +315,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661840162058</updated>
     </task>
-    <option name="localTasksCounter" value="32" />
+    <task id="LOCAL-00032" summary="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象">
+      <created>1661872940710</created>
+      <option name="number" value="00032" />
+      <option name="presentableId" value="LOCAL-00032" />
+      <option name="project" value="LOCAL" />
+      <updated>1661872940710</updated>
+    </task>
+    <option name="localTasksCounter" value="33" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -343,7 +350,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="8.15 敌人移动&amp;攻击" />
     <MESSAGE value="8.16 敌人坦克死亡" />
     <MESSAGE value="8.16 游戏结束机制并修复使用对象池导致的爆炸&amp;子弹的显示bug" />
     <MESSAGE value="8.16 地图类" />
@@ -368,7 +374,8 @@
     <MESSAGE value="8.28 坦克与地图的碰撞检测，草地隐藏坦克" />
     <MESSAGE value="8.29 尝试了一系列的音频播放操作后选择了javaFX，开始将项目提升至JavaFX" />
     <MESSAGE value="8.29 音效添加完成，解决导出jar包找不到依赖类的问题" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.29 音效添加完成，解决导出jar包找不到依赖类的问题" />
+    <MESSAGE value="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

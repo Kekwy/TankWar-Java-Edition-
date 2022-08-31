@@ -6,17 +6,46 @@ import com.kekwy.gameengine.GameScene;
 import com.kekwy.tankwar.gamescenes.*;
 import com.kekwy.tankwar.level.Level;
 import com.kekwy.tankwar.util.TankWarUtil;
+import javafx.scene.media.AudioClip;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 
 public class TankWar extends GameEntry {
 
+	public static final AudioClip gameBGM0 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM0.mp3")).toString());
+	public static final AudioClip gameBGM1 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM1.mp3")).toString());
+	public static final AudioClip gameBGM2 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM2.mp3")).toString());
+	public static final AudioClip gameBGM3 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM3.mp3")).toString());
+	public static final AudioClip gameBGM4 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM4.mp3")).toString());
+	public static final AudioClip passBGM =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/passBGM.mp3")).toString());
+	public static final AudioClip endBGM0 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/endBGM0.mp3")).toString());
+	public static final AudioClip endBGM1 =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/endBGM1.mp3")).toString());
+	public static final AudioClip hitSound =
+			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/sound/hit.wav")).toString());
+
+	public static final List<AudioClip> pve1BGM = new ArrayList<>();
+	public static final List<AudioClip> pve2BGM = new ArrayList<>();
+	public static final List<AudioClip> pvpBGM = new ArrayList<>();
+	public static final List<AudioClip> bossBGM = new ArrayList<>();
+
+	static {
+		pve1BGM.add(gameBGM0);
+		pve2BGM.add(gameBGM3);
+		pvpBGM.add(gameBGM4);
+		bossBGM.add(gameBGM1);
+		bossBGM.add(gameBGM2);
+	}
 
 	public static final String PLAYER_NAME;
 	public static final String PASSWORD;

@@ -1,13 +1,16 @@
 package com.kekwy.tankwar.level;
 
-import com.kekwy.gameengine.GameScene;
+import com.kekwy.tankwar.TankWar;
 import com.kekwy.tankwar.gamemap.GameMap;
 import com.kekwy.tankwar.gamescenes.PlayScene;
 import com.kekwy.tankwar.tank.Bullet;
 import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.TankWarUtil;
+import javafx.scene.media.AudioClip;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class Level extends Thread {
@@ -24,6 +27,8 @@ public class Level extends Thread {
 	private final int PLAYER_ATK;
 	private final int BULLET_SPEED;
 	private final boolean RECOVER;
+	private final List<AudioClip> bgmList = new ArrayList<>();
+	private final boolean isFinalLevel;
 	private PlayScene parent;
 
 	public Level(String levelConfigFile) {
@@ -41,6 +46,7 @@ public class Level extends Thread {
 		PLAYER_ATK = Integer.parseInt(props.getProperty("player_atk"));
 		BULLET_SPEED = Integer.parseInt(props.getProperty("bullet_speed"));
 		RECOVER = Boolean.parseBoolean(props.getProperty("recover"));
+		isFinalLevel = Boolean.parseBoolean(props.getProperty("final_level", "false"));
 	}
 
 	public void setParent(PlayScene parent) {
@@ -64,6 +70,15 @@ public class Level extends Thread {
 	public void run() {
 		active = true;
 
+		if (!bgmList.isEmpty()) {
+			parent.gameBGM.load(bgmList);
+		} else if (isFinalLevel){
+			parent.gameBGM.load(TankWar.bossBGM);
+		} else {
+			parent.gameBGM.load(TankWar.pve1BGM);
+		}
+		parent.gameBGM.play();
+
 		try {
 			GAME_MAP.createGameMap(parent);
 		} catch (NullPointerException e) {
@@ -75,6 +90,7 @@ public class Level extends Thread {
 			player.setMaxHp(PLAYER_HP);
 			player.setSpeed(PLAYER_SPEED);
 			player.setAtk(PLAYER_ATK);
+			player.setState(Tank.State.STATE_IDLE);
 			if (RECOVER) {
 				player.setHp(PLAYER_HP);
 			}
@@ -110,11 +126,31 @@ public class Level extends Thread {
 					parent.getUpBound() + Tank.DEFAULT_RADIUS, "Enemy" + enemyCount);
 
 			enemyTank.setMaxHp(ENEMY_HP);
+			enemyTank.setHp(ENEMY_HP);
 			enemyTank.setSpeed(ENEMY_SPEED);
 			enemyTank.setAtk(ENEMY_ATK);
 
 			enemyCount++;
 			parent.addGameObject(enemyTank);
+		}
+
+		if (active) {
+			synchronized (EnemyTank.class) {
+				try {
+					EnemyTank.class.wait();
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+		}
+
+		if (active) {
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
+			}
+			parent.levelPassed();
 		}
 
 	}

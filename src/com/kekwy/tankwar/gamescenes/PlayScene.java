@@ -6,6 +6,7 @@ import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
 import com.kekwy.tankwar.TankWar;
+import com.kekwy.tankwar.effect.Player;
 import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.tank.EnemyTank;
 import com.kekwy.tankwar.tank.PlayerTank;
@@ -17,13 +18,15 @@ import javafx.scene.media.AudioClip;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.util.Objects;
 
 
 /**
  * 游戏进行时的场景
  */
 public class PlayScene extends GameScene {
+
+	public final Player gameBGM = new Player();
+
 	/**
 	 * 当前场景的窗口标题
 	 */
@@ -34,10 +37,6 @@ public class PlayScene extends GameScene {
 	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 560;
 
 
-	/**
-	 * 游戏进行时用于生成敌方坦克的线程
-	 */
-	Thread gameThread;
 
 	/**
 	 * 游戏背景对象
@@ -49,10 +48,7 @@ public class PlayScene extends GameScene {
 	 */
 	public static AudioClip audioClip;
 
-	/**
-	 * 判断游戏是否正在进行
-	 */
-	boolean isActive;
+
 
 	public PlayScene(GameFrame gameFrame, GameEngine gameEngine) {
 		super(gameFrame, gameEngine);
@@ -72,49 +68,52 @@ public class PlayScene extends GameScene {
 
 		// GameMap.createGameMap(this, "./maps/level1.xlsx");
 
-		audioClip = new AudioClip(Objects.requireNonNull(PlayScene.class.getResource("/gameBGM1.wav")).toString());
 
-		audioClip.setCycleCount(9999999);
-
-		audioClip.play(0.5);
-
-
+		//TODO 关卡跳转
+		// server
 
 		// audioClip.loop();
-		Tank player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
+		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
+
+		levelCount = TankWar.levels.length;
 
 		setActive();
 
-		TankWar.levels[0].setParent(this);
-		TankWar.levels[0].setPlayer(player);
-		TankWar.levels[0].start();
+
+		TankWar.levels[currentLevel].setParent(this);
+		TankWar.levels[currentLevel].setPlayer(player);
+		TankWar.levels[currentLevel].start();
 
 	}
-
-	public static final int MAX_ENEMY_COUNT = 10;
-	public static final int BORN_ENEMY_INTERVAL = 5000;
+	Tank player;
 
 
+	AudioClip audioPassLevel = TankWar.passBGM;
 
+	PassNotice passNotice = new PassNotice(this);
 
-
-	public void levelPass() {
-
+	public void levelPassed() {
+		System.out.println("Pass!");
+		player.setState(Tank.State.STATE_DIE);
+		audioClip.stop();
+		audioPassLevel.play(0.5);
+		passNotice.setActive(true);
+		addGameObject(passNotice);
 	}
+
 	/**
 	 * 用于设置游戏结束的方法
 	 */
 	public void gameOver() {
+		TankWar.levels[0].setActive(false);
+		while (TankWar.levels[0].isAlive()) {
+			EnemyTank.class.notify();
+		}
+
 		audioClip.stop();
 
 		// audioClip.isPlaying();
 
-		isActive = false;
-		try {
-			gameThread.join();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 		backGround.setActive(false);
 		sceneClear();
 		MapTile.base = 2;
@@ -123,12 +122,44 @@ public class PlayScene extends GameScene {
 		addGameObject(overBackGround);
 	}
 
+	int currentLevel = 0;
+
+	int levelCount;
+
+	boolean isWin = false;
 
 	/**
-	 * 关卡类，每一关对应该类的一个对象
+	 * 用于展示过关后关卡底部“黑框”的内部类
 	 */
-	class level extends Thread {
+	class PassNotice extends GameObject {
 
+		public PassNotice(GameScene parent) {
+			super(parent);
+			this.setLayer(2);
+		}
+
+		@Override
+		public void render(Graphics g) {
+			g.setColor(Color.BLACK);
+			g.fillRect(0, FRAME_HEIGHT / 4 * 3 + getUpBound(), FRAME_WIDTH, FRAME_HEIGHT / 4);
+		}
+
+
+		@Override
+		public void keyPressedEvent(int keyCode) {
+			if (keyCode != KeyEvent.VK_ENTER)
+				return;
+			this.setActive(false);
+			currentLevel++;
+			if (currentLevel == levelCount) {
+				isWin = true;
+			} else {
+				audioPassLevel.stop();
+				TankWar.levels[currentLevel].setParent(PlayScene.this);
+				TankWar.levels[currentLevel].setPlayer(player);
+				TankWar.levels[currentLevel].start();
+			}
+		}
 	}
 
 	/**
@@ -157,7 +188,7 @@ public class PlayScene extends GameScene {
 
 		static Image overImg = null;
 		public static final Font OVER_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
-		public static final String OVER_NOTICE = new String("按Enter键继续...");
+		public static final String OVER_NOTICE = "按Enter键继续...";
 
 		public OverBackGround(GameScene parent) {
 			super(parent);
@@ -192,3 +223,12 @@ public class PlayScene extends GameScene {
 	}
 
 }
+
+// TODO：音频类重构
+// TODO：过关提示文字
+// TODO：玩家生成坐标
+// TODO：彩蛋关卡
+// TODO：其他游戏场景
+// TODO：双人协同作战
+// TODO：四人混战
+// TODO：简单的寻路AI

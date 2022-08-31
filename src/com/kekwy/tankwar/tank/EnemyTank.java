@@ -39,6 +39,11 @@ public class EnemyTank extends Tank {
 				throw new RuntimeException(e);
 			}
 			count--;
+			if (count == 0) {
+				synchronized (EnemyTank.class) {
+					EnemyTank.class.notify();
+				}
+			}
 			mutex_count.release();
 			setActive(false);
 			tankPool.returnObject(this);

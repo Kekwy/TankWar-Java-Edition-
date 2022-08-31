@@ -3,6 +3,7 @@ package com.kekwy.tankwar.tank;
 import com.kekwy.gameengine.GameObject;
 import com.kekwy.gameengine.GameScene;
 
+import com.kekwy.tankwar.TankWar;
 import com.kekwy.tankwar.effect.Blast;
 import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.util.Direction;
@@ -10,9 +11,7 @@ import com.kekwy.tankwar.util.TankWarUtil;
 import javafx.scene.media.AudioClip;
 
 import java.awt.*;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.Semaphore;
 
 public abstract class Tank extends GameObject {
 
@@ -73,14 +72,14 @@ public abstract class Tank extends GameObject {
 		for (GameObject gameObject : gameObjects) {
 			if (gameObject instanceof Bullet bullet) {
 				if (!bullet.getFrom().getClass().equals(this.getClass())) {
-					audioClip.play();
+					hitSound.play();
 					hp -= bullet.getAtk();
 					Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
 					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				}
 			} else if (gameObject instanceof Tank && !gameObject.getClass().equals(this.getClass())) {
-				audioClip.play();
+				hitSound.play();
 				this.hp = 0;
 				((Tank) gameObject).setHp(0);
 				((Tank) gameObject).setState(State.STATE_DIE);
@@ -279,6 +278,6 @@ public abstract class Tank extends GameObject {
 	}
 
 
-	static AudioClip audioClip = new AudioClip(Tank.class.getResource("/fire.wav").toString());
+	static AudioClip hitSound = TankWar.hitSound;
 
 }
