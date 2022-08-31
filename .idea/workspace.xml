@@ -9,21 +9,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象">
+    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="8.31 音频类完成，实现列表循环播放。">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level1.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level2.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/fire.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/gameBGM.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/gameBGM1.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/hit.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/start.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/gameBgm.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/AudioPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -322,7 +319,14 @@
       <option name="project" value="LOCAL" />
       <updated>1661872940710</updated>
     </task>
-    <option name="localTasksCounter" value="33" />
+    <task id="LOCAL-00033" summary="8.31 音频类完成，实现列表循环播放。">
+      <created>1661948547787</created>
+      <option name="number" value="00033" />
+      <option name="presentableId" value="LOCAL-00033" />
+      <option name="project" value="LOCAL" />
+      <updated>1661948547787</updated>
+    </task>
+    <option name="localTasksCounter" value="34" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -350,8 +354,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="8.16 敌人坦克死亡" />
-    <MESSAGE value="8.16 游戏结束机制并修复使用对象池导致的爆炸&amp;子弹的显示bug" />
     <MESSAGE value="8.16 地图类" />
     <MESSAGE value="8.18 基地的生成" />
     <MESSAGE value="8.21 开始重构" />
@@ -375,7 +377,9 @@
     <MESSAGE value="8.29 尝试了一系列的音频播放操作后选择了javaFX，开始将项目提升至JavaFX" />
     <MESSAGE value="8.29 音效添加完成，解决导出jar包找不到依赖类的问题" />
     <MESSAGE value="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象" />
-    <option name="LAST_COMMIT_MESSAGE" value="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象" />
+    <MESSAGE value="8.31 音频类完成，支持列表循环播放。" />
+    <MESSAGE value="8.31 音频类完成，实现列表循环播放。" />
+    <option name="LAST_COMMIT_MESSAGE" value="8.31 音频类完成，实现列表循环播放。" />
   </component>
   <component name="XDebuggerManager">
     <pin-to-top-manager>

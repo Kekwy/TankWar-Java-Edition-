@@ -25,6 +25,9 @@ import java.awt.event.KeyEvent;
  */
 public class PlayScene extends GameScene {
 
+	/**
+	 * 游戏时背景音乐
+	 */
 	public final Player gameBGM = new Player();
 
 	/**
@@ -43,10 +46,7 @@ public class PlayScene extends GameScene {
 	 */
 	BackGround backGround;
 
-	/**
-	 * 游戏时背景音乐
-	 */
-	public static AudioClip audioClip;
+
 
 
 
@@ -79,7 +79,7 @@ public class PlayScene extends GameScene {
 
 		setActive();
 
-
+		playing = true;
 		TankWar.levels[currentLevel].setParent(this);
 		TankWar.levels[currentLevel].setPlayer(player);
 		TankWar.levels[currentLevel].start();
@@ -92,10 +92,29 @@ public class PlayScene extends GameScene {
 
 	PassNotice passNotice = new PassNotice(this);
 
+	private void waitCurrentLevel() {
+		TankWar.levels[currentLevel].setActive(false);
+		while (TankWar.levels[currentLevel].isAlive()) {
+			synchronized (EnemyTank.class) {
+				EnemyTank.class.notify();
+			}
+		}
+	}
+
+	boolean playing = false;
+
+	public boolean isPlaying() {
+		return playing;
+	}
+
 	public void levelPassed() {
+		if (!playing)
+			return;
+		playing = false;
+		// waitCurrentLevel();
 		System.out.println("Pass!");
-		player.setState(Tank.State.STATE_DIE);
-		audioClip.stop();
+		// player.setState(Tank.State.STATE_DIE);
+		gameBGM.stop();
 		audioPassLevel.play(0.5);
 		passNotice.setActive(true);
 		addGameObject(passNotice);
@@ -105,12 +124,10 @@ public class PlayScene extends GameScene {
 	 * 用于设置游戏结束的方法
 	 */
 	public void gameOver() {
-		TankWar.levels[0].setActive(false);
-		while (TankWar.levels[0].isAlive()) {
-			EnemyTank.class.notify();
-		}
-
-		audioClip.stop();
+		if (!playing)
+			return;
+		waitCurrentLevel();
+		gameBGM.stop();
 
 		// audioClip.isPlaying();
 
@@ -155,9 +172,11 @@ public class PlayScene extends GameScene {
 				isWin = true;
 			} else {
 				audioPassLevel.stop();
+				itemsClear(MapTile.class);
 				TankWar.levels[currentLevel].setParent(PlayScene.this);
 				TankWar.levels[currentLevel].setPlayer(player);
 				TankWar.levels[currentLevel].start();
+				playing = true;
 			}
 		}
 	}
@@ -224,7 +243,7 @@ public class PlayScene extends GameScene {
 
 }
 
-// TODO：音频类重构
+
 // TODO：过关提示文字
 // TODO：玩家生成坐标
 // TODO：彩蛋关卡

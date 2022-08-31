@@ -333,16 +333,27 @@ public abstract class GameScene {
 			mutex_gameObjects.release();
 
 
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
+	protected void itemsClear(Class<?> c) {
+		try {
 
+			mutex_gameObjects.acquire();
+			for (GameObject gameObject : gameObjects) {
+				if (gameObject.getClass().equals(c))
+					gameObject.setActive(false);
+			}
+
+			mutex_gameObjects.release();
 
 
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
-
 	protected enum FrameType {
 		FRAME_TYPE_PUBLIC,
 		FRAME_TYPE_PRIVATE,

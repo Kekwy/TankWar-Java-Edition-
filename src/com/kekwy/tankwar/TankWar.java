@@ -66,14 +66,9 @@ public class TankWar extends GameEntry {
 		PLAYER_NAME = props.getProperty("id");
 		PASSWORD = props.getProperty("password");
 		LEVEL_NUM = Integer.parseInt(props.getProperty("level_num"));
-		LEVEL_CONFIG_FILES = new String[LEVEL_NUM];
+		// LEVEL_CONFIG_FILES = new String[LEVEL_NUM];
 		String contents = props.getProperty("level_config_files");
-		int begin = 0;
-		for (int i = 0; i < LEVEL_NUM; i++) {
-			int ptr = contents.indexOf(".properties", begin) + 11;
-			LEVEL_CONFIG_FILES[i] = contents.substring(begin, ptr);
-			begin += ptr;
-		}
+		LEVEL_CONFIG_FILES = TankWarUtil.splitString(contents, ".properties", LEVEL_NUM);
 		ENDLESS_MODE = Boolean.parseBoolean(props.getProperty("endless_mode"));
 		MAP_FILE = props.getProperty("map_file");
 		SERVER_IP = props.getProperty("server_ip");

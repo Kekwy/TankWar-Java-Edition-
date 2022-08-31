@@ -9,11 +9,16 @@ import com.kekwy.tankwar.tank.Tank;
 import com.kekwy.tankwar.util.TankWarUtil;
 import javafx.scene.media.AudioClip;
 
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-public class Level extends Thread {
+public class Level {
 
 	private final GameMap GAME_MAP;
 	private final int MAX_COUNT_SAME_TIME;
@@ -27,9 +32,11 @@ public class Level extends Thread {
 	private final int PLAYER_ATK;
 	private final int BULLET_SPEED;
 	private final boolean RECOVER;
-	private final List<AudioClip> bgmList = new ArrayList<>();
 	private final boolean isFinalLevel;
+	private final List<AudioClip> bgmList = new ArrayList<>();
 	private PlayScene parent;
+
+	private Thread currentThread;
 
 	public Level(String levelConfigFile) {
 		Properties props = TankWarUtil.loadProperties(levelConfigFile);
@@ -47,6 +54,17 @@ public class Level extends Thread {
 		BULLET_SPEED = Integer.parseInt(props.getProperty("bullet_speed"));
 		RECOVER = Boolean.parseBoolean(props.getProperty("recover"));
 		isFinalLevel = Boolean.parseBoolean(props.getProperty("final_level", "false"));
+		int bgmCount = Integer.parseInt(props.getProperty("bgm_count"));
+		String contents = props.getProperty("bgm_files");
+		String[] filepath = TankWarUtil.splitString(contents, ".mp3", bgmCount);
+		for (String s : filepath) {
+			try {
+				bgmList.add(new AudioClip(new File(s).toURI().toURL().toString()));
+			} catch (MalformedURLException e) {
+				throw new RuntimeException(e);
+			}
+
+		}
 	}
 
 	public void setParent(PlayScene parent) {
@@ -65,8 +83,12 @@ public class Level extends Thread {
 		this.player = player;
 	}
 
+	public void start() {
+		currentThread = new Thread(this::run);
+		currentThread.start();
+	}
+
 	@SuppressWarnings("BusyWait")
-	@Override
 	public void run() {
 		active = true;
 
@@ -77,7 +99,8 @@ public class Level extends Thread {
 		} else {
 			parent.gameBGM.load(TankWar.pve1BGM);
 		}
-		parent.gameBGM.play();
+		if (TankWar.BGM_ENABLE)
+			parent.gameBGM.play();
 
 		try {
 			GAME_MAP.createGameMap(parent);
@@ -153,5 +176,9 @@ public class Level extends Thread {
 			parent.levelPassed();
 		}
 
+	}
+
+	public boolean isAlive() {
+		return currentThread.isAlive();
 	}
 }

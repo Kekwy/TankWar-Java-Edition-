@@ -12,6 +12,8 @@ import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 public class TankWarUtil {
@@ -109,4 +111,16 @@ public class TankWarUtil {
 		}
 		return props;
 	}
+
+	public static String[] splitString(String src, String spliter, int n) {
+		String[] res = new String[n];
+		int begin = 0;
+		for (int i = 0; i < n; i++) {
+			int ptr = src.indexOf(spliter, begin) + spliter.length();
+			res[i] = (src.substring(begin, ptr));
+			begin += ptr;
+		}
+		return res;
+	}
+
 }

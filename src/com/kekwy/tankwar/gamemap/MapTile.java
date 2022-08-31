@@ -67,7 +67,7 @@ public class MapTile extends GameObject {
 			setActive(false);
 			if(type == Type.TYPE_BASE)
 				base--;
-			if(base==0)
+			if(base==0 && getParent() instanceof PlayScene playScene && playScene.isPlaying())
 				((PlayScene)getParent()).gameOver();
 		}
 	}

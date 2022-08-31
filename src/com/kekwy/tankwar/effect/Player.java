@@ -14,6 +14,7 @@ public class Player {
 	Thread playThread = new Thread(this::playCycle);
 
 	public void load(List<AudioClip> clips) {
+		this.clips.clear();
 		this.clips.addAll(clips);
 		currentClip = 0;
 	}
