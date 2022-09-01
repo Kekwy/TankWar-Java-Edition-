@@ -155,15 +155,38 @@ public class PlayScene extends GameScene {
 			this.setLayer(2);
 		}
 
+
+		public static final Font TILE_FONT = new Font("Minecraft 常规", Font.PLAIN, 32);
+		public static final Font NOTICE_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
+
+		static final String TILE = "过关！";
+		static final String NOTICE0 = "按ESC返回主菜单";
+		static final String NOTICE1 = "按Enter进入下一关";
+
+		int top = FRAME_HEIGHT / 4 * 3 + getUpBound();
 		@Override
 		public void render(Graphics g) {
 			g.setColor(Color.BLACK);
-			g.fillRect(0, FRAME_HEIGHT / 4 * 3 + getUpBound(), FRAME_WIDTH, FRAME_HEIGHT / 4);
+			g.fillRect(0, top, FRAME_WIDTH, FRAME_HEIGHT / 4);
+			g.setColor(Color.WHITE);
+			g.fillRect(0, top, FRAME_WIDTH, 3);
+			g.fillRect(0, top + 6, FRAME_WIDTH, 3);
+			g.setFont(TILE_FONT);
+			g.drawString(TILE,440,top + 50);
+			g.setFont(NOTICE_FONT);
+			g.drawString(NOTICE0,20,top + 110);
+			g.drawString(NOTICE1,790,top + 110);
 		}
 
 
 		@Override
 		public void keyPressedEvent(int keyCode) {
+			if (keyCode == KeyEvent.VK_ESCAPE) {
+				audioPassLevel.stop();
+				PlayScene.this.setInactive(TankWar.INDEX_MAIN_MENU);
+				return;
+			}
+
 			if (keyCode != KeyEvent.VK_ENTER)
 				return;
 			this.setActive(false);
@@ -244,7 +267,6 @@ public class PlayScene extends GameScene {
 }
 
 
-// TODO：过关提示文字
 // TODO：玩家生成坐标
 // TODO：彩蛋关卡
 // TODO：其他游戏场景
