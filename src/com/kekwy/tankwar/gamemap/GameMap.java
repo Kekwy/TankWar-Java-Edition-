@@ -16,8 +16,9 @@ public class GameMap {
 	public static final int GAME_MAP_COL = 24;
 
 
-
 	public void createGameMap(GameScene parent) {
+
+		MapTile.base = 0;
 
 		for (int i = 0; i < mapData.length; i++) {
 			int[] mapDatum = mapData[i];
@@ -28,7 +29,10 @@ public class GameMap {
 					case 1 -> new MapTile(parent, MapTile.Type.TYPE_NORMAL, x, y);
 					case 2 -> new MapTile(parent, MapTile.Type.TYPE_HARD, x, y);
 					case 3 -> new MapTile(parent, MapTile.Type.TYPE_COVER, x, y);
-					case 4 -> new MapTile(parent, MapTile.Type.TYPE_BASE, x, y);
+					case 4 -> {
+						new MapTile(parent, MapTile.Type.TYPE_BASE, x, y);
+						MapTile.base++;
+					}
 				}
 			}
 		}
