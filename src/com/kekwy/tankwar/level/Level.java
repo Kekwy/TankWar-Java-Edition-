@@ -2,6 +2,7 @@ package com.kekwy.tankwar.level;
 
 import com.kekwy.tankwar.TankWar;
 import com.kekwy.tankwar.gamemap.GameMap;
+import com.kekwy.tankwar.gamemap.MapTile;
 import com.kekwy.tankwar.gamescenes.PlayScene;
 import com.kekwy.tankwar.tank.Bullet;
 import com.kekwy.tankwar.tank.EnemyTank;
@@ -11,12 +12,11 @@ import javafx.scene.media.AudioClip;
 
 import java.io.File;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Level {
 
@@ -34,9 +34,12 @@ public class Level {
 	private final boolean RECOVER;
 	private final boolean isFinalLevel;
 	private final List<AudioClip> bgmList = new ArrayList<>();
+	private final int SPAWN_X, SPAWN_Y;
 	private PlayScene parent;
 
 	private Thread currentThread;
+
+	private static final Pattern spawnPattern = Pattern.compile("([A-Z]+)(\\d+)");
 
 	public Level(String levelConfigFile) {
 		Properties props = TankWarUtil.loadProperties(levelConfigFile);
@@ -64,6 +67,16 @@ public class Level {
 				throw new RuntimeException(e);
 			}
 
+		}
+		String spawnPosition = props.getProperty("spawn");
+		Matcher matcher = spawnPattern.matcher(spawnPosition);
+		if (matcher.find()) {
+			SPAWN_X = (matcher.group(1).charAt(0) - 'A' - 1) * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
+			SPAWN_Y = (Integer.parseInt(matcher.group(2)) - 2) * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
+			// System.out.println(matcher.group(1).charAt(0) + ", " + Integer.parseInt(matcher.group(2)));
+		} else {
+			SPAWN_X = 8 * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
+			SPAWN_Y = 13 * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
 		}
 	}
 
@@ -114,6 +127,8 @@ public class Level {
 			player.setSpeed(PLAYER_SPEED);
 			player.setAtk(PLAYER_ATK);
 			player.setState(Tank.State.STATE_IDLE);
+			player.position.setX(SPAWN_X);
+			player.position.setY(SPAWN_Y + parent.getUpBound() - 6);
 			if (RECOVER) {
 				player.setHp(PLAYER_HP);
 			}
