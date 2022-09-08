@@ -15,10 +15,11 @@ public class MapTile extends GameObject {
 	public static final int TILE_WIDTH = 40;
 
 	public enum Type {
-		TYPE_NORMAL, TYPE_HARD,  TYPE_COVER, TYPE_BASE,
+		TYPE_NORMAL, TYPE_HARD, TYPE_COVER, TYPE_BASE,
 	}
 
 	static Image[] tileImg;
+
 	static {
 		tileImg = new Image[4];
 		tileImg[Type.TYPE_NORMAL.ordinal()] = TankWarUtil.createImage("/walls.gif");
@@ -41,7 +42,7 @@ public class MapTile extends GameObject {
 			setLayer(0);
 		if (type == Type.TYPE_NORMAL)
 			hp = 200;
-		else if(type == Type.TYPE_BASE)
+		else if (type == Type.TYPE_BASE)
 			hp = 500;
 		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		setActive(true);
@@ -52,11 +53,11 @@ public class MapTile extends GameObject {
 
 	@Override
 	public void collide(List<GameObject> gameObjects) {
-		if(type == Type.TYPE_COVER)
+		if (type == Type.TYPE_COVER)
 			return;
 		for (GameObject gameObject : gameObjects) {
 			if (gameObject instanceof Bullet bullet) {
-				if(type != Type.TYPE_HARD)
+				if (type != Type.TYPE_HARD)
 					hp -= bullet.getAtk();
 				Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
 				getParent().addGameObject(blast);
@@ -65,10 +66,18 @@ public class MapTile extends GameObject {
 		}
 		if (hp <= 0) {
 			setActive(false);
-			if(type == Type.TYPE_BASE)
+			if (type == Type.TYPE_BASE)
 				base--;
-			if(base==0 && getParent() instanceof PlayScene playScene && playScene.isPlaying())
-				((PlayScene)getParent()).gameOver();
+			if (base == 0 && getParent() instanceof PlayScene playScene && playScene.isPlaying()) {
+				new Thread(() -> {
+					try {
+						Thread.sleep(1000);
+					} catch (InterruptedException e) {
+						throw new RuntimeException(e);
+					}
+					((PlayScene) getParent()).gameOver();
+				}).start();
+			}
 		}
 	}
 

@@ -43,10 +43,9 @@ public final class GameFrame extends Frame {
 
 		for (int i = 0; i < doRender0.size(); i++) {
 			GameObject gameObject = doRender0.get(i);
-			if(gameObject.isActive()) {
+			if (gameObject.isActive()) {
 				gameObject.render(g1);
-			}
-			else {
+			} else {
 				doRender0.remove(i);
 				i--;
 				gameObject.setDestroyed(GameObject.RELOAD_render);
@@ -55,10 +54,9 @@ public final class GameFrame extends Frame {
 
 		for (int i = 0; i < doRender1.size(); i++) {
 			GameObject gameObject = doRender1.get(i);
-			if(gameObject.isActive()) {
+			if (gameObject.isActive()) {
 				gameObject.render(g1);
-			}
-			else {
+			} else {
 				doRender1.remove(i);
 				i--;
 				gameObject.setDestroyed(GameObject.RELOAD_render);
@@ -67,10 +65,9 @@ public final class GameFrame extends Frame {
 
 		for (int i = 0; i < doRender2.size(); i++) {
 			GameObject gameObject = doRender2.get(i);
-			if(gameObject.isActive()) {
+			if (gameObject.isActive()) {
 				gameObject.render(g1);
-			}
-			else {
+			} else {
 				doRender2.remove(i);
 				i--;
 				gameObject.setDestroyed(GameObject.RELOAD_render);
@@ -197,18 +194,21 @@ public final class GameFrame extends Frame {
 
 				try {
 					mutex_doKeyPressedEvent.acquire();
+
+					for (int i = 0; i < doKeyPressedEvent.size(); i++) {
+						GameObject gameObject = doKeyPressedEvent.get(i);
+						mutex_doKeyPressedEvent.release();
+						if (gameObject.isActive())
+							gameObject.keyPressedEvent(keyCode);
+						mutex_doKeyPressedEvent.acquire();
+						if(!gameObject.isActive()) {
+							doKeyPressedEvent.remove(i);
+							i--;
+							gameObject.setDestroyed(GameObject.RELOAD_keyPressedEvent);
+						}
+					}
 				} catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
-				}
-				for (int i = 0; i < doKeyPressedEvent.size(); i++) {
-					GameObject gameObject = doKeyPressedEvent.get(i);
-					if(gameObject.isActive())
-						gameObject.keyPressedEvent(keyCode);
-					else {
-						doKeyPressedEvent.remove(i);
-						i--;
-						gameObject.setDestroyed(GameObject.RELOAD_keyPressedEvent);
-					}
 				}
 				mutex_doKeyPressedEvent.release();
 			}
@@ -223,18 +223,21 @@ public final class GameFrame extends Frame {
 
 				try {
 					mutex_doKeyReleasedEvent.acquire();
+					for (int i = 0; i < doKeyReleasedEvent.size(); i++) {
+						GameObject gameObject = doKeyReleasedEvent.get(i);
+						mutex_doKeyReleasedEvent.release();
+						if (gameObject.isActive())
+							gameObject.keyReleasedEvent(keyCode);
+						mutex_doKeyReleasedEvent.acquire();
+
+						if(!gameObject.isActive()) {
+							doKeyReleasedEvent.remove(i);
+							i--;
+							gameObject.setDestroyed(GameObject.RELOAD_keyReleasedEvent);
+						}
+					}
 				} catch (InterruptedException ex) {
 					throw new RuntimeException(ex);
-				}
-				for (int i = 0; i < doKeyReleasedEvent.size(); i++) {
-					GameObject gameObject = doKeyReleasedEvent.get(i);
-					if(gameObject.isActive())
-						gameObject.keyReleasedEvent(keyCode);
-					else {
-						doKeyReleasedEvent.remove(i);
-						i--;
-						gameObject.setDestroyed(GameObject.RELOAD_keyReleasedEvent);
-					}
 				}
 				mutex_doKeyReleasedEvent.release();
 			}

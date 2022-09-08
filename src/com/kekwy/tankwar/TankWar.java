@@ -8,6 +8,8 @@ import com.kekwy.tankwar.level.Level;
 import com.kekwy.tankwar.util.TankWarUtil;
 import javafx.scene.media.AudioClip;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -58,11 +60,17 @@ public class TankWar extends GameEntry {
 	public static final boolean BGM_ENABLE;
 
 	public static final Level[] levels;
+	public static final Level finalLevel;
 	private static final List<Class<? extends GameScene>> gameScenes = new ArrayList<>();
 
 	// 读取配置文件
 	static {
-		Properties props= TankWarUtil.loadProperties("./game.properties");
+		Properties props= null;
+		try {
+			props = TankWarUtil.loadProperties(new FileInputStream("./game.properties"));
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
+		}
 		PLAYER_NAME = props.getProperty("id");
 		PASSWORD = props.getProperty("password");
 		LEVEL_NUM = Integer.parseInt(props.getProperty("level_num"));
@@ -83,9 +91,13 @@ public class TankWar extends GameEntry {
 
 		levels = new Level[LEVEL_NUM];
 		for (int i = 0; i < levels.length; i++) {
-			levels[i] = new Level(LEVEL_CONFIG_FILES[i]);
+			try {
+				levels[i] = new Level(new FileInputStream(LEVEL_CONFIG_FILES[i]));
+			} catch (FileNotFoundException e) {
+				throw new RuntimeException(e);
+			}
 		}
-
+		finalLevel = new Level(TankWar.class.getResourceAsStream("/levels/config/final.properties"));
 	}
 
 	public static final int INDEX_MAIN_MENU = 0;

@@ -11,9 +11,11 @@ import com.kekwy.tankwar.util.TankWarUtil;
 import javafx.scene.media.AudioClip;
 
 import java.io.File;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -41,9 +43,14 @@ public class Level {
 
 	private static final Pattern spawnPattern = Pattern.compile("([A-Z]+)(\\d+)");
 
-	public Level(String levelConfigFile) {
+	public Level(InputStream levelConfigFile) {
 		Properties props = TankWarUtil.loadProperties(levelConfigFile);
+		isFinalLevel = Boolean.parseBoolean(props.getProperty("final_level", "false"));
 		String mapFile = props.getProperty("map_file");
+		if(isFinalLevel) {
+			mapFile = Objects.requireNonNull(Level.class.getResource("/levels/map/finalMap.xlsx")).toString();
+			mapFile = mapFile.substring(6);
+		}
 		GAME_MAP = new GameMap(mapFile);
 		MAX_COUNT_SAME_TIME = Integer.parseInt(props.getProperty("max_count_same_time"));
 		ENEMY_COUNT = Integer.parseInt(props.getProperty("enemy_count"));
@@ -56,7 +63,7 @@ public class Level {
 		PLAYER_ATK = Integer.parseInt(props.getProperty("player_atk"));
 		BULLET_SPEED = Integer.parseInt(props.getProperty("bullet_speed"));
 		RECOVER = Boolean.parseBoolean(props.getProperty("recover"));
-		isFinalLevel = Boolean.parseBoolean(props.getProperty("final_level", "false"));
+
 		int bgmCount = Integer.parseInt(props.getProperty("bgm_count"));
 		String contents = props.getProperty("bgm_files");
 		String[] filepath = TankWarUtil.splitString(contents, ".mp3", bgmCount);

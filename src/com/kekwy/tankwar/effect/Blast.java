@@ -36,6 +36,11 @@ public class Blast extends GameObject {
 
 	private static final int DEFAULT_BLAST_RADIUS = 20;
 
+	@Override
+	public void setRadius(int radius) {
+		this.radius = radius;
+	}
+
 	int radius = DEFAULT_BLAST_RADIUS;
 
 	public void setIndex(int index) {
