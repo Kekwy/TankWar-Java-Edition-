@@ -1,40 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="ArtifactsWorkspaceSettings">
-    <artifacts-to-build>
-      <artifact name="TankWar:jar" />
-    </artifacts-to-build>
-  </component>
   <component name="AutoImportSettings">
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="9.3 可自定义玩家生成坐标">
-      <change afterPath="$PROJECT_DIR$/res/levels/config/final.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/res/levels/map/finalMap.xlsx" afterDir="false" />
+    <list default="true" id="d4c288b0-2940-4ec3-959f-355c11d28352" name="变更" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/artifacts/TankWar_jar.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level1.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level2.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/level2.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/maps/level2.xlsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Blast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/TankWar.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons-collections4-4.4.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons-compress-1.20.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/dom4j-2.0.3.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx-swt.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.base.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.controls.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.fxml.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.graphics.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.media.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.swing.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/javafx.web.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-1.2.17.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-api-2.14.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/log4j-core-2.14.1.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-examples-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-excelant-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-integration-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-full-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-lite-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/poi-scratchpad-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/slf4j-log4j12-1.7.15.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/xmlbeans-5.0.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps/level1.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/maps/level2.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/music/A Cruel Angel's Thesis.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/music/Preview of Next.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/baseTank.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast1.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast2.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast3.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast4.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast5.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast6.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast7.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/blast8.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy1D.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy1L.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy1R.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy1U.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy2D.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy2L.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy2R.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/enemy2U.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/grass.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/levels/config/final.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/levels/map/finalMap.xlsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/endBGM0.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/endBGM1.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/gameBGM0.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/gameBGM1.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/gameBGM2.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/gameBGM3.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/gameBGM4.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/music/passBGM.mp3" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/over.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/p1tankD.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/p1tankL.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/p1tankR.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/p1tankU.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/sound/hit.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/sound/start.wav" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/steels.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/res/walls.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEntry.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Monitor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/SceneType.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Blast.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/GameMap.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/RoomMenuScene.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/Direction.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/ObjectPool.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -42,331 +122,55 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2DIOhDdmxGy54PZQv1AAIeA6mnX" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
-    <ConfirmationsSetting value="2" id="Add" />
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="userSettingsFile" value="D:\Program Files\JetBrains\IntelliJ IDEA Community Edition 2022.1.3\plugins\maven\lib\maven3\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
   </component>
+  <component name="ProjectId" id="2IfuelMboxCoQsnezS71026GGxP" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;F:/Javaproj/TankWar/maps&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.statistic.project.settings&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "last_opened_file_path": "E:/NJUCSSFzyx/Java/TankWarProj",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="F:\Javaproj\TankWar\maps" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="F:\Javaproj\TankWar\res\levels\config" />
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj" />
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\resources" />
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\java" />
     </key>
   </component>
   <component name="RunManager">
-    <configuration name="TankWar" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.tankwar.TankWar" />
-      <module name="TankWar" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kekwy.tankwar.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
+    <configuration name="TankWar" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.tankwar.TankWar" />
+      <module name="TankWarProj" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="应用程序.TankWar" />
-      </list>
-    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="默认任务">
-      <changelist id="776cdd2c-3b8b-4b94-a32a-0d55bb3ccb66" name="变更" comment="" />
-      <created>1660383251158</created>
+      <changelist id="d4c288b0-2940-4ec3-959f-355c11d28352" name="变更" comment="" />
+      <created>1670585057999</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1660383251158</updated>
+      <updated>1670585057999</updated>
     </task>
-    <task id="LOCAL-00001" summary="8.14 四向移动">
-      <created>1660456102317</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1660456102317</updated>
-    </task>
-    <task id="LOCAL-00002" summary="8.14 子弹发射">
-      <created>1660458854120</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1660458854120</updated>
-    </task>
-    <task id="LOCAL-00003" summary="8.14 子弹发射&amp;子弹对象池">
-      <created>1660462322317</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1660462322317</updated>
-    </task>
-    <task id="LOCAL-00004" summary="8.15 敌人移动&amp;攻击">
-      <created>1660526137184</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1660526137184</updated>
-    </task>
-    <task id="LOCAL-00005" summary="8.16 敌人坦克死亡">
-      <created>1660614973619</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1660614973619</updated>
-    </task>
-    <task id="LOCAL-00006" summary="8.16 敌人坦克死亡">
-      <created>1660615128734</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1660615128734</updated>
-    </task>
-    <task id="LOCAL-00007" summary="8.16 游戏结束机制并修复使用对象池导致的爆炸&amp;子弹的显示bug">
-      <created>1660631130779</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1660631130779</updated>
-    </task>
-    <task id="LOCAL-00008" summary="8.16 地图类">
-      <created>1660657881735</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1660657881735</updated>
-    </task>
-    <task id="LOCAL-00009" summary="8.16 地图类">
-      <created>1660657903769</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1660657903769</updated>
-    </task>
-    <task id="LOCAL-00010" summary="8.18 基地的生成">
-      <created>1660792549315</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1660792549315</updated>
-    </task>
-    <task id="LOCAL-00011" summary="8.18 基地的生成">
-      <created>1660792577715</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1660792577715</updated>
-    </task>
-    <task id="LOCAL-00012" summary="8.21 开始重构">
-      <created>1661076181118</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1661076181118</updated>
-    </task>
-    <task id="LOCAL-00013" summary="8.22 胡乱搭框架">
-      <created>1661163504287</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1661163504287</updated>
-    </task>
-    <task id="LOCAL-00014" summary="8.22 步入正轨">
-      <created>1661178278023</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1661178278023</updated>
-    </task>
-    <task id="LOCAL-00015" summary="8.23 渲染与事件监听完成，底层框架基本完成，底层碰撞检测待实现">
-      <created>1661270550781</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1661270550781</updated>
-    </task>
-    <task id="LOCAL-00016" summary="8.24 整理代码1">
-      <created>1661310375894</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1661310375895</updated>
-    </task>
-    <task id="LOCAL-00017" summary="8.24 优化移动">
-      <created>1661350090400</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1661350090400</updated>
-    </task>
-    <task id="LOCAL-00018" summary="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”">
-      <created>1661415832606</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1661415832606</updated>
-    </task>
-    <task id="LOCAL-00019" summary="8.25 GameObject添加读写同步，并修改玩家坦克开火模式">
-      <created>1661430028825</created>
-      <option name="number" value="00019" />
-      <option name="presentableId" value="LOCAL-00019" />
-      <option name="project" value="LOCAL" />
-      <updated>1661430028825</updated>
-    </task>
-    <task id="LOCAL-00020" summary="8.26 修复因线程同步造成的bug，加入敌人坦克并增加敌人坦克的机动性">
-      <created>1661476167425</created>
-      <option name="number" value="00020" />
-      <option name="presentableId" value="LOCAL-00020" />
-      <option name="project" value="LOCAL" />
-      <updated>1661476167425</updated>
-    </task>
-    <task id="LOCAL-00021" summary="8.26 修复对象归还对象池时造成的死锁；增加GameObject属性，保证对象池对象被从场景完全移出后，才会再次使用；优化敌人移动方式，使其更加随机。">
-      <created>1661508458663</created>
-      <option name="number" value="00021" />
-      <option name="presentableId" value="LOCAL-00021" />
-      <option name="project" value="LOCAL" />
-      <updated>1661508458663</updated>
-    </task>
-    <task id="LOCAL-00022" summary="8.26 简陋的碰撞检测机制（有bug">
-      <created>1661524975803</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1661524975804</updated>
-    </task>
-    <task id="LOCAL-00023" summary="8.26 简陋的碰撞检测机制（有bug">
-      <created>1661524993389</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1661524993389</updated>
-    </task>
-    <task id="LOCAL-00024" summary="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。">
-      <created>1661600377732</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1661600377732</updated>
-    </task>
-    <task id="LOCAL-00025" summary="8.27 添加爆炸效果">
-      <created>1661611434161</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1661611434161</updated>
-    </task>
-    <task id="LOCAL-00026" summary="8.27 实现游戏结束并重新开始">
-      <created>1661613635108</created>
-      <option name="number" value="00026" />
-      <option name="presentableId" value="LOCAL-00026" />
-      <option name="project" value="LOCAL" />
-      <updated>1661613635108</updated>
-    </task>
-    <task id="LOCAL-00027" summary="8.27 修复了场景切换的bug（由playerTank中多次创建等待线程，导致多次调用游戏结束方法所导致）">
-      <created>1661615966388</created>
-      <option name="number" value="00027" />
-      <option name="presentableId" value="LOCAL-00027" />
-      <option name="project" value="LOCAL" />
-      <updated>1661615966388</updated>
-    </task>
-    <task id="LOCAL-00028" summary="8.28 实现完全自定义地图">
-      <created>1661671151280</created>
-      <option name="number" value="00028" />
-      <option name="presentableId" value="LOCAL-00028" />
-      <option name="project" value="LOCAL" />
-      <updated>1661671151280</updated>
-    </task>
-    <task id="LOCAL-00029" summary="8.28 坦克与地图的碰撞检测，草地隐藏坦克">
-      <created>1661682049585</created>
-      <option name="number" value="00029" />
-      <option name="presentableId" value="LOCAL-00029" />
-      <option name="project" value="LOCAL" />
-      <updated>1661682049585</updated>
-    </task>
-    <task id="LOCAL-00030" summary="8.29 尝试了一系列的音频播放操作后选择了javaFX，开始将项目提升至JavaFX">
-      <created>1661775881233</created>
-      <option name="number" value="00030" />
-      <option name="presentableId" value="LOCAL-00030" />
-      <option name="project" value="LOCAL" />
-      <updated>1661775881233</updated>
-    </task>
-    <task id="LOCAL-00031" summary="8.29 音效添加完成，解决导出jar包找不到依赖类的问题">
-      <created>1661840162058</created>
-      <option name="number" value="00031" />
-      <option name="presentableId" value="LOCAL-00031" />
-      <option name="project" value="LOCAL" />
-      <updated>1661840162058</updated>
-    </task>
-    <task id="LOCAL-00032" summary="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象">
-      <created>1661872940710</created>
-      <option name="number" value="00032" />
-      <option name="presentableId" value="LOCAL-00032" />
-      <option name="project" value="LOCAL" />
-      <updated>1661872940710</updated>
-    </task>
-    <task id="LOCAL-00033" summary="8.31 音频类完成，实现列表循环播放。">
-      <created>1661948547787</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1661948547787</updated>
-    </task>
-    <task id="LOCAL-00034" summary="8.31 &#10;1. IllegalThreadStateException：&#10;问题：同一个对象不能调用两次start（new/die状态）&#10;解决：调整Level类的结构&#10;2. 第二关有的地图块血量异常：&#10;问题：地图重叠生成，第一关的地图块没有被移除&#10;解决：切换下一关前删除当前场景中所有的地图块对象">
-      <created>1661958913612</created>
-      <option name="number" value="00034" />
-      <option name="presentableId" value="LOCAL-00034" />
-      <option name="project" value="LOCAL" />
-      <updated>1661958913612</updated>
-    </task>
-    <task id="LOCAL-00035" summary="8.31 &#10;1. IllegalThreadStateException：&#10;问题：同一个对象不能调用两次start（new/die状态）&#10;解决：调整Level类的结构&#10;2. 第二关有的地图块血量异常：&#10;问题：地图重叠生成，第一关的地图块没有被移除&#10;解决：切换下一关前删除当前场景中所有的地图块对象">
-      <created>1661958929736</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1661958929736</updated>
-    </task>
-    <task id="LOCAL-00036" summary="9.1 实现通关提示栏；调整地图生成细节，使每次生成地图时刷新基地的数量">
-      <created>1662012304333</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1662012304333</updated>
-    </task>
-    <task id="LOCAL-00037" summary="9.1 实现通关提示栏；调整地图生成细节，使每次生成地图时刷新基地的数量">
-      <created>1662012318419</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1662012318419</updated>
-    </task>
-    <task id="LOCAL-00038" summary="9.3 可自定义玩家生成坐标">
-      <created>1662175416553</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1662175416554</updated>
-    </task>
-    <option name="localTasksCounter" value="39" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -374,62 +178,10 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
+            <State />
           </value>
         </entry>
       </map>
     </option>
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="8.22 胡乱搭框架" />
-    <MESSAGE value="8.22 步入正轨" />
-    <MESSAGE value="8.23 渲染与事件监听完成，底层框架基本完成，底层碰撞检测待实现" />
-    <MESSAGE value="8.24 整理代码1" />
-    <MESSAGE value="8.24 优化移动" />
-    <MESSAGE value="8.25 重写GameObject的Position，java返回对象时不会调用“拷贝构造函数”，本质上返回的是“引用”" />
-    <MESSAGE value="8.25 GameObject添加读写同步，并修改玩家坦克开火模式" />
-    <MESSAGE value="8.26 修复因线程同步造成的bug，加入敌人坦克并增加敌人坦克的机动性" />
-    <MESSAGE value="8.26 修复对象归还对象池时造成的死锁；增加GameObject属性，保证对象池对象被从场景完全移出后，才会再次使用；优化敌人移动方式，使其更加随机。" />
-    <MESSAGE value="8.26 简陋的碰撞检测机制（有bug" />
-    <MESSAGE value="8.26 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。" />
-    <MESSAGE value="8.27 实现碰撞检测（暴力算法）；子弹击中坦克；坦克相撞被摧毁；删除不必要的同步操作。" />
-    <MESSAGE value="8.27 添加爆炸效果" />
-    <MESSAGE value="8.27 实现游戏结束并重新开始" />
-    <MESSAGE value="8.27 修复了场景切换的bug（由playerTank中多次创建等待线程，导致多次调用游戏结束方法所导致）" />
-    <MESSAGE value="8.28 实现完全自定义地图" />
-    <MESSAGE value="8.28 坦克与地图的碰撞检测，草地隐藏坦克" />
-    <MESSAGE value="8.29 尝试了一系列的音频播放操作后选择了javaFX，开始将项目提升至JavaFX" />
-    <MESSAGE value="8.29 音效添加完成，解决导出jar包找不到依赖类的问题" />
-    <MESSAGE value="8.30 实现载入配置文件，根据配置文件生成关卡以及游戏对象" />
-    <MESSAGE value="8.31 音频类完成，支持列表循环播放。" />
-    <MESSAGE value="8.31 音频类完成，实现列表循环播放。" />
-    <MESSAGE value="8.31 &#10;1. IllegalThreadStateException：&#10;问题：同一个对象不能调用两次start（new/die状态）&#10;解决：调整Level类的结构&#10;2. 第二关有的地图块血量异常：&#10;问题：地图重叠生成，第一关的地图块没有被移除&#10;解决：切换下一关前删除当前场景中所有的地图块对象" />
-    <MESSAGE value="9.1 实现通关提示栏；调整地图生成细节，使每次生成地图时刷新基地的数量" />
-    <MESSAGE value="9.3 可自定义玩家生成坐标" />
-    <option name="LAST_COMMIT_MESSAGE" value="9.3 可自定义玩家生成坐标" />
-  </component>
-  <component name="XDebuggerManager">
-    <pin-to-top-manager>
-      <pinned-members>
-        <PinnedItemInfo parentTag="javax.sound.sampled.AudioFormat" memberName="sampleRate" />
-      </pinned-members>
-    </pin-to-top-manager>
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
