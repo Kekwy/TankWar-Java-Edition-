@@ -1,11 +1,12 @@
 package com.kekwy.jw.tankwar.tank;
 
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ObjectPool;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
-import java.awt.*;
 import java.util.concurrent.Semaphore;
 
 public class EnemyTank extends Tank {
@@ -23,15 +24,14 @@ public class EnemyTank extends Tank {
 
 	public static final long FIRE_INTERVAL = 500;
 
-	private int changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
+	private int changeInterval = (int)TankWarUtil.getRandomNumber(1000, 2000);
 
 	public static void setCount(int i) {
 		count = i;
 	}
 
 	@Override
-	public void fixedUpdate() {
-		super.fixedUpdate();
+	public void check(long timestamp) {
 		if(getState() == State.STATE_DIE) {
 			try {
 				mutex_count.acquire();
@@ -48,17 +48,17 @@ public class EnemyTank extends Tank {
 			setActive(false);
 			tankPool.returnObject(this);
 		}
-		if (getParent().currentTimeMillis() - lastChangTime > changeInterval) {
+		if (timestamp - lastChangTime > changeInterval) {
 			// 随机一个状态
-			changeInterval = TankWarUtil.getRandomNumber(1000, 2000);
-			setState(State.values()[TankWarUtil.getRandomNumber(0, 2)]);
-			setForward(Direction.values()[TankWarUtil.getRandomNumber(0, 4)]);
-			lastChangTime = getParent().currentTimeMillis();
+			changeInterval = (int)TankWarUtil.getRandomNumber(1000, 2000);
+			setState(State.values()[(int)TankWarUtil.getRandomNumber(0, 2)]);
+			setDirection(Direction.values()[(int)TankWarUtil.getRandomNumber(0, 4)]);
+			lastChangTime = timestamp;
 		}
-		if (Math.random() < 0.05 && getParent().currentTimeMillis() - fireTime > FIRE_INTERVAL) {
-			fireTime = getParent().currentTimeMillis();
-			fire();
-		}
+//		if (Math.random() < 0.05 && getParent().currentTimeMillis() - fireTime > FIRE_INTERVAL) {
+//			fireTime = getParent().currentTimeMillis();
+//			fire();
+//		}
 	}
 
 	private static final Image[] tankImg;
@@ -72,20 +72,20 @@ public class EnemyTank extends Tank {
 	}
 
 	@Override
-	public void render(Graphics g) {
-		super.render(g);
-		g.drawImage(tankImg[getForward().ordinal()], position.getX() - getRadius(), position.getY() - getRadius(),
-				2 * getRadius(), 2 * getRadius(), null);
+	public void refresh(GraphicsContext g, long timestamp) {
+		super.refresh(g, timestamp);
+		g.drawImage(tankImg[getDirection().ordinal()], transform.getX() - getRadius(), transform.getY() - getRadius(),
+				2 * getRadius(), 2 * getRadius());
 	}
 
 	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 1);
 
 	public static final int ENEMY_TANK_MAX_HP = 500;
-	public static Tank createEnemyTank(GameScene parent, int x, int y, String name) {
+	public static Tank createEnemyTank(GameScene parent, double x, double y, String name, int group) {
 		Tank tank = (Tank) tankPool.getObject();
 
 		tank.setParent(parent);
-		tank.initTank(x, y, Direction.DIR_DOWN, name);
+		tank.initTank(x, y, Direction.DIR_DOWN, name, group);
 		tank.setState(State.STATE_MOVE);
 
 		try {

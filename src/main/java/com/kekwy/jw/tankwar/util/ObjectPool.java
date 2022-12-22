@@ -1,7 +1,7 @@
 package com.kekwy.jw.tankwar.util;
 
-import com.kekwy.jw.gameengine.GameObject;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

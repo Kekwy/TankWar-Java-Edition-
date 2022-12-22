@@ -1,13 +1,10 @@
 package com.kekwy.jw.tankwar.gamescenes;
 
-import com.kekwy.jw.gameengine.GameEngine;
-import com.kekwy.jw.gameengine.GameFrame;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameScene;
 
 public class HelpScene extends GameScene {
 
-
-	public HelpScene(GameFrame gameFrame, GameEngine gameEngine) {
-		super(gameFrame, gameEngine);
+	public HelpScene(double width, double height, String title) {
+		super(width, height, title);
 	}
 }

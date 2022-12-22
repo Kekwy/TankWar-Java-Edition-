@@ -1,129 +1,132 @@
 package com.kekwy.jw.tankwar.tank;
 
-import com.kekwy.jw.gameengine.GameScene;
-import com.kekwy.jw.tankwar.gamescenes.PlayScene;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.util.Direction;
-import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.LinkedList;
 import java.util.List;
 
 
 public class PlayerTank extends Tank {
 
-	Thread waiting = null;
-	@Override
-	public void fixedUpdate() {
-		super.fixedUpdate();
-		if (getState() == State.STATE_DIE) {
-			if(waiting == null) {
-				waiting = new Thread(() -> {
-					try {
-						Thread.sleep(1000);
-					} catch (InterruptedException e) {
-						throw new RuntimeException(e);
-					}
-					((PlayScene) getParent()).gameOver();
-				});
-				waiting.start();
-			}
-			// setActive(false);
-		}
+//	Thread waiting = null;
 
+	@Override
+	public void refresh(GraphicsContext g, long timestamp) {
+		super.refresh(g, timestamp);
+		g.drawImage(tankImg[getDirection().ordinal()], transform.getX() - getRadius(), transform.getY() - getRadius(),
+				2 * getRadius(), 2 * getRadius());
 	}
+
+//	@Override
+//	public void fixedUpdate() {
+//		super.fixedUpdate();
+//		if (getState() == State.STATE_DIE) {
+//			if(waiting == null) {
+//				waiting = new Thread(() -> {
+//					try {
+//						Thread.sleep(1000);
+//					} catch (InterruptedException e) {
+//						throw new RuntimeException(e);
+//					}
+//					((LocalPlayScene) getParent()).gameOver();
+//				});
+//				waiting.start();
+//			}
+//			// setActive(false);
+//		}
+//
+//	}
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 
 	public PlayerTank(GameScene parent, int x, int y, Direction forward, String name) {
-		super(parent, x, y, forward, name);
+		super(parent, x, y, forward, name, 1);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 		parent.addGameObject(this);
-		setActive(true);
+		// 按键按下时的响应
+		// parent.setOnKeyPressed(KeyEvent -> System.out.println("sadsad"));
+		// 按键抬起时的响应
+		// parent.setOnKeyPressed(this::keyReleasedHandle);
 	}
 
 	private static final Image[] tankImg;
 
-	// URL url = this.class.getResource("/white.jpg");
-
 	static {
 		tankImg = new Image[4];
-		tankImg[0] = TankWarUtil.createImage("/p1tankU.gif");
-		tankImg[1] = TankWarUtil.createImage("/p1tankD.gif");
-		tankImg[2] = TankWarUtil.createImage("/p1tankL.gif");
-		tankImg[3] = TankWarUtil.createImage("/p1tankR.gif");
+		tankImg[0] = new Image("/p1tankU.gif");
+		tankImg[1] = new Image("/p1tankD.gif");
+		tankImg[2] = new Image("/p1tankL.gif");
+		tankImg[3] = new Image("/p1tankR.gif");
 	}
 
+//	@Override
+//	protected void destroy() {
+//		super.destroy();
+//		this.getParent().removeEventHandler(KeyEvent.KEY_PRESSED, this.getParent().getOnKeyPressed());
+//		this.getParent().removeEventHandler(KeyEvent.KEY_RELEASED, this.getParent().getOnKeyReleased());
+//	}
 
-	@Override
-	public void render(Graphics g) {
-		super.render(g);
-		g.drawImage(tankImg[getForward().ordinal()], position.getX() - getRadius(), position.getY() - getRadius(),
-				2 * getRadius(), 2 * getRadius(), null);
-	}
-
-	List<Integer> keyStack = new LinkedList<>();
+	List<KeyCode> keyStack = new LinkedList<>();
 
 	boolean isFired = false;
 
-	@Override
-	public void keyPressedEvent(int keyCode) {
+	public void keyPressedHandle(KeyEvent keyEvent) {
+		// System.out.println("sdfafdsafdsaf");
 		if (getState().equals(State.STATE_DIE))
 			return;
+		KeyCode keyCode = keyEvent.getCode();
+		setMove(keyEvent.getCode());
 
-		setMove(keyCode);
-
-		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S
-				|| keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
+		if (keyCode == KeyCode.W || keyCode == KeyCode.S
+				|| keyCode == KeyCode.A || keyCode == KeyCode.D) {
 			if (!keyStack.contains(keyCode))
 				keyStack.add(keyCode);
-		} else if (keyCode == KeyEvent.VK_J && !isFired) {
+		} else if (keyCode == KeyCode.J && !isFired) {
 			fire();
 			isFired = true;
 		}
 	}
 
-	@Override
-	public void keyReleasedEvent(int keyCode) {
+	public void keyReleasedHandle(KeyEvent keyEvent) {
 		if (getState().equals(State.STATE_DIE))
 			return;
-
-		if (keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_S
-				|| keyCode == KeyEvent.VK_A || keyCode == KeyEvent.VK_D) {
-			if (keyStack.contains(keyCode))
-				keyStack.remove(Integer.valueOf(keyCode));
-		} else if (keyCode == KeyEvent.VK_J && isFired) {
+		KeyCode keyCode = keyEvent.getCode();
+		if (keyCode == KeyCode.W || keyCode == KeyCode.S
+				|| keyCode == KeyCode.A || keyCode == KeyCode.D) {
+			keyStack.remove(keyCode);
+		} else if (keyCode == KeyCode.J && isFired) {
 			isFired = false;
 		}
-
 		if (keyStack.isEmpty())
 			setState(State.STATE_IDLE);
 		else
 			setMove(keyStack.get(keyStack.size() - 1));
 	}
 
-	private void setMove(int keyCode) {
-
+	private void setMove(KeyCode keyCode) {
+		System.out.println("你干嘛~");
 		switch (keyCode) {
-			case KeyEvent.VK_W -> {
-				setForward(Direction.DIR_UP);
+			case W -> {
+				setDirection(Direction.DIR_UP);
 				setState(State.STATE_MOVE);
 			}
-			case KeyEvent.VK_S -> {
-				setForward(Direction.DIR_DOWN);
+			case S -> {
+				setDirection(Direction.DIR_DOWN);
 				setState(State.STATE_MOVE);
 			}
-			case KeyEvent.VK_A -> {
-				setForward(Direction.DIR_LEFT);
+			case A -> {
+				setDirection(Direction.DIR_LEFT);
 				setState(State.STATE_MOVE);
 			}
-			case KeyEvent.VK_D -> {
-				setForward(Direction.DIR_RIGHT);
+			case D -> {
+				setDirection(Direction.DIR_RIGHT);
 				setState(State.STATE_MOVE);
 			}
-			// case KeyEvent.VK_J -> fire();
-
 		}
 	}
 

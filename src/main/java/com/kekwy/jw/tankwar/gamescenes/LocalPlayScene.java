@@ -1,36 +1,36 @@
 package com.kekwy.jw.tankwar.gamescenes;
 
-import com.kekwy.jw.gameengine.GameEngine;
-import com.kekwy.jw.gameengine.GameFrame;
-import com.kekwy.jw.gameengine.GameObject;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.effect.Blast;
-import com.kekwy.jw.tankwar.effect.Player;
-import com.kekwy.jw.tankwar.gamemap.MapTile;
+import com.kekwy.jw.tankwar.effect.MusicPlayer;
 import com.kekwy.jw.tankwar.level.Level;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.tank.EnemyTank;
 import com.kekwy.jw.tankwar.tank.PlayerTank;
-import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
 
-import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.util.List;
 
 
 /**
  * 游戏进行时的场景
  */
-public class PlayScene extends GameScene {
+public class LocalPlayScene extends GameScene {
 
 	/**
 	 * 游戏时背景音乐
 	 */
-	public final Player gameBGM = new Player();
+	public final MusicPlayer gameBGM = new MusicPlayer();
 
 	/**
 	 * 当前场景的窗口标题
@@ -39,7 +39,7 @@ public class PlayScene extends GameScene {
 	/**
 	 * 当前场景的窗口大小
 	 */
-	private static final int FRAME_WIDTH = 960, FRAME_HEIGHT = 560;
+	private static final int SCENE_WIDTH = 960, SCENE_HEIGHT = 560;
 
 
 	/**
@@ -47,44 +47,37 @@ public class PlayScene extends GameScene {
 	 */
 	BackGround backGround;
 
-
-	public PlayScene(GameFrame gameFrame, GameEngine gameEngine) {
-		super(gameFrame, gameEngine);
-
-		// 使用公共窗口
-		setGameFrame(gameFrame, FrameType.FRAME_TYPE_PUBLIC);
-		// 新建私有窗口
-		// setGameFrame(new GameFrame(), FrameType.FRAME_TYPE_PRIVATE);
-
-		// 初始化场景
-		setTitle(GAME_TITLE);
-		setSize(FRAME_WIDTH, FRAME_HEIGHT);
-		setResizable(false);
-		setLocation();
-
+	public LocalPlayScene() {
+		super(SCENE_WIDTH, SCENE_HEIGHT, GAME_TITLE);
 		backGround = new BackGround(this);
-
-		// GameMap.createGameMap(this, "./maps/level1.xlsx");
-
-
-		//TODO 关卡跳转
-		// server
-
-		// audioClip.loop();
-		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
-
 		levelCount = TankWar.levels.length;
+		this.setOnKeyPressed((KeyEvent keyEvent) -> {
+			if (player != null) {
+				player.keyPressedHandle(keyEvent);
+			}
+		});
+		this.setOnKeyReleased((KeyEvent keyEvent) -> {
+			if (player != null) {
+				player.keyReleasedHandle(keyEvent);
+			}
+		});
+	}
 
-		setActive();
+	@Override
+	public void start() {
+		super.start();
+		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
+		play();
+	}
 
+	public void play() {
 		playing = true;
 		TankWar.levels[currentLevel].setParent(this);
 		TankWar.levels[currentLevel].setPlayer(player);
 		TankWar.levels[currentLevel].start();
-
 	}
 
-	Tank player;
+	PlayerTank player;
 
 
 	AudioClip audioPassLevel = TankWar.passBGM;
@@ -138,7 +131,7 @@ public class PlayScene extends GameScene {
 		gameBGM.stop();
 		// audioClip.isPlaying();
 		backGround.setActive(false);
-		sceneClear();
+		stop();
 		EnemyTank.setCount(0);
 		OverBackGround overBackGround = new OverBackGround(this);
 		addGameObject(overBackGround);
@@ -159,21 +152,35 @@ public class PlayScene extends GameScene {
 			super(parent);
 			this.setLayer(2);
 			this.setColliderType(ColliderType.COLLIDER_TYPE_RECT);
-			this.setRadius(FRAME_WIDTH / 2);
-			this.position.setX(FRAME_WIDTH / 2);
-			this.position.setY(top + FRAME_WIDTH / 2);
+			this.setRadius(SCENE_WIDTH / 2);
+			this.transform.setX(SCENE_WIDTH / 2.0);
+			this.transform.setY(top + SCENE_WIDTH / 2.0);
 		}
 
 
-		public static final Font TILE_FONT = new Font("Minecraft 常规", Font.PLAIN, 32);
-		public static final Font NOTICE_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
+		public static final Font TILE_FONT = new Font("Minecraft 常规", 32);
+		public static final Font NOTICE_FONT = new Font("Minecraft 常规", 18);
 
 		static final String TILE = "过关！";
 		static final String NOTICE0 = "按ESC返回主菜单";
 		static final String NOTICE1 = "按Enter进入下一关";
 
-		int top = FRAME_HEIGHT / 4 * 3 + getUpBound();
+		int top = SCENE_HEIGHT / 4 * 3;
 
+
+		@Override
+		public void refresh(GraphicsContext g, long timestamp) {
+			g.setFill(Color.BLACK);
+			g.fillRect(0, top, SCENE_WIDTH, SCENE_HEIGHT / 4.0);
+			g.setFill(Color.WHITE);
+			g.fillRect(0, top, SCENE_WIDTH, 3);
+			g.fillRect(0, top + 6, SCENE_WIDTH, 3);
+			g.setFont(TILE_FONT);
+			g.fillText(TILE, 440, top + 50);
+			g.setFont(NOTICE_FONT);
+			g.fillText(NOTICE0, 20, top + 110);
+			g.fillText(NOTICE1, 790, top + 110);
+		}
 
 		@Override
 		public void collide(List<GameObject> gameObjects) {
@@ -182,8 +189,8 @@ public class PlayScene extends GameScene {
 					if (gameObject instanceof Bullet bullet) {
 						this.setActive(false);
 						bullet.setActive(false);
-						Blast blast = Blast.createBlast(PlayScene.this,
-								bullet.position.getX(), bullet.position.getY());
+						Blast blast = Blast.createBlast(LocalPlayScene.this,
+								bullet.transform.getX(), bullet.transform.getY());
 						blast.setRadius(100);
 						addGameObject(blast);
 						new Thread(() -> {
@@ -192,9 +199,9 @@ public class PlayScene extends GameScene {
 							} catch (InterruptedException e) {
 								throw new RuntimeException(e);
 							}
-							itemsClear(MapTile.class);
+							// itemsClear(MapTile.class);
 							currentLevel += 2;
-							TankWar.finalLevel.setParent(PlayScene.this);
+							TankWar.finalLevel.setParent(LocalPlayScene.this);
 							TankWar.finalLevel.setPlayer(player);
 							isWin = true;
 							playing = true;
@@ -206,63 +213,48 @@ public class PlayScene extends GameScene {
 			}
 		}
 
-		@Override
-		public void render(Graphics g) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, top, FRAME_WIDTH, FRAME_HEIGHT / 4);
-			g.setColor(Color.WHITE);
-			g.fillRect(0, top, FRAME_WIDTH, 3);
-			g.fillRect(0, top + 6, FRAME_WIDTH, 3);
-			g.setFont(TILE_FONT);
-			g.drawString(TILE, 440, top + 50);
-			g.setFont(NOTICE_FONT);
-			g.drawString(NOTICE0, 20, top + 110);
-			g.drawString(NOTICE1, 790, top + 110);
-		}
-
-
-		@Override
-		public void keyPressedEvent(int keyCode) {
-			if (keyCode == KeyEvent.VK_ESCAPE) {
-				audioPassLevel.stop();
-				PlayScene.this.setInactive(TankWar.INDEX_MAIN_MENU);
-				return;
-			}
-
-			if (keyCode != KeyEvent.VK_ENTER)
-				return;
-			this.setActive(false);
-			currentLevel++;
-			if (currentLevel == levelCount) {
-				isWin = true;
-				PlayScene.this.gameOver();
-			} else {
-				audioPassLevel.stop();
-				itemsClear(MapTile.class);
-				TankWar.levels[currentLevel].setParent(PlayScene.this);
-				TankWar.levels[currentLevel].setPlayer(player);
-				TankWar.levels[currentLevel].start();
-				playing = true;
-			}
-		}
+//		@Override
+//		public void keyPressedEvent(int keyCode) {
+//			if (keyCode == KeyEvent.VK_ESCAPE) {
+//				audioPassLevel.stop();
+//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
+//				return;
+//			}
+//
+//			if (keyCode != KeyEvent.VK_ENTER)
+//				return;
+//			this.setActive(false);
+//			currentLevel++;
+//			if (currentLevel == levelCount) {
+//				isWin = true;
+//				LocalPlayScene.this.gameOver();
+//			} else {
+//				audioPassLevel.stop();
+//				// itemsClear(MapTile.class);
+//				TankWar.levels[currentLevel].setParent(LocalPlayScene.this);
+//				TankWar.levels[currentLevel].setPlayer(player);
+//				TankWar.levels[currentLevel].start();
+//				playing = true;
+//			}
+//		}
 	}
 
 	/**
 	 * 用于渲染背景的内部类
 	 */
-	class BackGround extends GameObject {
+	static class BackGround extends GameObject {
+
+		@Override
+		public void refresh(GraphicsContext g, long timestamp) {
+			g.setFill(Color.BLACK);
+			g.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
+		}
 
 		public BackGround(GameScene parent) {
 			super(parent);
 			setLayer(0);
 			setActive(true);
 			parent.addGameObject(this);
-		}
-
-		@Override
-		public void render(Graphics g) {
-			g.setColor(Color.BLACK);
-			g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
 		}
 	}
 
@@ -272,8 +264,8 @@ public class PlayScene extends GameScene {
 	class OverBackGround extends GameObject {
 
 		static Image overImg = null;
-		public static final Font OVER_FONT = new Font("Minecraft 常规", Font.PLAIN, 18);
-		public static final Font NOTICE_FONT = new Font("Minecraft 常规", Font.PLAIN, 26);
+		public static final Font OVER_FONT = new Font("Minecraft 常规", 18);
+		public static final Font NOTICE_FONT = new Font("Minecraft 常规", 26);
 		public static final String OVER_NOTICE = "按Enter键继续...";
 		public static final String OVER_NOTICE2 = "按ESC键继续...";
 		static final String str0 = "恭喜通关";
@@ -287,7 +279,7 @@ public class PlayScene extends GameScene {
 			super(parent);
 			setLayer(2);
 			setActive(true);
-			if (PlayScene.this.isWin) {
+			if (LocalPlayScene.this.isWin) {
 				if (currentLevel == levelCount) {
 					TankWar.endBGM0.play(0.5);
 				} else if (currentLevel == levelCount + 1) {
@@ -297,53 +289,71 @@ public class PlayScene extends GameScene {
 		}
 
 		@Override
-		public void render(Graphics g) {
+		public void refresh(GraphicsContext g, long timestamp) {
 			if (currentLevel >= levelCount) {
-				g.setColor(Color.BLACK);
-				g.fillRect(0, getUpBound(), FRAME_WIDTH, FRAME_HEIGHT);
-				g.setColor(Color.WHITE);
+				g.setFill(Color.BLACK);
+				g.fillRect(0, 0, SCENE_WIDTH, SCENE_HEIGHT);
+				g.setFill(Color.WHITE);
 				g.setFont(NOTICE_FONT);
 				if (currentLevel == levelCount) {
-					g.drawString(str0, 400, 200);
-					g.drawString(str1, 400, 300);
+					g.fillText(str0, 400, 200);
+					g.fillText(str1, 400, 300);
 				} else if (currentLevel == levelCount + 1) {
-					g.drawString(str2, 400, 200);
-					g.drawString(str3, 400, 300);
-					g.drawString(str4, 400, 400);
-					g.drawString(str5, 400, 500);
+					g.fillText(str2, 400, 200);
+					g.fillText(str3, 400, 300);
+					g.fillText(str4, 400, 400);
+					g.fillText(str5, 400, 500);
 				}
 				g.setFont(OVER_FONT);
-				g.drawString(OVER_NOTICE2, 20, 550);
+				g.fillText(OVER_NOTICE2, 20, 550);
 			} else {
 				if (overImg == null) {
 					overImg = TankWarUtil.createImage("/over.gif");
 				}
-				int imgW = overImg.getWidth(null);
-				int imgH = overImg.getHeight(null);
+				double imgW = overImg.getWidth();
+				double imgH = overImg.getHeight();
 				// 第一次绘制时触发了bug
 				if (imgW != -1) {
 					// System.out.println(imgH);
-					g.drawImage(overImg, FRAME_WIDTH - 3 * imgW >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) - 20, 3 * imgW,
-							3 * imgH, null);
-					g.setColor(Color.WHITE);
+					g.drawImage(overImg, SCENE_WIDTH - 3 * imgW / 2,
+							(SCENE_HEIGHT - 3 * imgH / 2) - 20, 3 * imgW, 3 * imgH);
+					g.setFill(Color.WHITE);
 					g.setFont(OVER_FONT);
-					g.drawString(OVER_NOTICE, FRAME_WIDTH - 125 >> 1, (FRAME_HEIGHT - 3 * imgH >> 1) + 145);
+					g.fillText(OVER_NOTICE, SCENE_WIDTH - 125 >> 1, (SCENE_HEIGHT - 3 * imgH / 2) + 145);
 				}
 			}
 		}
 
-		@Override
-		public void keyPressedEvent(int keyCode) {
-			if (keyCode == KeyEvent.VK_ENTER && !isWin) {
-				PlayScene.this.setInactive(TankWar.INDEX_MAIN_MENU);
-			} else if (keyCode == KeyEvent.VK_ESCAPE && isWin) {
-				PlayScene.this.setInactive(TankWar.INDEX_MAIN_MENU);
-				TankWar.endBGM0.stop();
-				TankWar.endBGM1.stop();
-			}
-		}
+//		@Override
+//		public void keyPressedEvent(int keyCode) {
+//			if (keyCode == KeyEvent.VK_ENTER && !isWin) {
+//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
+//			} else if (keyCode == KeyEvent.VK_ESCAPE && isWin) {
+//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
+//				TankWar.endBGM0.stop();
+//				TankWar.endBGM1.stop();
+//			}
+//		}
 	}
 
+
+	@Override
+	public void update(GameObject object, double x, double y, int offset) {
+		if (object instanceof Bullet) {
+			if (x < 0 || x > SCENE_WIDTH || y < 0 || y > SCENE_HEIGHT) {
+				object.setActive(false);
+				return;
+			}
+		} else {
+			x = Math.max(x, offset);
+			x = Math.min(x, SCENE_WIDTH - offset);
+			y = Math.max(y, offset);
+			y = Math.min(y, SCENE_HEIGHT - offset);
+		}
+		super.update(object, x, y, offset);
+		object.transform.setX(x);
+		object.transform.setY(y);
+	}
 }
 
 

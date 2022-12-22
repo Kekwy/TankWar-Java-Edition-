@@ -1,18 +1,22 @@
 package com.kekwy.jw.tankwar.tank;
 
-import com.kekwy.jw.gameengine.GameObject;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
 import com.kekwy.jw.tankwar.util.Direction;
+import com.kekwy.jw.tankwar.util.ResourceUtil;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
-import java.awt.*;
+import java.util.LinkedList;
 import java.util.List;
 
-public abstract class Tank extends GameObject {
+public abstract class Tank extends GameObject implements Runnable {
 
 	boolean visible = true;
 
@@ -30,7 +34,7 @@ public abstract class Tank extends GameObject {
 		STATE_DIE,
 	}
 
-	public static final int DEFAULT_RADIUS = 20;
+	public static final int TANK_RADIUS = 20;
 	public static final int DEFAULT_SPEED = 3;
 	public static final int DEFAULT_HP = 1000;
 	public static final int DEFAULT_ATK = 100;
@@ -41,7 +45,7 @@ public abstract class Tank extends GameObject {
 	private int hp = DEFAULT_HP, atk = DEFAULT_ATK, speed = DEFAULT_SPEED;
 	private int maxHp = DEFAULT_HP;
 
-	private Direction forward = DEFAULT_DIR;
+	private Direction direction = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
 
 	private Color color;
@@ -50,105 +54,180 @@ public abstract class Tank extends GameObject {
 
 	public Tank(GameScene parent) {
 		super(parent);
-		setRadius(DEFAULT_RADIUS);
-		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
+		setRadius(TANK_RADIUS);
+//		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		setLayer(1);
 		// initTank();
 	}
 
-	public Tank(GameScene parent, int x, int y, Direction forward, String name) {
+	public Tank(GameScene parent, int x, int y, Direction direction, String name, int group) {
 		super(parent);
-		setRadius(DEFAULT_RADIUS);
-		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
-		initTank(x, y, forward, name);
+		setRadius(TANK_RADIUS);
+//		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
+		initTank(x, y, direction, name, group);
 		setLayer(1);
 	}
 
-	@Override
-	public void collide(List<GameObject> gameObjects) {
-		boolean isCover = true;
+	private void move() {
+		if (state == State.STATE_MOVE) {
+			double x = this.transform.getX();
+			double y = this.transform.getY();
+			switch (direction) {
+				case DIR_UP -> y -= speed;
+				case DIR_DOWN -> y += speed;
+				case DIR_LEFT -> x -= speed;
+				case DIR_RIGHT -> x += speed;
+			}
+			this.getParent().update(this, x, y, TANK_RADIUS);
+		}
+	}
 
-		for (GameObject gameObject : gameObjects) {
-			if (gameObject instanceof Bullet bullet) {
-				if (!bullet.getFrom().getClass().equals(this.getClass())) {
-					hitSound.play();
-					hp -= bullet.getAtk();
-					Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
-					getParent().addGameObject(blast);
-					bullet.setActive(false);
-				}
-			} else if (gameObject instanceof Tank && !gameObject.getClass().equals(this.getClass())) {
-				hitSound.play();
-				this.hp = 0;
-				((Tank) gameObject).setHp(0);
-				((Tank) gameObject).setState(State.STATE_DIE);
-				Blast blast = Blast.createBlast(getParent(), this.position.getX(), this.position.getY());
-				getParent().addGameObject(blast);
-			} else if (gameObject instanceof MapTile mapTile) {
-				if (mapTile.getType() == MapTile.Type.TYPE_COVER) {
-					setVisible(false);
-					isCover = false;
-				} else {
-					int x1 = position.getX(), y1 = position.getY();
-					int x2 = mapTile.position.getX(), y2 = mapTile.position.getY();
-					if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
-						if(x1 > x2) {
-							x1 = x2 + mapTile.getRadius() + this.getRadius();
-						} else {
-							x1 = x2 - mapTile.getRadius() - this.getRadius();
-						}
-					} else {
-						if(y1 > y2) {
-							y1 = y2 + mapTile.getRadius() + this.getRadius();
-						} else {
-							y1 = y2 - mapTile.getRadius() - this.getRadius();
-						}
-					}
-					this.position.setX(x1);
-					this.position.setY(y1);
-				}
+	private int group;
+
+	private static final long UPDATE_INTERVAL = 20;
+
+	@SuppressWarnings("BusyWait")
+	@Override
+	public void run() {
+		while (this.isActive()) {
+			move();
+//			fire();
+			try {
+				collide();
+				check(System.currentTimeMillis());
+				Thread.sleep(UPDATE_INTERVAL);
+			} catch (InterruptedException e) {
+				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	private final List<GameObject> collideList = new LinkedList<>();
+
+	private void collide() throws InterruptedException {
+		boolean isCovered = false;
+		getParent().getObjectAroundTheGridCell(this, collideList);
+		for (GameObject gameObject : collideList) {
+			if (gameObject == this)
+				continue;
+			if (this.isCollide(gameObject)) {
+				while (true) {
+					if (!this.collideLock().tryLock()) {
+						this.collideLock().lock();
+					}
+					if (!gameObject.collideLock().tryLock()) {
+						this.collideLock().unlock();
+						gameObject.collideLock().lock();
+						gameObject.collideLock().unlock();
+						continue;
+					}
+					break;
+				}
+				if (!this.isActive() || !gameObject.isActive()) {
+					gameObject.collideLock().unlock();
+					this.collideLock().unlock();
+					if (!this.isActive()) {
+						return;
+					} else {
+						continue;
+					}
+				}
+				if (gameObject instanceof Tank tank) {
+					if (tank.group == this.group) {
+						// TODO 队友 BUFF
+					} else {
+						hitSound.play();
+						this.hp = 0;
+						tank.setHp(0);
+						tank.setState(State.STATE_DIE);
+						Blast blast = Blast.createBlast(getParent(), this.transform.getX(), this.transform.getY());
+						getParent().addGameObject(blast);
+						tank.setHp(0);
+					}
+				} else if (gameObject instanceof Bullet bullet && bullet.getFrom().group != this.group) {
+					hitSound.play();
+					hp -= bullet.getAtk();
+					if (hp < 0) hp = 0;
+					Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
+					getParent().addGameObject(blast);
+					bullet.setActive(false);
+				} else if (gameObject instanceof MapTile mapTile) {
+					if (mapTile.getType() == MapTile.Type.TYPE_COVER) {
+						setVisible(false);
+						isCovered = true;
+					} else {
+						double x1 = transform.getX(), y1 = transform.getY();
+						double x2 = mapTile.transform.getX(), y2 = mapTile.transform.getY();
+						if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+							if (x1 > x2) {
+								x1 = x2 + mapTile.getRadius() + this.getRadius();
+							} else {
+								x1 = x2 - mapTile.getRadius() - this.getRadius();
+							}
+						} else {
+							if (y1 > y2) {
+								y1 = y2 + mapTile.getRadius() + this.getRadius();
+							} else {
+								y1 = y2 - mapTile.getRadius() - this.getRadius();
+							}
+						}
+						this.transform.setX(x1);
+						this.transform.setY(y1);
+					}
+				}
+				gameObject.collideLock().unlock();
+				this.collideLock().unlock();
+			}
+		}
+		collideList.clear();
 
 		if (hp <= 0) {
 			setState(State.STATE_DIE);
 		}
-
-		if (isCover) {
+		if (!isCovered) {
 			setVisible(true);
 		}
+	}
+
+
+	protected void check(long timestamp) {
 
 	}
 
-	protected void initTank(int x, int y, Direction forward, String name) {
-		this.position.setX(x);
-		this.position.setY(y);
-		// fireTime = getParent().currentTimeMillis();
-		this.forward = forward;
+	@Override
+	public void destroy() {
+		this.setActive(false);
+	}
 
-		// 防止颜色过暗
-		do {
-			this.color = TankWarUtil.getRandomColor();
-		} while (color.getRed() + color.getGreen() + color.getBlue() < 100);
+	protected void initTank(double x, double y, Direction direction, String name, int group) {
+		this.transform.setX(x);
+		this.transform.setY(y);
+		this.group = group;
+//		 fireTime = getParent().currentTimeMillis();
+		this.direction = direction;
+		this.color = TankWarUtil.getRandomColor();
+//		 防止颜色过暗
+//		do {
+//			this.color = TankWarUtil.getRandomColor();
+//		} while (color.getRed() + color.getGreen() + color.getBlue() < 100.0 / 256);
 		this.name = name;
 		setActive(true);
 	}
-
 
 	public void fire() {
 		// if(getParent().currentTimeMillis() - fireTime < FIRE_INTERVAL)
 		// return;
 		// fireTime = getParent().currentTimeMillis();
 		// Position position = getPosition();
-		int bulletX = this.position.getX();
-		int bulletY = this.position.getY();
-		switch (forward) {
+		double bulletX = this.transform.getX();
+		double bulletY = this.transform.getY();
+		switch (direction) {
 			case DIR_UP -> bulletY -= getRadius();
 			case DIR_DOWN -> bulletY += getRadius();
 			case DIR_LEFT -> bulletX -= getRadius();
 			case DIR_RIGHT -> bulletX += getRadius();
 		}
-		Bullet bullet = Bullet.createBullet(getParent(), atk, color, bulletX, bulletY, forward, this);
+		Bullet bullet = Bullet.createBullet(getParent(), atk, color, bulletX, bulletY, direction, this);
 		getParent().addGameObject(bullet);
 		// System.out.println("fire");
 	}
@@ -162,7 +241,7 @@ public abstract class Tank extends GameObject {
 	}
 
 	public void setMaxHp(int hp) {
-		if(this.hp > hp) {
+		if (this.hp > hp) {
 			this.hp = hp;
 		}
 		this.maxHp = hp;
@@ -184,12 +263,12 @@ public abstract class Tank extends GameObject {
 		this.speed = speed;
 	}
 
-	public Direction getForward() {
-		return forward;
+	public Direction getDirection() {
+		return direction;
 	}
 
-	public void setForward(Direction forward) {
-		this.forward = forward;
+	public void setDirection(Direction direction) {
+		this.direction = direction;
 	}
 
 	public State getState() {
@@ -200,83 +279,36 @@ public abstract class Tank extends GameObject {
 		this.state = state;
 	}
 
-
-	public synchronized void move() {
-
-		// Position position = getPosition();
-		int x = this.position.getX();
-		int y = this.position.getY();
-
-		switch (forward) {
-			case DIR_UP -> {
-				if (y > getRadius() + getParent().getUpBound()) {
-					y -= speed;
-				}
-			}
-			case DIR_DOWN -> {
-				if (y < getParent().getDownBound() - getRadius() - 6) {
-					y += speed;
-				}
-			}
-			case DIR_LEFT -> {
-				if (x > getParent().getLeftBound() + getRadius() + 6) {
-					x -= speed;
-				}
-			}
-			case DIR_RIGHT -> {
-				if (x < getParent().getRightBound() - getRadius() - 6) {
-					x += speed;
-				}
-			}
-		}
-
-		// setPosition(position);
-		this.position.setX(x);
-		this.position.setY(y);
-
-	}
+	private String name;
+	private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/IPix.ttf"), 14);
 
 	@Override
-	public void fixedUpdate() {
-		// case STATE_DIE -> setActive(false);
-		if (state == State.STATE_MOVE) {
-			move();
-		}
+	public void refresh(GraphicsContext g, long timestamp) {
+		hpBar.refresh(g, timestamp);
+		g.setFill(color);
+		g.setFont(NAME_FONT);
+		g.fillText(name, transform.getX() - getRadius(), transform.getY() - getRadius() - 14);
 	}
+
+
+	private static final AudioClip hitSound = TankWar.hitSound;
+
 
 	private class HPBar {
 		public static final int BAR_LENGTH = 50;
 		public static final int BAR_HEIGHT = 5;
 
-		public void render(Graphics g) {
-
-			int x = Tank.this.position.getX();
-			int y = Tank.this.position.getY();
+		public void refresh(GraphicsContext g, long timestamp) {
+			double x = Tank.this.transform.getX();
+			double y = Tank.this.transform.getY();
 			// System.out.println("HPBar render");
-			g.setColor(Color.RED);
+			g.setFill(Color.RED);
 			g.fillRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
-					hp * BAR_LENGTH / maxHp, BAR_HEIGHT);
-			g.setColor(Color.white);
-			g.drawRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
+					hp * BAR_LENGTH / (double) (maxHp), BAR_HEIGHT);
+			g.setStroke(Color.WHITE);
+			g.strokeRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
 					BAR_LENGTH, BAR_HEIGHT);
 		}
 	}
-
-	String name;
-	static final Font NAME_FONT = new Font("Minecraft 常规", Font.PLAIN, 14);
-
-	@Override
-	public void render(Graphics g) {
-		if (!isVisible())
-			return;
-		hpBar.render(g);
-		g.setColor(color);
-		g.setFont(NAME_FONT);
-		g.drawString(name, position.getX() - getRadius(), position.getY() - getRadius() - 14);
-
-	}
-
-
-	static AudioClip hitSound = TankWar.hitSound;
 
 }

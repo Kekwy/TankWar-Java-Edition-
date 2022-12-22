@@ -1,15 +1,17 @@
 package com.kekwy.jw.tankwar.util;
 
+import javafx.scene.image.Image;
+import javafx.scene.paint.Color;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-import java.awt.*;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
 
 public class TankWarUtil {
@@ -24,8 +26,8 @@ public class TankWarUtil {
 	 * @param max 区间最大值，不包含
 	 * @return 随机数
 	 */
-	public static int getRandomNumber(int min, int max) {
-		return (int) (Math.random() * (max - min) + min);
+	public static double getRandomNumber(double min, double max) {
+		return Math.random() * (max - min) + min;
 	}
 
 	/**
@@ -34,10 +36,10 @@ public class TankWarUtil {
 	 * @return 颜色
 	xx*/
 	public static Color getRandomColor() {
-		int red = getRandomNumber(0, 256);
-		int green = getRandomNumber(0, 256);
-		int blue = getRandomNumber(0, 256);
-		return new Color(red, green, blue);
+		double red = getRandomNumber(0, 1);
+		double green = getRandomNumber(0, 1);
+		double blue = getRandomNumber(0, 1);
+		return Color.color(red, green, blue);
 	}
 
 	/**
@@ -49,14 +51,14 @@ public class TankWarUtil {
 	 * @param pointY 点的y坐标
 	 * @return 是否在内部
 	 */
-	public static boolean isCollide(int rectX, int rectY, int radius, int pointX, int pointY) {
-		int disX = Math.abs(rectX - pointX);
-		int disY = Math.abs(rectY - pointY);
+	public static boolean isCollide(double rectX, double rectY, double radius, double pointX, double pointY) {
+		double disX = Math.abs(rectX - pointX);
+		double disY = Math.abs(rectY - pointY);
 		return (disX < radius && disY < radius);
 	}
 
 	public static Image createImage(String path) {
-		return Toolkit.getDefaultToolkit().createImage(TankWarUtil.class.getResource(path));
+		return new Image(Objects.requireNonNull(TankWarUtil.class.getResource(path)).toString());
 	}
 
 	public static int[][] readWorkBook(InputStream file, int rowFrom, int colFrom, int rowN, int colN, int sheetIndex) {

@@ -1,6 +1,6 @@
 package com.kekwy.jw.tankwar.gamemap;
 
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
 
 import java.io.InputStream;
@@ -26,7 +26,7 @@ public class GameMap {
 			int[] mapDatum = mapData[i];
 			for (int i1 = 0; i1 < mapDatum.length; i1++) {
 				int x = i1 * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
-				int y = i * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2 + parent.getUpBound();
+				int y = i * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
 				switch (mapDatum[i1]) {
 					case 1 -> new MapTile(parent, MapTile.Type.TYPE_NORMAL, x, y);
 					case 2 -> new MapTile(parent, MapTile.Type.TYPE_HARD, x, y);

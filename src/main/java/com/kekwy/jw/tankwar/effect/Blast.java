@@ -1,11 +1,11 @@
 package com.kekwy.jw.tankwar.effect;
 
-import com.kekwy.jw.gameengine.GameObject;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.util.ObjectPool;
-import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
-import java.awt.*;
 
 public class Blast extends GameObject {
 
@@ -15,17 +15,17 @@ public class Blast extends GameObject {
 	static {
 		img = new Image[EXPLODE_FRAME_COUNT];
 		for (int i = 0; i < EXPLODE_FRAME_COUNT; i++) {
-			img[i] = TankWarUtil.createImage("/blast" + String.valueOf((i >> 1) + 1) + ".gif");
+			img[i] = new Image("/blast" + String.valueOf((i >> 1) + 1) + ".gif");
 		}
 	}
 
-	public static Blast createBlast(GameScene parent, int x, int y) {
+	public static Blast createBlast(GameScene parent, double x, double y) {
 		Blast blast = (Blast)blastPool.getObject();
 		blast.setIndex(0);
 		blast.setParent(parent);
 		blast.setActive(true);
-		blast.position.setX(x);
-		blast.position.setY(y);
+		blast.transform.setX(x);
+		blast.transform.setY(y);
 		blast.setLayer(2);
 		return blast;
 	}
@@ -51,19 +51,20 @@ public class Blast extends GameObject {
 	private static final ObjectPool blastPool = new ObjectPool(Blast.class);
 
 
-	public Blast(GameScene parent) {
-		super(parent);
-	}
-
 	@Override
-	public void render(Graphics g) {
-		int x = this.position.getX();
-		int y = this.position.getY();
-		g.drawImage(img[index], x - radius, y - radius, 2 * radius, 2 * radius, null);
+	public void refresh(GraphicsContext g, long timestamp) {
+		double x = this.transform.getX();
+		double y = this.transform.getY();
+		g.drawImage(img[index], x - radius, y - radius, 2 * radius, 2 * radius);
 		index++;
 		if (index >= EXPLODE_FRAME_COUNT) {
 			setActive(false);
 			blastPool.returnObject(this);
 		}
 	}
+
+	public Blast(GameScene parent) {
+		super(parent);
+	}
+
 }

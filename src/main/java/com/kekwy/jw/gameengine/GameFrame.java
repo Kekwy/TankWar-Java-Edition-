@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
+@Deprecated
 public final class GameFrame extends Frame {
 
 	GameScene gameScene;

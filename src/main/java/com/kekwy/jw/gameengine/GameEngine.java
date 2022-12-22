@@ -3,7 +3,7 @@ package com.kekwy.jw.gameengine;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-
+@Deprecated
 public final class GameEngine {
 
 	/**

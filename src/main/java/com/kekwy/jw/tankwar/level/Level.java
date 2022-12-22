@@ -3,12 +3,12 @@ package com.kekwy.jw.tankwar.level;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.gamemap.GameMap;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
-import com.kekwy.jw.tankwar.gamescenes.PlayScene;
+import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.tank.EnemyTank;
 import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
-import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -36,9 +36,9 @@ public class Level {
 	private final int BULLET_SPEED;
 	private final boolean RECOVER;
 	private final boolean isFinalLevel;
-	private final List<AudioClip> bgmList = new ArrayList<>();
+	private final List<Media> bgmList = new ArrayList<>();
 	private final int SPAWN_X, SPAWN_Y;
-	private PlayScene parent;
+	private LocalPlayScene parent;
 
 	private Thread currentThread;
 
@@ -76,7 +76,7 @@ public class Level {
 		String[] filepath = TankWarUtil.splitString(contents, ".mp3", bgmCount);
 		for (String s : filepath) {
 			try {
-				bgmList.add(new AudioClip(new File(s).toURI().toURL().toString()));
+				bgmList.add(new Media(new File(s).toURI().toURL().toString()));
 			} catch (MalformedURLException e) {
 				throw new RuntimeException(e);
 			}
@@ -94,7 +94,7 @@ public class Level {
 		}
 	}
 
-	public void setParent(PlayScene parent) {
+	public void setParent(LocalPlayScene parent) {
 		this.parent = parent;
 	}
 
@@ -141,8 +141,8 @@ public class Level {
 			player.setSpeed(PLAYER_SPEED);
 			player.setAtk(PLAYER_ATK);
 			player.setState(Tank.State.STATE_IDLE);
-			player.position.setX(SPAWN_X);
-			player.position.setY(SPAWN_Y + parent.getUpBound() - 6);
+			player.transform.setX(SPAWN_X);
+			player.transform.setY(SPAWN_Y - 6);
 			if (RECOVER) {
 				player.setHp(PLAYER_HP);
 			}
@@ -153,7 +153,8 @@ public class Level {
 
 		Bullet.setSpeed(BULLET_SPEED);
 
-		int enemyCount = 1, spawnX;
+		int enemyCount = 1;
+		double spawnX;
 		// 开始生成敌方坦克
 		while (active && enemyCount <= ENEMY_COUNT) {
 			try {
@@ -167,15 +168,15 @@ public class Level {
 				continue;
 			}
 
-			int number = TankWarUtil.getRandomNumber(0, 2);
+			int number = (int)TankWarUtil.getRandomNumber(0, 2);
 			if (number == 0) {
-				spawnX = parent.getLeftBound() + Tank.DEFAULT_RADIUS + 6;
+				spawnX = Tank.TANK_RADIUS + 6;
 			} else {
-				spawnX = parent.getRightBound() - Tank.DEFAULT_RADIUS - 6;
+				spawnX = parent.getWidth() - Tank.TANK_RADIUS - 6;
 			}
 
 			Tank enemyTank = EnemyTank.createEnemyTank(parent, spawnX,
-					parent.getUpBound() + Tank.DEFAULT_RADIUS, "Enemy" + enemyCount);
+					Tank.TANK_RADIUS, "Enemy" + enemyCount, 2);
 
 			enemyTank.setMaxHp(ENEMY_HP);
 			enemyTank.setHp(ENEMY_HP);

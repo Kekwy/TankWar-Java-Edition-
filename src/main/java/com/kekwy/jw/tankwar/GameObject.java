@@ -1,12 +1,15 @@
-package com.kekwy.jw.gameengine;
+package com.kekwy.jw.tankwar;
 
-import java.awt.*;
+import com.kekwy.jw.tankwar.tank.Tank;
+import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.ReentrantLock;
 
-@Deprecated
+
 public abstract class GameObject {
 
 
@@ -24,14 +27,9 @@ public abstract class GameObject {
 	 *
 	 * @param g 底层提供的画笔对象
 	 */
-	public abstract void render(Graphics g);
+	public abstract void refresh(GraphicsContext g, long timestamp);
 
-	/**
-	 * 渲染每一帧时会被调用的方法
-	 */
-	public void update() {
-		System.exit(-1);
-	}
+	public void destroy() {}
 
 	/**
 	 * 默认每各0.02会被调用的方法
@@ -67,54 +65,88 @@ public abstract class GameObject {
 		System.exit(-1);
 	}
 
+	protected boolean isCollide(GameObject object) {
+		double x1 = this.transform.getX();
+		double y1 = this.transform.getY();
+		double x2 = object.transform.getX();
+		double y2 = object.transform.getY();
+		double radius1 = radius;
+		double radius2 = object.radius;
+		return TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 + radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 + radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 - radius2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2)
+				|| TankWarUtil.isCollide(x1, y1, radius1, x2, y2 + radius2);
+	}
 
-	public class Position {
 
-		private int x, y;
+	public static class Transform {
 
-		public Position() {
+		private double x, y;
+		private int gridRow, gridCol;
+
+		public Transform() {
 			this.x = 0;
 			this.y = 0;
 		}
 
-		public Position(int x, int y) {
+		public Transform(double x, double y) {
 			this.x = x;
 			this.y = y;
 		}
 
-		public void setX(int x) {
+		public void setX(double x) {
 			// toWrite();
 			// parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.x = x;
 			// finishWrite();
 		}
 
-		public int getX() {
-			int x;
+		public double getX() {
+			double x;
 			// toRead();
 			x = this.x;
 			// finishRead();
 			return x;
 		}
 
-		public int getY() {
-			int y;
+		public double getY() {
+			double y;
 			// toRead();
 			y = this.y;
 			// finishRead();
 			return y;
 		}
 
-		public void setY(int y) {
+		public void setY(double y) {
 			// toWrite();
 			// parent.updatePositionMap(GameObject.this, this.x, this.y, x, y);
 			this.y = y;
 			// finishWrite();
 		}
+
+		public int getGridRow() {
+			return gridRow;
+		}
+
+		public void setGridRow(int gridRow) {
+			this.gridRow = gridRow;
+		}
+
+		public int getGridCol() {
+			return gridCol;
+		}
+
+		public void setGridCol(int gridCol) {
+			this.gridCol = gridCol;
+		}
 	}
 
 
-	public final Position position = new Position();
+	public final Transform transform = new Transform();
 
 
 
@@ -262,10 +294,7 @@ public abstract class GameObject {
 
 	public GameObject(GameScene parent) {
 		this.parent = parent;
-		setAttribute();
-		setDestroyed(true);
 		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
-		// setActive(true);
 	}
 
 	public GameScene getParent() {
@@ -337,102 +366,6 @@ public abstract class GameObject {
 		// finishWrite();
 	}
 
-
-	/*======================================================
-	    ______    __                               __
-	   /_  __/   / /_    _____  ___   ____ _  ____/ /
-	    / /     / __ \  / ___/ / _ \ / __ `/ / __  /
-	   / /     / / / / / /    /  __// /_/ / / /_/ /
-	  /_/     /_/ /_/ /_/     \___/ \__,_/  \__,_/
-	  ======================================================
-	 */
-
-
-	private final Semaphore mutex_reader = new Semaphore(1);
-	private final Semaphore mutex_writer = new Semaphore(1);
-	private final Semaphore mutex_rw = new Semaphore(1);
-
-	private int count_reader = 0;
-	private int count_writer = 0;
-
-	protected void toRead() {
-		try {
-			mutex_reader.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		count_reader++;
-		// System.out.println(count_reader);
-		if (count_reader == 1) {
-			try {
-				mutex_rw.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}
-		try {
-			mutex_writer.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		if (count_writer > 0) {
-			mutex_writer.release();
-			try {
-				mutex_rw.acquire();
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		} else
-			mutex_writer.release();
-
-		mutex_reader.release();
-
-
-	}
-
-	protected void finishRead() {
-		try {
-			mutex_reader.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		count_reader--;
-		if (count_reader == 0) {
-			mutex_rw.release();
-		}
-		mutex_reader.release();
-	}
-
-	protected void toWrite() {
-		try {
-			mutex_writer.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		count_writer++;
-		mutex_writer.release();
-
-		try {
-			mutex_rw.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	protected void finishWrite() {
-		try {
-			mutex_writer.acquire();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-		count_writer--;
-		// System.out.println(count_writer);
-		mutex_writer.release();
-
-		mutex_rw.release();
-	}
-
-
 	/*======================================================
 	     ______           __    __    _        __
 	    / ____/  ____    / /   / /   (_)  ____/ /  ___
@@ -467,4 +400,12 @@ public abstract class GameObject {
 	public void setRadius(int radius) {
 		this.radius = radius;
 	}
+
+
+	private final ReentrantLock lock = new ReentrantLock();
+
+	public ReentrantLock collideLock() {
+		return lock;
+	}
+
 }

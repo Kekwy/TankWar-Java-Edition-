@@ -4,120 +4,54 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d4c288b0-2940-4ec3-959f-355c11d28352" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/artifacts/TankWar_jar.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/lib.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+    <list default="true" id="d4c288b0-2940-4ec3-959f-355c11d28352" name="变更" comment="refactor: 重构为JavaFx实现">
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/GameScene.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/ResourceUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/Fonts/IPix.ttf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/TankWar.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-collections4-4.4.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-compress-1.20.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/commons-math3-3.6.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/dom4j-2.0.3.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx-swt.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.base.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.controls.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.fxml.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.graphics.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.media.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.swing.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/javafx.web.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/log4j-1.2.17.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/log4j-api-2.14.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/log4j-core-2.14.1.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-examples-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-excelant-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-integration-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-full-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-ooxml-lite-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/poi-scratchpad-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/slf4j-log4j12-1.7.15.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/xmlbeans-5.0.0.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/level1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/level2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/A Cruel Angel's Thesis.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/Preview of Next.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/baseTank.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast6.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast7.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/blast8.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy1D.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy1L.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy1R.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy1U.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy2D.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy2L.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy2R.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/enemy2U.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/grass.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/levels/config/final.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/levels/map/finalMap.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/endBGM0.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/endBGM1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/gameBGM0.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/gameBGM1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/gameBGM2.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/gameBGM3.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/gameBGM4.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/music/passBGM.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/over.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/p1tankD.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/p1tankL.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/p1tankR.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/p1tankU.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/sound/hit.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/sound/start.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/steels.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/res/walls.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/META-INF/MANIFEST.MF" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEngine.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameEntry.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameFrame.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/GameScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/Monitor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/gameengine/util/SceneType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/TankWar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Blast.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/effect/Player.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/GameMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamemap/MapTile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/AboutScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/HelpScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/PlayScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/gamescenes/RoomMenuScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/level/Level.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Bullet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/EnemyTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/PlayerTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/tank/Tank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/Direction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/ObjectPool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/kekwy/tankwar/util/TankWarUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" afterPath="$PROJECT_DIR$/levels/level1.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameEngine.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameEntry.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameEntry.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameFrame.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameFrame.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/gameengine/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/TankWar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/HelpScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/HelpScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainMenuScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainMenuScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/PlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/level/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://D:/Maven/.m2/repository/org/openjfx/javafx-graphics/19/javafx-graphics-19-win.jar!/javafx/scene/canvas/GraphicsContext.class" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -130,32 +64,44 @@
     </option>
   </component>
   <component name="ProjectId" id="2IfuelMboxCoQsnezS71026GGxP" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "E:/NJUCSSFzyx/Java/TankWarProj",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "File.Encoding"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/NJUCSSFzyx/Java/TankWarProj/src/main/resources/Fonts&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;模块&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;editor.preferences.fonts.default&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\resources\Fonts" />
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\java" />
       <recent name="E:\NJUCSSFzyx\Java\TankWarProj" />
       <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\resources" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\java\com\kekwy\jw" />
       <recent name="E:\NJUCSSFzyx\Java\TankWarProj\src\main\java" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.kekwy.jw.tankwar" />
+      <recent name="com.kekwy.jw" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="TankWar" type="Application" factoryName="Application">
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.tankwar.TankWar" />
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
       <module name="TankWarProj" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -171,6 +117,14 @@
       <option name="presentableId" value="Default" />
       <updated>1670585057999</updated>
     </task>
+    <task id="LOCAL-00001" summary="refactorL: 更改为maven项目">
+      <created>1670585603018</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1670585603018</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -183,5 +137,14 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactorL: 更改为maven项目" />
+    <MESSAGE value="refactor: 重构为JavaFx实现" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: 重构为JavaFx实现" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

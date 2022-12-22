@@ -1,12 +1,10 @@
 package com.kekwy.jw.tankwar;
 
-import com.kekwy.jw.gameengine.GameEngine;
-import com.kekwy.jw.gameengine.GameEntry;
-import com.kekwy.jw.gameengine.GameScene;
 import com.kekwy.jw.tankwar.gamescenes.*;
 import com.kekwy.jw.tankwar.level.Level;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -15,18 +13,18 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
 
-public class TankWar extends GameEntry {
+public class TankWar {
 
-	public static final AudioClip gameBGM0 =
-			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM0.mp3")).toString());
-	public static final AudioClip gameBGM1 =
-			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM1.mp3")).toString());
-	public static final AudioClip gameBGM2 =
-			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM2.mp3")).toString());
-	public static final AudioClip gameBGM3 =
-			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM3.mp3")).toString());
-	public static final AudioClip gameBGM4 =
-			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM4.mp3")).toString());
+	public static final Media gameBGM0 =
+			new Media(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM0.mp3")).toString());
+	public static final Media gameBGM1 =
+			new Media(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM1.mp3")).toString());
+	public static final Media gameBGM2 =
+			new Media(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM2.mp3")).toString());
+	public static final Media gameBGM3 =
+			new Media(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM3.mp3")).toString());
+	public static final Media gameBGM4 =
+			new Media(Objects.requireNonNull(TankWar.class.getResource("/music/gameBGM4.mp3")).toString());
 	public static final AudioClip passBGM =
 			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/music/passBGM.mp3")).toString());
 	public static final AudioClip endBGM0 =
@@ -36,10 +34,10 @@ public class TankWar extends GameEntry {
 	public static final AudioClip hitSound =
 			new AudioClip(Objects.requireNonNull(TankWar.class.getResource("/sound/hit.wav")).toString());
 
-	public static final List<AudioClip> pve1BGM = new ArrayList<>();
-	public static final List<AudioClip> pve2BGM = new ArrayList<>();
-	public static final List<AudioClip> pvpBGM = new ArrayList<>();
-	public static final List<AudioClip> bossBGM = new ArrayList<>();
+	public static final List<Media> pve1BGM = new ArrayList<>();
+	public static final List<Media> pve2BGM = new ArrayList<>();
+	public static final List<Media> pvpBGM = new ArrayList<>();
+	public static final List<Media> bossBGM = new ArrayList<>();
 
 	static {
 		pve1BGM.add(gameBGM0);
@@ -83,11 +81,11 @@ public class TankWar extends GameEntry {
 		SERVER_PORT = props.getProperty("server_port");
 		BGM_ENABLE = Boolean.parseBoolean(props.getProperty("bgm_enable"));
 
-		gameScenes.add(MainMenuScene.class);
-		gameScenes.add(RoomMenuScene.class);
-		gameScenes.add(HelpScene.class);
-		gameScenes.add(AboutScene.class);
-		gameScenes.add(PlayScene.class);
+//		gameScenes.add(MainMenuScene.class);
+//		gameScenes.add(RoomMenuScene.class);
+//		gameScenes.add(HelpScene.class);
+//		gameScenes.add(AboutScene.class);
+//		gameScenes.add(PlayScene.class);
 
 		levels = new Level[LEVEL_NUM];
 		for (int i = 0; i < levels.length; i++) {
@@ -100,26 +98,14 @@ public class TankWar extends GameEntry {
 		finalLevel = new Level(TankWar.class.getResourceAsStream("/levels/config/final.properties"));
 	}
 
+	public static final GameScene MAIN_SCENE = new MainMenuScene();
+	public static final GameScene LOCAL_PLAY_SCENE = new LocalPlayScene();
+
 	public static final int INDEX_MAIN_MENU = 0;
 	public static final int INDEX_ROOM_MENU = 1;
 	public static final int INDEX_HELP = 2;
 	public static final int INDEX_ABOUT = 3;
 	public static final int INDEX_PLAY = 4;
-
-
-	public static void main(String[] args) {
-
-		GameEngine gameEngine = new GameEngine(new TankWar());
-		gameEngine.start();
-
-	}
-
-
-	@Override
-	public List<Class<? extends GameScene>> getGameScenes() {
-		return gameScenes;
-	}
-
 
 
 }

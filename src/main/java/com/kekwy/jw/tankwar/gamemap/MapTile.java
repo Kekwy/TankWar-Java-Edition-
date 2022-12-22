@@ -1,13 +1,14 @@
 package com.kekwy.jw.tankwar.gamemap;
 
-import com.kekwy.jw.gameengine.GameObject;
-import com.kekwy.jw.gameengine.GameScene;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.effect.Blast;
-import com.kekwy.jw.tankwar.gamescenes.PlayScene;
+import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 
-import java.awt.*;
 import java.util.List;
 
 public class MapTile extends GameObject {
@@ -33,8 +34,8 @@ public class MapTile extends GameObject {
 		super(parent);
 		this.setRadius(TILE_WIDTH / 2);
 		this.type = type;
-		this.position.setX(x);
-		this.position.setY(y);
+		this.transform.setX(x);
+		this.transform.setY(y);
 		if (type == Type.TYPE_COVER)
 			setLayer(2);
 		else
@@ -51,6 +52,12 @@ public class MapTile extends GameObject {
 	public static int base = 2;
 
 	@Override
+	public void refresh(GraphicsContext g, long timestamp) {
+		g.drawImage(tileImg[type.ordinal()], transform.getX() - TILE_WIDTH / 2.0, transform.getY() - TILE_WIDTH / 2.0,
+				TILE_WIDTH, TILE_WIDTH);
+	}
+
+	@Override
 	public void collide(List<GameObject> gameObjects) {
 		if (type == Type.TYPE_COVER)
 			return;
@@ -58,7 +65,7 @@ public class MapTile extends GameObject {
 			if (gameObject instanceof Bullet bullet) {
 				if (type != Type.TYPE_HARD)
 					hp -= bullet.getAtk();
-				Blast blast = Blast.createBlast(getParent(), bullet.position.getX(), bullet.position.getY());
+				Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
 				getParent().addGameObject(blast);
 				bullet.setActive(false);
 			}
@@ -67,28 +74,20 @@ public class MapTile extends GameObject {
 			setActive(false);
 			if (type == Type.TYPE_BASE)
 				base--;
-			if (base == 0 && getParent() instanceof PlayScene playScene && playScene.isPlaying()) {
+			if (base == 0 && getParent() instanceof LocalPlayScene localPlayScene && localPlayScene.isPlaying()) {
 				new Thread(() -> {
 					try {
 						Thread.sleep(1000);
 					} catch (InterruptedException e) {
 						throw new RuntimeException(e);
 					}
-					((PlayScene) getParent()).gameOver();
+					((LocalPlayScene) getParent()).gameOver();
 				}).start();
 			}
 		}
 	}
 
 	Type type;
-
-
-	@SuppressWarnings("SuspiciousNameCombination")
-	@Override
-	public void render(Graphics g) {
-		g.drawImage(tileImg[type.ordinal()], position.getX() - TILE_WIDTH / 2, position.getY() - TILE_WIDTH / 2,
-				TILE_WIDTH, TILE_WIDTH, null);
-	}
 
 	public Type getType() {
 		return type;
