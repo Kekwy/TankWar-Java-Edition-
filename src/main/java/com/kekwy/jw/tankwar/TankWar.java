@@ -98,7 +98,7 @@ public class TankWar {
 		finalLevel = new Level(TankWar.class.getResourceAsStream("/levels/config/final.properties"));
 	}
 
-	public static final GameScene MAIN_SCENE = new MainMenuScene();
+	public static final GameScene MAIN_SCENE = new MainScene();
 	public static final GameScene LOCAL_PLAY_SCENE = new LocalPlayScene();
 
 	public static final int INDEX_MAIN_MENU = 0;

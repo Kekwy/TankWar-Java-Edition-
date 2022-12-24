@@ -34,6 +34,7 @@ public abstract class GameObject {
 	/**
 	 * 默认每各0.02会被调用的方法
 	 */
+	@Deprecated
 	public void fixedUpdate() {
 		System.exit(-1);
 	}
@@ -43,6 +44,7 @@ public abstract class GameObject {
 	 *
 	 * @param gameObjects 与其碰撞的游戏对象
 	 */
+	@Deprecated
 	public void collide(List<GameObject> gameObjects) {
 		System.exit(-1);
 	}
@@ -52,6 +54,7 @@ public abstract class GameObject {
 	 *
 	 * @param keyCode 底层提供的键码
 	 */
+	@Deprecated
 	public void keyPressedEvent(int keyCode) {
 		System.exit(-1);
 	}
@@ -61,17 +64,28 @@ public abstract class GameObject {
 	 *
 	 * @param keyCode 底层提供的键码
 	 */
+	@Deprecated
 	public void keyReleasedEvent(int keyCode) {
 		System.exit(-1);
 	}
 
 	protected boolean isCollide(GameObject object) {
-		double x1 = this.transform.getX();
-		double y1 = this.transform.getY();
-		double x2 = object.transform.getX();
-		double y2 = object.transform.getY();
-		double radius1 = radius;
-		double radius2 = object.radius;
+		double x1, y1, x2, y2, radius1, radius2;
+		if(this.getRadius() >= object.getRadius()) {
+			x1 = this.transform.getX();
+			y1 = this.transform.getY();
+			x2 = object.transform.getX();
+			y2 = object.transform.getY();
+			radius1 = radius;
+			radius2 = object.radius;
+		} else {
+			x2 = this.transform.getX();
+			y2 = this.transform.getY();
+			x1 = object.transform.getX();
+			y1 = object.transform.getY();
+			radius2 = radius;
+			radius1 = object.radius;
+		}
 		return TankWarUtil.isCollide(x1, y1, radius1, x2 + radius2, y2 + radius2)
 				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 - radius2)
 				|| TankWarUtil.isCollide(x1, y1, radius1, x2 - radius2, y2 + radius2)
@@ -173,11 +187,13 @@ public abstract class GameObject {
 	private int attribute;
 	private static final Map<Class<? extends GameObject>, Integer> classAttribute = new HashMap<>();
 
+	@Deprecated
 	public int getAttribute() {
 		return attribute;
 	}
 
 	@SuppressWarnings("unchecked")
+	@Deprecated
 	private void setAttribute() {
 
 		attribute = 0;
@@ -324,7 +340,7 @@ public abstract class GameObject {
 	/**
 	 * 游戏对象的活动状态
 	 */
-	private boolean active;
+	private boolean active = false;
 
 	public boolean isDestroyed() {
 		boolean res;

@@ -203,9 +203,11 @@ public class Level {
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
-			parent.levelPassed();
+			if (player.getState() != Tank.State.STATE_DIE) {
+				parent.levelPassed();
+			}
 		}
-
+		parent.gameBGM.stop();
 	}
 
 	public boolean isAlive() {

@@ -55,10 +55,10 @@ public class EnemyTank extends Tank {
 			setDirection(Direction.values()[(int)TankWarUtil.getRandomNumber(0, 4)]);
 			lastChangTime = timestamp;
 		}
-//		if (Math.random() < 0.05 && getParent().currentTimeMillis() - fireTime > FIRE_INTERVAL) {
-//			fireTime = getParent().currentTimeMillis();
-//			fire();
-//		}
+		if (Math.random() < 0.05 && timestamp - fireTime > FIRE_INTERVAL) {
+			fireTime = timestamp;
+			fire();
+		}
 	}
 
 	private static final Image[] tankImg;

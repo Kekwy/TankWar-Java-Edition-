@@ -9,8 +9,6 @@ import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-import java.util.List;
-
 public class MapTile extends GameObject {
 	public static final int TILE_WIDTH = 40;
 
@@ -37,9 +35,9 @@ public class MapTile extends GameObject {
 		this.transform.setX(x);
 		this.transform.setY(y);
 		if (type == Type.TYPE_COVER)
-			setLayer(2);
+			setLayer(3);
 		else
-			setLayer(0);
+			setLayer(1);
 		if (type == Type.TYPE_NORMAL)
 			hp = 200;
 		else if (type == Type.TYPE_BASE)
@@ -57,19 +55,15 @@ public class MapTile extends GameObject {
 				TILE_WIDTH, TILE_WIDTH);
 	}
 
-	@Override
-	public void collide(List<GameObject> gameObjects) {
+	public void doCollide(Bullet bullet) {
 		if (type == Type.TYPE_COVER)
 			return;
-		for (GameObject gameObject : gameObjects) {
-			if (gameObject instanceof Bullet bullet) {
-				if (type != Type.TYPE_HARD)
-					hp -= bullet.getAtk();
-				Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
-				getParent().addGameObject(blast);
-				bullet.setActive(false);
-			}
+		if (type != Type.TYPE_HARD) {
+			hp -= bullet.getAtk();
 		}
+		Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
+		getParent().addGameObject(blast);
+		bullet.setActive(false);
 		if (hp <= 0) {
 			setActive(false);
 			if (type == Type.TYPE_BASE)

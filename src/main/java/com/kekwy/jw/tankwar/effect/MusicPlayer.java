@@ -32,6 +32,7 @@ public class MusicPlayer {
 	}
 
 	public void play() {
+		active = true;
 		synchronized (clips) {
 			if (active) {
 				clips.get(currentClip).play();

@@ -2,13 +2,16 @@ package com.kekwy.jw.tankwar.tank;
 
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.effect.Blast;
+import com.kekwy.jw.tankwar.gamemap.MapTile;
+import com.kekwy.jw.tankwar.trigger.Trigger;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ObjectPool;
-import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -87,6 +90,7 @@ public class Bullet extends GameObject implements Runnable {
 				case DIR_RIGHT -> x += speed;
 			}
 			getParent().update(this, x, y, 0);
+			doCollide();
 			try {
 				Thread.sleep(UPDATE_INTERVAL);
 			} catch (InterruptedException e) {
@@ -97,6 +101,42 @@ public class Bullet extends GameObject implements Runnable {
 			isExit = true;
 			this.notify();
 		}
+	}
+
+	private final List<GameObject> collideList = new LinkedList<>();
+
+	private void doCollide() {
+		getParent().getObjectAroundTheGridCell(this, collideList);
+		for (GameObject gameObject : collideList) {
+			if (this.isCollide(gameObject)) {
+				while (true) {
+					if (!this.collideLock().tryLock()) {
+						this.collideLock().lock();
+					}
+					if (!gameObject.collideLock().tryLock()) {
+						this.collideLock().unlock();
+						gameObject.collideLock().lock();
+						gameObject.collideLock().unlock();
+						continue;
+					}
+					break;
+				}
+				if (!this.isActive() || !gameObject.isActive()) {
+					gameObject.collideLock().unlock();
+					this.collideLock().unlock();
+					if (!this.isActive()) return;
+					else continue;
+				}
+				if (gameObject instanceof Trigger trigger) {
+					trigger.doCollide(this);
+				}
+				if (gameObject instanceof MapTile mapTile)
+					mapTile.doCollide(this);
+				gameObject.collideLock().unlock();
+				this.collideLock().unlock();
+			}
+		}
+		collideList.clear();
 	}
 
 	private static final ExecutorService SERVICE = Executors.newCachedThreadPool();
@@ -137,6 +177,7 @@ public class Bullet extends GameObject implements Runnable {
 	 */
 	public Bullet(GameScene parent) {
 		super(parent);
+		setLayer(1);
 		setRadius(DEFAULT_BULLET_RADIUS);
 		setColliderType(ColliderType.COLLIDER_TYPE_CIRCLE);
 	}

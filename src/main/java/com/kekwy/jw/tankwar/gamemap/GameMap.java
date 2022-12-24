@@ -1,6 +1,7 @@
 package com.kekwy.jw.tankwar.gamemap;
 
 import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
 
 import java.io.InputStream;
@@ -19,26 +20,25 @@ public class GameMap {
 
 
 	public void createGameMap(GameScene parent) {
-
+		MapTile[][] mapTiles = new MapTile[GAME_MAP_ROW][GAME_MAP_COL];
 		MapTile.base = 0;
-
 		for (int i = 0; i < mapData.length; i++) {
 			int[] mapDatum = mapData[i];
-			for (int i1 = 0; i1 < mapDatum.length; i1++) {
-				int x = i1 * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
+			for (int j = 0; j < mapDatum.length; j++) {
+				int x = j * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
 				int y = i * MapTile.TILE_WIDTH + MapTile.TILE_WIDTH / 2;
-				switch (mapDatum[i1]) {
-					case 1 -> new MapTile(parent, MapTile.Type.TYPE_NORMAL, x, y);
-					case 2 -> new MapTile(parent, MapTile.Type.TYPE_HARD, x, y);
-					case 3 -> new MapTile(parent, MapTile.Type.TYPE_COVER, x, y);
+				switch (mapDatum[j]) {
+					case 1 -> mapTiles[i][j] = new MapTile(parent, MapTile.Type.TYPE_NORMAL, x, y);
+					case 2 -> mapTiles[i][j] = new MapTile(parent, MapTile.Type.TYPE_HARD, x, y);
+					case 3 -> mapTiles[i][j] = new MapTile(parent, MapTile.Type.TYPE_COVER, x, y);
 					case 4 -> {
-						new MapTile(parent, MapTile.Type.TYPE_BASE, x, y);
+						mapTiles[i][j] = new MapTile(parent, MapTile.Type.TYPE_BASE, x, y);
 						MapTile.base++;
 					}
 				}
 			}
 		}
-
+		((LocalPlayScene)parent).setGameMap(mapTiles);
 	}
 
 }

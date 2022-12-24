@@ -5,19 +5,22 @@ import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.effect.MusicPlayer;
+import com.kekwy.jw.tankwar.gamemap.MapTile;
 import com.kekwy.jw.tankwar.level.Level;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.tank.EnemyTank;
 import com.kekwy.jw.tankwar.tank.PlayerTank;
+import com.kekwy.jw.tankwar.trigger.Trigger;
+import com.kekwy.jw.tankwar.trigger.TriggerHandler;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.stage.Stage;
 
 import java.util.List;
 
@@ -54,6 +57,12 @@ public class LocalPlayScene extends GameScene {
 		this.setOnKeyPressed((KeyEvent keyEvent) -> {
 			if (player != null) {
 				player.keyPressedHandle(keyEvent);
+			}
+			if (passNotice.isActive() && passNotice.isVisible()) {
+				passNotice.keyPressedHandler(keyEvent);
+			}
+			if (overBackGround.isActive()) {
+				overBackGround.keyPressedHandler(keyEvent);
 			}
 		});
 		this.setOnKeyReleased((KeyEvent keyEvent) -> {
@@ -111,29 +120,34 @@ public class LocalPlayScene extends GameScene {
 		// waitCurrentLevel();
 		System.out.println("Pass!");
 		// player.setState(Tank.State.STATE_DIE);
-		gameBGM.stop();
+		// gameBGM.stop();
 		audioPassLevel.play(0.5);
-		passNotice.setActive(true);
-		addGameObject(passNotice);
+		passNotice.show();
 	}
+
+	public final OverBackGround overBackGround = new OverBackGround(this);
 
 	/**
 	 * 用于设置游戏结束的方法
 	 */
 	public void gameOver() {
-		if (isWin) {
-			audioPassLevel.stop();
-
-		}
-		if (!playing)
-			return;
 		waitCurrentLevel();
-		gameBGM.stop();
+		if (isWin) {
+			// waitCurrentLevel();
+			audioPassLevel.stop();
+		} else {
+			if (!playing)
+				return;
+			playing = false;
+			// gameBGM.stop();
+		}
 		// audioClip.isPlaying();
 		backGround.setActive(false);
-		stop();
+		// stop();
+		clear();
 		EnemyTank.setCount(0);
-		OverBackGround overBackGround = new OverBackGround(this);
+		mapClear();
+		overBackGround.setActive();
 		addGameObject(overBackGround);
 	}
 
@@ -146,15 +160,24 @@ public class LocalPlayScene extends GameScene {
 	/**
 	 * 用于展示过关后关卡底部“黑框”的内部类
 	 */
-	class PassNotice extends GameObject {
+	class PassNotice extends GameObject implements TriggerHandler {
 
 		public PassNotice(GameScene parent) {
 			super(parent);
-			this.setLayer(2);
-			this.setColliderType(ColliderType.COLLIDER_TYPE_RECT);
-			this.setRadius(SCENE_WIDTH / 2);
+			setLayer(4);
+//			this.setColliderType(ColliderType.COLLIDER_TYPE_RECT);
+			setRadius(SCENE_WIDTH / 2);
 			this.transform.setX(SCENE_WIDTH / 2.0);
 			this.transform.setY(top + SCENE_WIDTH / 2.0);
+			setActive(true);
+			getParent().addGameObject(this);
+			int radius = 20;
+			int y = top + radius;
+			for (int x = 0; x < SCENE_WIDTH; x += 2 * radius) {
+				Trigger trigger = new Trigger(LocalPlayScene.this, this, x, y, radius);
+				trigger.setActive(true);
+				getParent().addGameObject(trigger);
+			}
 		}
 
 
@@ -167,9 +190,9 @@ public class LocalPlayScene extends GameScene {
 
 		int top = SCENE_HEIGHT / 4 * 3;
 
-
 		@Override
 		public void refresh(GraphicsContext g, long timestamp) {
+			if (!visible) return;
 			g.setFill(Color.BLACK);
 			g.fillRect(0, top, SCENE_WIDTH, SCENE_HEIGHT / 4.0);
 			g.setFill(Color.WHITE);
@@ -181,6 +204,69 @@ public class LocalPlayScene extends GameScene {
 			g.fillText(NOTICE0, 20, top + 110);
 			g.fillText(NOTICE1, 790, top + 110);
 		}
+
+		private boolean visible = false;
+
+		public boolean isVisible() {
+			return visible;
+		}
+
+		@Override
+		public void setActive(boolean active) {
+			synchronized (this) {
+				super.setActive(active);
+				this.notify();
+			}
+		}
+
+		public void show() {
+			synchronized (this) {
+				visible = true;
+				this.notify();
+			}
+		}
+
+		public void hide() {
+			synchronized (this) {
+				visible = false;
+			}
+		}
+
+//		private final List<GameObject> collideList = new ArrayList<>();
+
+		private void doCollide(GameObject object) {
+//			getParent().getObjectAroundTheGridCell(this, collideList);
+//			for (GameObject gameObject : collideList) {
+			if (!(object instanceof Bullet bullet))
+				return;
+			this.hide();
+			bullet.setActive(false);
+			Blast blast = Blast.createBlast(LocalPlayScene.this,
+					bullet.transform.getX(), bullet.transform.getY());
+			blast.setRadius(100);
+			addGameObject(blast);
+			new Thread(() -> {
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				// itemsClear(MapTile.class);
+				mapClear();
+				currentLevel += 2;
+				TankWar.finalLevel.setParent(LocalPlayScene.this);
+				TankWar.finalLevel.setPlayer(player);
+				isWin = true;
+				playing = true;
+				audioPassLevel.stop();
+				TankWar.finalLevel.start();
+			}).start();
+//			object.collideLock().unlock();
+//			this.collideLock().unlock();
+		}
+//	}
+//			collideList.clear();
+//}
 
 		@Override
 		public void collide(List<GameObject> gameObjects) {
@@ -213,30 +299,39 @@ public class LocalPlayScene extends GameScene {
 			}
 		}
 
-//		@Override
-//		public void keyPressedEvent(int keyCode) {
-//			if (keyCode == KeyEvent.VK_ESCAPE) {
-//				audioPassLevel.stop();
-//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
-//				return;
-//			}
-//
-//			if (keyCode != KeyEvent.VK_ENTER)
-//				return;
-//			this.setActive(false);
-//			currentLevel++;
-//			if (currentLevel == levelCount) {
-//				isWin = true;
-//				LocalPlayScene.this.gameOver();
-//			} else {
-//				audioPassLevel.stop();
-//				// itemsClear(MapTile.class);
-//				TankWar.levels[currentLevel].setParent(LocalPlayScene.this);
-//				TankWar.levels[currentLevel].setPlayer(player);
-//				TankWar.levels[currentLevel].start();
-//				playing = true;
-//			}
-//		}
+		public void keyPressedHandler(KeyEvent keyEvent) {
+			KeyCode keyCode = keyEvent.getCode();
+			if (keyCode == KeyCode.ESCAPE) {
+				audioPassLevel.stop();
+				LocalPlayScene.this.changeScene(TankWar.MAIN_SCENE);
+				return;
+			}
+
+			if (keyCode != KeyCode.ENTER)
+				return;
+			hide();
+			currentLevel++;
+			if (currentLevel == levelCount) {
+				isWin = true;
+				LocalPlayScene.this.gameOver();
+			} else {
+				audioPassLevel.stop();
+				mapClear();
+				TankWar.levels[currentLevel].setParent(LocalPlayScene.this);
+				TankWar.levels[currentLevel].setPlayer(player);
+				TankWar.levels[currentLevel].start();
+				playing = true;
+			}
+		}
+
+		@Override
+		public void handle(GameObject object) {
+			synchronized (this) {
+				if (isVisible() && isActive())
+					doCollide(object);
+			}
+
+		}
 	}
 
 	/**
@@ -278,6 +373,10 @@ public class LocalPlayScene extends GameScene {
 		public OverBackGround(GameScene parent) {
 			super(parent);
 			setLayer(2);
+			// setActive(true)
+		}
+
+		public void setActive() {
 			setActive(true);
 			if (LocalPlayScene.this.isWin) {
 				if (currentLevel == levelCount) {
@@ -315,25 +414,29 @@ public class LocalPlayScene extends GameScene {
 				// 第一次绘制时触发了bug
 				if (imgW != -1) {
 					// System.out.println(imgH);
-					g.drawImage(overImg, SCENE_WIDTH - 3 * imgW / 2,
-							(SCENE_HEIGHT - 3 * imgH / 2) - 20, 3 * imgW, 3 * imgH);
+					g.drawImage(overImg, SCENE_WIDTH / 2.0 - 3 * imgW / 2,
+							(SCENE_HEIGHT / 2.0 - 3 * imgH / 2) - 20, 3 * imgW, 3 * imgH);
 					g.setFill(Color.WHITE);
 					g.setFont(OVER_FONT);
-					g.fillText(OVER_NOTICE, SCENE_WIDTH - 125 >> 1, (SCENE_HEIGHT - 3 * imgH / 2) + 145);
+					g.fillText(OVER_NOTICE, SCENE_WIDTH - 125 >> 1, (SCENE_HEIGHT / 2.0 - 3 * imgH / 2) + 145);
 				}
 			}
 		}
 
-//		@Override
-//		public void keyPressedEvent(int keyCode) {
-//			if (keyCode == KeyEvent.VK_ENTER && !isWin) {
-//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
-//			} else if (keyCode == KeyEvent.VK_ESCAPE && isWin) {
-//				LocalPlayScene.this.switchScene(TankWar.MAIN_SCENE);
-//				TankWar.endBGM0.stop();
-//				TankWar.endBGM1.stop();
-//			}
-//		}
+		public void keyPressedHandler(KeyEvent keyEvent) {
+			if (!this.isActive()) {
+				return;
+			}
+			KeyCode keyCode = keyEvent.getCode();
+			if (keyCode == KeyCode.ENTER && !isWin) {
+				LocalPlayScene.this.changeScene(new MainScene());
+			} else if (keyCode == KeyCode.ESCAPE && isWin) {
+				LocalPlayScene.this.changeScene(new MainScene());
+				TankWar.endBGM0.stop();
+				TankWar.endBGM1.stop();
+			}
+		}
+
 	}
 
 
@@ -354,10 +457,24 @@ public class LocalPlayScene extends GameScene {
 		object.transform.setX(x);
 		object.transform.setY(y);
 	}
+
+	private MapTile[][] gameMap;
+
+	public void setGameMap(MapTile[][] gameMap) {
+		this.gameMap = gameMap;
+	}
+
+	private void mapClear() {
+		for (MapTile[] mapTiles : gameMap) {
+			for (MapTile tile : mapTiles) {
+				if (tile != null)
+					tile.setActive(false);
+			}
+		}
+	}
 }
 
 
-// TODO：彩蛋关卡
 // TODO：寻路
 // TODO：其他游戏场景
 // TODO：双人协同作战

@@ -93,7 +93,7 @@ public abstract class Tank extends GameObject implements Runnable {
 			move();
 //			fire();
 			try {
-				collide();
+				doCollide();
 				check(System.currentTimeMillis());
 				Thread.sleep(UPDATE_INTERVAL);
 			} catch (InterruptedException e) {
@@ -104,7 +104,7 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	private final List<GameObject> collideList = new LinkedList<>();
 
-	private void collide() throws InterruptedException {
+	private void doCollide() {
 		boolean isCovered = false;
 		getParent().getObjectAroundTheGridCell(this, collideList);
 		for (GameObject gameObject : collideList) {
@@ -190,9 +190,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 
-	protected void check(long timestamp) {
-
-	}
+	protected void check(long timestamp) {}
 
 	@Override
 	public void destroy() {
@@ -280,19 +278,19 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 	private String name;
-	private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/IPix.ttf"), 14);
+	private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 12);
 
 	@Override
 	public void refresh(GraphicsContext g, long timestamp) {
-		hpBar.refresh(g, timestamp);
-		g.setFill(color);
-		g.setFont(NAME_FONT);
-		g.fillText(name, transform.getX() - getRadius(), transform.getY() - getRadius() - 14);
+		if (visible) {
+			hpBar.refresh(g, timestamp);
+			g.setFill(color);
+			g.setFont(NAME_FONT);
+			g.fillText(name, transform.getX() - getRadius(), transform.getY() - getRadius() - 14);
+		}
 	}
 
-
 	private static final AudioClip hitSound = TankWar.hitSound;
-
 
 	private class HPBar {
 		public static final int BAR_LENGTH = 50;

@@ -1,6 +1,7 @@
 package com.kekwy.jw.tankwar.tank;
 
 import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.util.Direction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -21,26 +22,6 @@ public class PlayerTank extends Tank {
 		g.drawImage(tankImg[getDirection().ordinal()], transform.getX() - getRadius(), transform.getY() - getRadius(),
 				2 * getRadius(), 2 * getRadius());
 	}
-
-//	@Override
-//	public void fixedUpdate() {
-//		super.fixedUpdate();
-//		if (getState() == State.STATE_DIE) {
-//			if(waiting == null) {
-//				waiting = new Thread(() -> {
-//					try {
-//						Thread.sleep(1000);
-//					} catch (InterruptedException e) {
-//						throw new RuntimeException(e);
-//					}
-//					((LocalPlayScene) getParent()).gameOver();
-//				});
-//				waiting.start();
-//			}
-//			// setActive(false);
-//		}
-//
-//	}
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 
@@ -71,12 +52,26 @@ public class PlayerTank extends Tank {
 //		this.getParent().removeEventHandler(KeyEvent.KEY_RELEASED, this.getParent().getOnKeyReleased());
 //	}
 
+
+	@Override
+	protected void check(long timestamp) {
+		if (getState() == State.STATE_DIE) {
+			new Thread(()->{
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+				((LocalPlayScene)getParent()).gameOver();
+			}).start();
+		}
+	}
+
 	List<KeyCode> keyStack = new LinkedList<>();
 
 	boolean isFired = false;
 
 	public void keyPressedHandle(KeyEvent keyEvent) {
-		// System.out.println("sdfafdsafdsaf");
 		if (getState().equals(State.STATE_DIE))
 			return;
 		KeyCode keyCode = keyEvent.getCode();
@@ -109,7 +104,7 @@ public class PlayerTank extends Tank {
 	}
 
 	private void setMove(KeyCode keyCode) {
-		System.out.println("你干嘛~");
+		// System.out.println("你干嘛~");
 		switch (keyCode) {
 			case W -> {
 				setDirection(Direction.DIR_UP);
