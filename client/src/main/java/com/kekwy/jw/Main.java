@@ -1,5 +1,6 @@
 package com.kekwy.jw;
 
+import com.kekwy.jw.tankwar.util.ResourceUtil;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import javafx.stage.Screen;
@@ -14,9 +15,10 @@ import static com.kekwy.jw.tankwar.TankWar.MAIN_SCENE;
 
 public class Main extends Application {
 
-	static final List<String> strings = new LinkedList<>();
+//	static final List<String> strings = new LinkedList<>();
 
 	public static void main(String[] args) {
+//		 System.out.println(Main.class.getResource("/baseTank.png"));
 		launch(args);
 	}
 
