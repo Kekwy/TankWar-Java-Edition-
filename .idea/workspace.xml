@@ -4,95 +4,37 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="">
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/ServerMain.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/protocol/Protocol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="refactor: 调整项目结构至多模块">
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/Handler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/LoginHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/test/java/MysqlTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/test/java/ServerTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/src/test/java/UuidTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/LoginFailedProtocol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/LoginProtocol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/LoginSuccessProtocol.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/Package.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/Protocol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameServer/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/GameServer/src/main/java/com/kekwy/jw/ServerMain.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/game.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level1.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/levels/level2.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/level1.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/maps/level2.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/A Cruel Angel's Thesis.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/music/Preview of Next.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/TankWar.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/effect/MusicPlayer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/AboutScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/HallScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/HelpScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/gamescenes/RoomScene.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/level/Level.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/trigger/Trigger.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/trigger/TriggerHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/Direction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/ResourceUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Fonts/IPix.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Fonts/Minecraft.ttf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/baseTank.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast1.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast2.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast3.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast4.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast5.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast6.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast7.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/blast8.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy1D.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy1L.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy1R.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy1U.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy2D.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy2L.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy2R.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/enemy2U.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/grass.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/levels/config/final.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/levels/map/finalMap.xlsx" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/endBGM0.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/endBGM1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/gameBGM0.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/gameBGM1.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/gameBGM2.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/gameBGM3.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/gameBGM4.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/music/passBGM.mp3" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/over.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/p1tankD.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/p1tankL.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/p1tankR.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/p1tankU.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sound/hit.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/sound/start.wav" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/steels.gif" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/walls.gif" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/server/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/protocol/Protocol.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -108,7 +50,9 @@
     </option>
   </component>
   <component name="ProjectId" id="2JTXvRVbmS6nTxfd9xVB2Wc902b" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -117,18 +61,23 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "16",
-    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj/server",
+    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj",
     "settings.editor.selected.configurable": "File.Encoding"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client" />
     </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server" />
+    </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.ServerTest.LoginTest">
     <configuration name="client" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
       <module name="client" />
@@ -137,6 +86,58 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="server" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.ServerMain" />
+      <module name="server" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/server" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="MysqlTest.connectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="MysqlTest" />
+      <option name="METHOD_NAME" value="connectionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ServerTest.LoginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="ServerTest" />
+      <option name="METHOD_NAME" value="LoginTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UuidTest.uuidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="server" />
+      <option name="PACKAGE_NAME" value="" />
+      <option name="MAIN_CLASS_NAME" value="UuidTest" />
+      <option name="METHOD_NAME" value="uuidTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="JUnit.ServerTest.LoginTest" />
+      <item itemvalue="JUnit.MysqlTest.connectionTest" />
+      <item itemvalue="JUnit.UuidTest.uuidTest" />
+      <item itemvalue="应用程序.server" />
+      <item itemvalue="应用程序.client" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.ServerTest.LoginTest" />
+        <item itemvalue="JUnit.MysqlTest.connectionTest" />
+        <item itemvalue="JUnit.UuidTest.uuidTest" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -147,6 +148,14 @@
       <option name="presentableId" value="Default" />
       <updated>1672103278303</updated>
     </task>
+    <task id="LOCAL-00001" summary="refactor: 调整项目结构至多模块">
+      <created>1672103941225</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1672103941225</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -159,5 +168,12 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor: 调整项目结构至多模块" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor: 调整项目结构至多模块" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
