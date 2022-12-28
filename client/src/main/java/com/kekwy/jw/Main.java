@@ -1,5 +1,7 @@
 package com.kekwy.jw;
 
+import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.util.ResourceUtil;
 import javafx.application.Application;
 import javafx.scene.image.Image;
@@ -31,8 +33,11 @@ public class Main extends Application {
 		stage.setResizable(false);
 		stage.getIcons().add(new Image("https://blog.kekwy.com/media/images/logo.png"));
 		stage.show();
-		TankWar.LOCAL_PLAY_SCENE.setStage(stage);
-		TankWar.LOCAL_PLAY_SCENE.start();
+//		TankWar.LOCAL_PLAY_SCENE.setStage(stage);
+//		TankWar.LOCAL_PLAY_SCENE.start();
+		GameScene scene = new OnlinePlayScene();
+		scene.setStage(stage);
+		scene.start();
 	}
 
 	@Override

@@ -21,10 +21,12 @@ public class LoginHandler implements Handler {
 
 	private final Statement statement;
 	private final Logger logger;
+	GameServer server;
 
-	public LoginHandler(Statement statement, Logger logger) {
+	public LoginHandler(Statement statement, Logger logger, GameServer server) {
 		this.statement = statement;
 		this.logger = logger;
+		this.server = server;
 	}
 
 	@Override
@@ -39,30 +41,22 @@ public class LoginHandler implements Handler {
 			String passwd = loginProtocol.getPasswd();
 			ResultSet rs = statement.executeQuery(SQL_QUERY + "'" + name + "'");
 
-			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bAos);
-			Package p = new Package();
 			if (rs.next()) {
 				if (!Objects.equals(rs.getString("passwd"), passwd)) {
-					p.init(Protocol.NUMBER_LOGIN_FAILED, new LoginFailedProtocol());
+					server.send(channel, new LoginFailed());
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，密码错误".formatted(name, passwd));
 				} else {
-					LoginSuccessProtocol success = new LoginSuccessProtocol();
+					LoginSuccess success = new LoginSuccess();
 					String uuid = rs.getString("uuid");
 					success.setUuid(uuid);
-					p.init(Protocol.NUMBER_LOGIN_FAILED, success);
+					server.send(channel,success);
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，登录成功[uuid=%s]".formatted(name, passwd, uuid));
 				}
 			} else {
-				p.init(Protocol.NUMBER_LOGIN_FAILED, new LoginFailedProtocol());
+				server.send(channel, new LoginFailed());
 				logger.info("[INFO] 用户登入[name=%s, passwd=%s]，未知用户名".formatted(name, passwd));
 			}
-			oos.writeObject(p);
-			ByteBuffer buffer = ByteBuffer.wrap(bAos.toByteArray());
-			channel.write(buffer);
-			bAos.close();
-			oos.close();
-		} catch (SQLException | IOException e) {
+		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}

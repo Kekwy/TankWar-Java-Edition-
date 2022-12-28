@@ -1,18 +1,10 @@
-package com.kekwy.jw.tankwar.tank;
+package com.kekwy.jw.server.game.tank;
 
-import com.kekwy.jw.tankwar.GameObject;
-import com.kekwy.jw.tankwar.GameScene;
-import com.kekwy.jw.tankwar.TankWar;
-import com.kekwy.jw.tankwar.effect.Blast;
-import com.kekwy.jw.tankwar.gamemap.MapTile;
-import com.kekwy.jw.tankwar.util.Direction;
-import com.kekwy.jw.tankwar.util.ResourceUtil;
-import com.kekwy.jw.tankwar.util.TankWarUtil;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
-import javafx.scene.text.Font;
+import com.kekwy.jw.server.game.GameObject;
+import com.kekwy.jw.server.game.GameScene;
+import com.kekwy.jw.server.game.gamemap.MapTile;
+import com.kekwy.jw.server.util.Direction;
+import com.kekwy.jw.server.util.RandomGen;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -49,24 +41,18 @@ public abstract class Tank extends GameObject implements Runnable {
 	private Direction direction = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
 
-	private Color color;
-
-	private final HPBar hpBar = new HPBar();
+	private double r, g, b;
 
 	public Tank(GameScene parent) {
 		super(parent);
 		setRadius(TANK_RADIUS);
-//		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
-		setLayer(1);
-		// initTank();
 	}
 
-	public Tank(GameScene parent, double x, double y, Direction direction, String name, int group) {
+	public Tank(GameScene parent, int x, int y, Direction direction, String name, int group) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, direction, name, group);
-		setLayer(1);
 	}
 
 	private void move() {
@@ -137,20 +123,20 @@ public abstract class Tank extends GameObject implements Runnable {
 					if (tank.group == this.group) {
 						// TODO 队友 BUFF
 					} else {
-						hitSound.play();
+//						hitSound.play();
 						this.hp = 0;
 						tank.setHp(0);
 						tank.setState(State.STATE_DIE);
-						Blast blast = Blast.createBlast(getParent(), this.transform.getX(), this.transform.getY());
-						getParent().addGameObject(blast);
+//						Blast blast = Blast.createBlast(getParent(), this.transform.getX(), this.transform.getY());
+//						getParent().addGameObject(blast);
 						tank.setHp(0);
 					}
 				} else if (gameObject instanceof Bullet bullet && bullet.getFrom().group != this.group) {
-					hitSound.play();
+//					hitSound.play();
 					hp -= bullet.getAtk();
 					if (hp < 0) hp = 0;
-					Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
-					getParent().addGameObject(blast);
+//					Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
+//					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				} else if (gameObject instanceof MapTile mapTile) {
 					if (mapTile.getType() == MapTile.Type.TYPE_COVER) {
@@ -204,7 +190,9 @@ public abstract class Tank extends GameObject implements Runnable {
 		this.group = group;
 //		 fireTime = getParent().currentTimeMillis();
 		this.direction = direction;
-		this.color = TankWarUtil.getRandomColor();
+		this.r = RandomGen.getRandomNumber(0, 1);
+		this.g = RandomGen.getRandomNumber(0, 1);
+		this.b = RandomGen.getRandomNumber(0, 1);
 //		 防止颜色过暗
 //		do {
 //			this.color = TankWarUtil.getRandomColor();
@@ -226,7 +214,7 @@ public abstract class Tank extends GameObject implements Runnable {
 			case DIR_LEFT -> bulletX -= getRadius();
 			case DIR_RIGHT -> bulletX += getRadius();
 		}
-		Bullet bullet = Bullet.createBullet(getParent(), atk, color, bulletX, bulletY, direction, this);
+		Bullet bullet = Bullet.createBullet(getParent(), atk, r, g, b, bulletX, bulletY, direction, this);
 		getParent().addGameObject(bullet);
 		// System.out.println("fire");
 	}
@@ -279,38 +267,5 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 	private String name;
-	private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 12);
 
-	@Override
-	public void refresh(GraphicsContext g, long timestamp) {
-		if (visible) {
-			hpBar.refresh(g, timestamp);
-			g.setFill(color);
-			g.setFont(NAME_FONT);
-			g.fillText(name, transform.getX() - getRadius(), transform.getY() - getRadius() - 14);
-		}
-	}
-
-	private static final AudioClip hitSound = TankWar.hitSound;
-
-	private class HPBar {
-		public static final int BAR_LENGTH = 50;
-		public static final int BAR_HEIGHT = 5;
-
-		public void refresh(GraphicsContext g, long timestamp) {
-			double x = Tank.this.transform.getX();
-			double y = Tank.this.transform.getY();
-			// System.out.println("HPBar render");
-			g.setFill(Color.RED);
-			g.fillRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
-					hp * BAR_LENGTH / (double) (maxHp), BAR_HEIGHT);
-			g.setStroke(Color.WHITE);
-			g.strokeRect(x - Tank.this.getRadius(), y - Tank.this.getRadius() - BAR_HEIGHT * 2,
-					BAR_LENGTH, BAR_HEIGHT);
-		}
-	}
-
-	public void setColor(double r, double g, double b) {
-		this.color = Color.color(r, g, b);
-	}
 }

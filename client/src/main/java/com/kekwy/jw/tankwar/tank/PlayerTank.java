@@ -25,8 +25,8 @@ public class PlayerTank extends Tank {
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 3;
 
-	public PlayerTank(GameScene parent, int x, int y, Direction forward, String name) {
-		super(parent, x, y, forward, name, 1);
+	public PlayerTank(GameScene parent, double x, double y, Direction direction, String name, int group) {
+		super(parent, x, y, direction, name, group);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 		parent.addGameObject(this);
 		// 按键按下时的响应

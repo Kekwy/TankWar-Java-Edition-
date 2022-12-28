@@ -75,7 +75,7 @@ public class LocalPlayScene extends GameScene {
 	@Override
 	public void start() {
 		super.start();
-		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME);
+		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME, 1);
 		play();
 	}
 

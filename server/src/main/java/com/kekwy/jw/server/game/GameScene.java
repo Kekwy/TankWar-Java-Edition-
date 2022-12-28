@@ -1,43 +1,18 @@
-package com.kekwy.jw.tankwar;
+package com.kekwy.jw.server.game;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Stage;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.function.Consumer;
 
-public class GameScene extends Scene {
-
-//	private final double sceneWidth, sceneHeight;
+public class GameScene {
 
 	static final int GRID_SIZE = 50;
 
-	private final String title;
 
-	//	private final Canvas canvas;
-	private final GraphicsContext g;
+	public GameScene(double width, double height) {
 
-	public GameScene(double width, double height, String title) {
-		super(new AnchorPane(), width, height);
-		this.title = title;
-//		this.canvas = new Canvas(width, height);
-		Canvas canvas = new Canvas(width, height);
-		g = canvas.getGraphicsContext2D();
-		g.setImageSmoothing(true);
-		if (this.getRoot() instanceof AnchorPane anchorPane) {
-			anchorPane.getChildren().add(canvas);
-		} else {
-			throw new RuntimeException("未知异常");
-		}
-//		sceneWidth = width;
-//		sceneHeight = height;
 		gridRow = (int) height / GRID_SIZE + 1;
 		gridCol = (int) width / GRID_SIZE + 1;
 		grid = new GridCell[gridRow][gridCol];
@@ -53,69 +28,7 @@ public class GameScene extends Scene {
 
 	private final ExecutorService service = Executors.newCachedThreadPool();
 
-	private class ShowLayer {
-		private final List<GameObject> objectList = new LinkedList<>();
-		private final List<GameObject> removeBuffer = new ArrayList<>();
-		private ListIterator<GameObject> iterator = objectList.listIterator();
 
-		private final Consumer<GameObject> helper = (object) -> {
-			object.setActive(false);
-			int row = object.transform.getGridRow();
-			int col = object.transform.getGridCol();
-			grid[row][col].leave(object);
-		};
-
-		public void add(GameObject object) {
-			synchronized (objectList) {
-				iterator.add(object);
-			}
-		}
-
-		public void refresh() {
-			while (active) {
-				GameObject object;
-				synchronized (objectList) {
-					if (!iterator.hasNext()) {
-						break;
-					}
-					object = iterator.next();
-				}
-//				System.out.println(object);
-				if (!object.isActive()) {
-					removeBuffer.add(object);
-					object.destroy();
-					final int row = object.transform.getGridRow();
-					final int col = object.transform.getGridCol();
-					final GameObject objectToRemove = object;
-					service.execute(() -> grid[row][col].leave(objectToRemove));
-					continue;
-				}
-				object.refresh(g, System.currentTimeMillis());
-			}
-			synchronized (objectList) {
-				removeBuffer.forEach(objectList::remove);
-				removeBuffer.clear();
-				iterator = objectList.listIterator();
-			}
-		}
-
-		public void clear() {
-			synchronized (objectList) {
-				objectList.forEach(helper);
-			}
-		}
-
-	}
-
-	private final ShowLayer[] layers = {
-			new ShowLayer(),
-			new ShowLayer(),
-			new ShowLayer(),
-			new ShowLayer(),
-			new ShowLayer(),
-			new ShowLayer(),
-			new ShowLayer()
-	};
 
 
 	/**
@@ -136,38 +49,17 @@ public class GameScene extends Scene {
 				service.execute(() -> grid[row][col].enter(gameObject));
 			}
 		}
-		// 将游戏对象加入对应的渲染图层
-		layers[gameObject.getLayer()].add(gameObject);
-		if (gameObject instanceof Runnable runnable) {
-			service.execute(runnable);
-		}
 	}
 
 	public static final long REFRESH_INTERVAL = 1000 / 30;
 	private boolean active = true;
 
-	@SuppressWarnings("BusyWait")
-	private void refreshLoop() {
-		while (active) {
 
-			for (ShowLayer layer : layers) {
-				layer.refresh();
-			}
-
-			try {
-				Thread.sleep(REFRESH_INTERVAL);
-			} catch (InterruptedException e) {
-				throw new RuntimeException(e);
-			}
-		}
-	}
 
 	private Thread refreshThread;
 
 	public void start() {
 		active = true;
-		refreshThread = new Thread(this::refreshLoop);
-		refreshThread.start();
 	}
 
 	public void stop() {
@@ -177,25 +69,8 @@ public class GameScene extends Scene {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-		for (ShowLayer layer : layers) {
-			layer.clear();
-		}
 	}
 
-	private Stage stage;
-
-	/**
-	 * 设置场景所在的窗口
-	 *
-	 * @param stage 搭载场景的窗口
-	 */
-	public void setStage(Stage stage) {
-		stage.setScene(this);
-		// stage.setWidth(sceneWidth);
-		// stage.setHeight(sceneHeight);
-		stage.setTitle(title);
-		this.stage = stage;
-	}
 
 //	/**
 //	 * 设置场景窗口标题
@@ -206,11 +81,6 @@ public class GameScene extends Scene {
 //		stage.setTitle(title);
 //	}
 
-	protected void changeScene(GameScene nextScene) {
-		nextScene.setStage(stage);
-		nextScene.start();
-		this.stop();
-	}
 
 	public void update(GameObject object, double x, double y, int offset) {
 		int oldRow = object.transform.getGridRow();
@@ -293,17 +163,6 @@ public class GameScene extends Scene {
 			grid[row + 1][col - 1].getObjects(list);
 		if (row + 1 < gridRow && col + 1 < gridCol)
 			grid[row + 1][col + 1].getObjects(list);
-	}
-
-
-	protected void clear() {
-		for (ShowLayer layer : layers) {
-			layer.clear();
-		}
-	}
-
-	public boolean isActive() {
-		return active;
 	}
 
 }
