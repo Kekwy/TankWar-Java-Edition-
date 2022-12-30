@@ -1,7 +1,7 @@
 package com.kekwy.jw.tankwar;
 
-import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import com.kekwy.tankwar.server.io.Protocol;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.util.HashMap;
@@ -11,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 
 
 public abstract class GameObject {
+
+	public void update(Protocol p) {}
 
 
 	/* =============================================================================

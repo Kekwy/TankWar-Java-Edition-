@@ -1,5 +1,6 @@
 package com.kekwy.jw.server.game.tank;
 
+import com.kekwy.jw.server.GameServer;
 import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.util.Direction;
 import com.kekwy.jw.server.util.ObjectPool;
@@ -14,8 +15,8 @@ public class EnemyTank extends Tank {
 	static int count = 0;
 	static Semaphore mutex_count = new Semaphore(10);
 
-	public EnemyTank(GameScene parent) {
-		super(parent);
+	public EnemyTank(GameScene parent, GameServer server) {
+		super(parent, server);
 	}
 
 	long fireTime = 0;

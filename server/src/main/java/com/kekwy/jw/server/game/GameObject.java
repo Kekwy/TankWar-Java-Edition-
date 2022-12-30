@@ -1,12 +1,20 @@
 package com.kekwy.jw.server.game;
 
+import com.kekwy.jw.server.GameServer;
+import com.kekwy.jw.server.handler.Handler;
+import com.kekwy.tankwar.server.io.Protocol;
+
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 
 public abstract class GameObject {
 
-	private final String uuid = UUID.randomUUID().toString();
+	private String uuid = UUID.randomUUID().toString();
+
+	public void setUuid(String uuid) {
+		this.uuid = uuid;
+	}
 
 	public String getUuid() {
 		return uuid;
@@ -121,9 +129,30 @@ public abstract class GameObject {
 	 */
 	GameScene parent;
 
-	public GameObject(GameScene parent) {
+	private final GameServer server;
+
+	public GameObject(GameScene parent, GameServer server) {
 		this.parent = parent;
+		this.server = server;
 		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
+	}
+
+	boolean dirty = false;
+
+	public void setDirty() {
+		this.dirty = true;
+	}
+
+	public void clearDirty() {
+		this.dirty = false;
+	}
+
+	public boolean isDirty() {
+		return dirty;
+	}
+
+	protected void forward(Protocol p) {
+		server.forward(p);
 	}
 
 	public GameScene getParent() {
@@ -206,6 +235,10 @@ public abstract class GameObject {
 
 	public ReentrantLock collideLock() {
 		return lock;
+	}
+
+	public void recvPackage(Protocol p) {
+
 	}
 
 }

@@ -1,7 +1,11 @@
 package com.kekwy.jw.server.game;
 
+import com.kekwy.jw.server.game.tank.Bullet;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -10,6 +14,7 @@ public class GameScene {
 
 	static final int GRID_SIZE = 50;
 
+	private final double SCENE_WIDTH, SCENE_HEIGHT;
 
 	public GameScene(double width, double height) {
 
@@ -22,6 +27,9 @@ public class GameScene {
 				grid[i][j] = new GridCell();
 			}
 		}
+		SCENE_WIDTH = width;
+		SCENE_HEIGHT = height;
+
 	}
 
 	private final int gridRow, gridCol;
@@ -29,6 +37,8 @@ public class GameScene {
 	private final ExecutorService service = Executors.newCachedThreadPool();
 
 
+
+	private Map<String, GameObject> objectMap = new HashMap<>();
 
 
 	/**
@@ -40,6 +50,7 @@ public class GameScene {
 		if (!active) {
 			return;
 		}
+		objectMap.put(gameObject.getUuid(), gameObject);
 		int row = (int) gameObject.transform.getY() / GRID_SIZE;
 		int col = (int) gameObject.transform.getX() / GRID_SIZE;
 		if (row < gridRow && col < gridCol) {
@@ -49,6 +60,13 @@ public class GameScene {
 				service.execute(() -> grid[row][col].enter(gameObject));
 			}
 		}
+		if (gameObject instanceof Runnable runnable) {
+			service.execute(runnable);
+		}
+	}
+
+	public GameObject findObject(String uuid) {
+		return objectMap.get(uuid);
 	}
 
 	public static final long REFRESH_INTERVAL = 1000 / 30;
@@ -83,6 +101,19 @@ public class GameScene {
 
 
 	public void update(GameObject object, double x, double y, int offset) {
+
+		if (object instanceof Bullet) {
+			if (x < 0 || x > SCENE_WIDTH || y < 0 || y > SCENE_HEIGHT) {
+				object.setActive(false);
+				return;
+			}
+		} else {
+			x = Math.max(x, offset);
+			x = Math.min(x, SCENE_WIDTH - offset);
+			y = Math.max(y, offset);
+			y = Math.min(y, SCENE_HEIGHT - offset);
+		}
+
 		int oldRow = object.transform.getGridRow();
 		int oldCol = object.transform.getGridCol();
 		int row = (int) y / GRID_SIZE;
@@ -95,6 +126,10 @@ public class GameScene {
 				service.execute(() -> grid[oldRow][oldCol].leave(object));
 			}
 		}
+
+		object.transform.setX(x);
+		object.transform.setY(y);
+
 	}
 
 

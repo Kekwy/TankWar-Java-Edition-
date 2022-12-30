@@ -1,5 +1,6 @@
 package com.kekwy.jw.server.game.tank;
 
+import com.kekwy.jw.server.GameServer;
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.game.gamemap.MapTile;
@@ -162,8 +163,8 @@ public class Bullet extends GameObject implements Runnable {
 	/**
 	 * 通过反射调用
 	 */
-	public Bullet(GameScene parent) {
-		super(parent);
+	public Bullet(GameScene parent, GameServer server) {
+		super(parent, server);
 		setRadius(DEFAULT_BULLET_RADIUS);
 		setColliderType(ColliderType.COLLIDER_TYPE_CIRCLE);
 	}

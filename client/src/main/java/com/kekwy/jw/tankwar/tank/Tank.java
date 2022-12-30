@@ -5,9 +5,12 @@ import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
+import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ResourceUtil;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import com.kekwy.tankwar.server.io.FrameUpdate;
+import com.kekwy.tankwar.server.io.Protocol;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
@@ -61,12 +64,15 @@ public abstract class Tank extends GameObject implements Runnable {
 		// initTank();
 	}
 
+	boolean isOnline = false;
+
 	public Tank(GameScene parent, double x, double y, Direction direction, String name, int group) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, direction, name, group);
 		setLayer(1);
+		isOnline = parent instanceof OnlinePlayScene;
 	}
 
 	private void move() {
@@ -83,6 +89,16 @@ public abstract class Tank extends GameObject implements Runnable {
 		}
 	}
 
+
+	@Override
+	public void update(Protocol p) {
+		FrameUpdate f = (FrameUpdate) p;
+		this.getParent().update(this, f.x, f.y, TANK_RADIUS);
+		this.setState(State.values()[f.state]);
+		this.setDirection(Direction.values()[f.direction]);
+
+	}
+
 	private int group;
 
 	private static final long UPDATE_INTERVAL = 20;
@@ -90,6 +106,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	@SuppressWarnings("BusyWait")
 	@Override
 	public void run() {
+		if (isOnline) return;
 		while (this.isActive()) {
 			move();
 //			fire();

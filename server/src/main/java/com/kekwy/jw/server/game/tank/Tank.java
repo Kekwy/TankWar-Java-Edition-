@@ -1,10 +1,12 @@
 package com.kekwy.jw.server.game.tank;
 
+import com.kekwy.jw.server.GameServer;
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.game.gamemap.MapTile;
 import com.kekwy.jw.server.util.Direction;
 import com.kekwy.jw.server.util.RandomGen;
+import com.kekwy.tankwar.server.io.FrameUpdate;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -43,13 +45,13 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	private double r, g, b;
 
-	public Tank(GameScene parent) {
-		super(parent);
+	public Tank(GameScene parent, GameServer server) {
+		super(parent, server);
 		setRadius(TANK_RADIUS);
 	}
 
-	public Tank(GameScene parent, int x, int y, Direction direction, String name, int group) {
-		super(parent);
+	public Tank(GameScene parent, GameServer server, int x, int y, Direction direction, String name, int group) {
+		super(parent, server);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, direction, name, group);
@@ -69,6 +71,8 @@ public abstract class Tank extends GameObject implements Runnable {
 		}
 	}
 
+
+
 	private int group;
 
 	private static final long UPDATE_INTERVAL = 20;
@@ -82,11 +86,20 @@ public abstract class Tank extends GameObject implements Runnable {
 			try {
 				doCollide();
 				check(System.currentTimeMillis());
+				sendToClient();
+//				System.out.println("17171717");
 				Thread.sleep(UPDATE_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
+	}
+
+	private void sendToClient() {
+//		System.out.println(getUuid());
+		FrameUpdate p = new FrameUpdate(getUuid(), transform.getX(), transform.getY(), direction.ordinal(), state.ordinal());
+		forward(p);
+//		System.out.println(p.x);
 	}
 
 	private final List<GameObject> collideList = new LinkedList<>();

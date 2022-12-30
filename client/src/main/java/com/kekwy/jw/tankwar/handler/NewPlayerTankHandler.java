@@ -1,6 +1,5 @@
 package com.kekwy.jw.tankwar.handler;
 
-import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.tank.PlayerTank;
 import com.kekwy.jw.tankwar.tank.Tank;

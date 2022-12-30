@@ -81,6 +81,7 @@ public class LocalPlayScene extends GameScene {
 
 	public void play() {
 		playing = true;
+		addGameObject(player);
 		TankWar.levels[currentLevel].setParent(this);
 		TankWar.levels[currentLevel].setPlayer(player);
 		TankWar.levels[currentLevel].start();

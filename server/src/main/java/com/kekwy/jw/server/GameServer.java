@@ -5,10 +5,7 @@ import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.handler.Handler;
 import com.kekwy.jw.server.handler.JoinGameHandler;
 import com.kekwy.jw.server.handler.LoginHandler;
-import com.kekwy.tankwar.server.io.JoinGame;
-import com.kekwy.tankwar.server.io.LoginProtocol;
-import com.kekwy.tankwar.server.io.Package;
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.server.io.*;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -21,7 +18,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
 
@@ -45,6 +41,18 @@ public class GameServer {
 	private final Selector selector;
 	private final ServerSocketChannel serverChannel;
 
+	private final GameScene scene = new GameScene(960, 560);
+
+
+	Handler keyEventHandler = (protocol, channel) -> {
+		logger.info("[INFO] 用户键盘事件");
+		if ((!(protocol instanceof KeyEvent p))) return;
+		GameObject object = scene.findObject(p.uuid);
+		object.recvPackage(p);
+	};
+
+
+
 	public GameServer(String host, int port) throws IOException {
 
 		try {
@@ -55,7 +63,8 @@ public class GameServer {
 		}
 
 		HANDLER_MAP.put(LoginProtocol.class, new LoginHandler(statement, logger, this));
-		HANDLER_MAP.put(JoinGame.class, new JoinGameHandler(new GameScene(960, 560), this));
+		HANDLER_MAP.put(JoinGame.class, new JoinGameHandler(scene, this));
+		HANDLER_MAP.put(KeyEvent.class, keyEventHandler);
 
 		selector = Selector.open();
 		serverChannel = ServerSocketChannel.open();
@@ -80,17 +89,18 @@ public class GameServer {
 		active = true;
 		workThread = new Thread(this::run);
 		workThread.start();
+		scene.start();
 //		forwardThread = new Thread(this::forward);
 //		forwardThread.start();
 	}
 
 	public void run() {
 		try {
-			while ((selector.select() > 0 && active)) {
+			while (selector.select() > 0 && active) {
 				Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
 				while (iterator.hasNext()) {
 					SelectionKey selKey = iterator.next();
-					iterator.remove();      // 删除已经相应的事件
+					iterator.remove();      // 删除已经处理的事件
 					if (selKey.isAcceptable()) {
 						accept(selKey);
 					} else if (selKey.isReadable()) {
@@ -111,7 +121,9 @@ public class GameServer {
 			head.flip();
 			int length = head.getInt();
 			ByteBuffer body = ByteBuffer.allocate(length);
-			channel.read(body);
+			do {
+				channel.read(body);
+			} while (body.position() < length);
 			body.flip();
 			ByteArrayInputStream bAis = new ByteArrayInputStream(body.array());
 			ObjectInputStream ois = new ObjectInputStream(bAis);
@@ -157,6 +169,7 @@ public class GameServer {
 			} catch (IOException ex) {
 				throw new RuntimeException(ex);
 			}
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -192,6 +205,34 @@ public class GameServer {
 	}
 
 	private final List<GameObject> objectList = new LinkedList<>();
+
+	public void forward(Protocol p) {
+		try {
+			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(bAos);
+			oos.writeObject(p);
+			int length = bAos.toByteArray().length;
+			ByteBuffer head = ByteBuffer.allocate(4);
+			head.putInt(length);
+			head.flip();
+			ByteBuffer body = ByteBuffer.wrap(bAos.toByteArray());
+			bAos.close();
+			oos.close();
+
+			for (SelectionKey key : selector.keys()) {
+				if (key.channel() instanceof ServerSocketChannel) continue;
+				SocketChannel channel = (SocketChannel) key.channel();
+				synchronized (channel) {
+//					System.out.println("hwsjfhsdkl");
+					channel.write(head);
+					channel.write(body);
+				}
+			}
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 //	@SuppressWarnings("BusyWait")
 //	private void forward() {
