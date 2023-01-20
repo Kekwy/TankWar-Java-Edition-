@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 在线实现玩家坦克移动">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw5_1">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/game.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/game.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +50,7 @@
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "jdk.selected.JAVA_MODULE": "16",
     "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj",
-    "settings.editor.selected.configurable": "File.Encoding"
+    "settings.editor.selected.configurable": "terminal"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -170,7 +167,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672376289719</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="README#jw5_1">
+      <created>1674209771361</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1674209771361</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -189,7 +193,12 @@
     <MESSAGE value="feat: 服务端实现玩家登录功能" />
     <MESSAGE value="feat: 客户端接入服务器且生成一个玩家角色。" />
     <MESSAGE value="feat: 在线实现玩家坦克移动" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 在线实现玩家坦克移动" />
+    <MESSAGE value="README#jw5_1" />
+    <option name="LAST_COMMIT_MESSAGE" value="README#jw5_1" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

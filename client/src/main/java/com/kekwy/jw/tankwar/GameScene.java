@@ -221,8 +221,10 @@ public class GameScene extends Scene {
 			object.transform.setGridRow(row);
 			object.transform.setGridCol(col);
 			synchronized (service) {
-				service.execute(() -> grid[row][col].enter(object));
-				service.execute(() -> grid[oldRow][oldCol].leave(object));
+				service.execute(() -> {
+					grid[row][col].enter(object);
+					grid[oldRow][oldCol].leave(object);
+				});
 			}
 		}
 	}

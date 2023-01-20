@@ -48,14 +48,22 @@ public class EnemyTank extends Tank {
 			setActive(false);
 			tankPool.returnObject(this);
 		}
+		// 若当前时间与上次状态改变时间差值大于状态改变间隔
+		// （状态改变间隔同样由每次进行状态更新时随机生成），
+		// 进行敌人坦克的状态改变。
 		if (timestamp - lastChangTime > changeInterval) {
-			// 随机一个状态
+			// 随机生成下一次的状态改变间隔
 			changeInterval = (int)TankWarUtil.getRandomNumber(1000, 2000);
+			// 随机设置一个状态：闲置或移动
 			setState(State.values()[(int)TankWarUtil.getRandomNumber(0, 2)]);
+			// 随机设置一个方向：上、下、左、右
 			setDirection(Direction.values()[(int)TankWarUtil.getRandomNumber(0, 4)]);
+			// 更新上次状态改变时间
 			lastChangTime = timestamp;
 		}
+		// 开火概率为 0.05，并且需要大于开火间隔
 		if (Math.random() < 0.05 && timestamp - fireTime > FIRE_INTERVAL) {
+			// 更新上次开火时间
 			fireTime = timestamp;
 			fire();
 		}
