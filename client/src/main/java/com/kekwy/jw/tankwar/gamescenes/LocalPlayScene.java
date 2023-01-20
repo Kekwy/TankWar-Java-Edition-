@@ -132,15 +132,17 @@ public class LocalPlayScene extends GameScene {
 	 * 用于设置游戏结束的方法
 	 */
 	public void gameOver() {
-		waitCurrentLevel();
+
 		if (isWin) {
 			// waitCurrentLevel();
 			audioPassLevel.stop();
+			isWin = false;
 		} else {
 			if (!playing)
 				return;
+			waitCurrentLevel();
 			playing = false;
-			// gameBGM.stop();
+//			gameBGM.stop();
 		}
 		// audioClip.isPlaying();
 		backGround.setActive(false);
@@ -267,38 +269,6 @@ public class LocalPlayScene extends GameScene {
 		}
 //	}
 //			collideList.clear();
-//}
-
-		@Override
-		public void collide(List<GameObject> gameObjects) {
-			if (currentLevel + 1 == levelCount) {
-				for (GameObject gameObject : gameObjects) {
-					if (gameObject instanceof Bullet bullet) {
-						this.setActive(false);
-						bullet.setActive(false);
-						Blast blast = Blast.createBlast(LocalPlayScene.this,
-								bullet.transform.getX(), bullet.transform.getY());
-						blast.setRadius(100);
-						addGameObject(blast);
-						new Thread(() -> {
-							try {
-								Thread.sleep(1000);
-							} catch (InterruptedException e) {
-								throw new RuntimeException(e);
-							}
-							// itemsClear(MapTile.class);
-							currentLevel += 2;
-							TankWar.finalLevel.setParent(LocalPlayScene.this);
-							TankWar.finalLevel.setPlayer(player);
-							isWin = true;
-							playing = true;
-							audioPassLevel.stop();
-							TankWar.finalLevel.start();
-						}).start();
-					}
-				}
-			}
-		}
 
 		public void keyPressedHandler(KeyEvent keyEvent) {
 			KeyCode keyCode = keyEvent.getCode();

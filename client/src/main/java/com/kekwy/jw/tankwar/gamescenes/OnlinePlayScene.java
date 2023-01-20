@@ -8,16 +8,12 @@ import com.kekwy.jw.tankwar.handler.Handler;
 import com.kekwy.jw.tankwar.handler.LoginSuccessHandler;
 import com.kekwy.jw.tankwar.handler.NewPlayerTankHandler;
 import com.kekwy.jw.tankwar.tank.Bullet;
-import com.kekwy.jw.tankwar.tank.PlayerTank;
-import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.tankwar.server.io.*;
-import com.kekwy.tankwar.server.io.Package;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
 import java.io.*;
 import java.net.InetSocketAddress;
-import java.net.SocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
@@ -25,7 +21,6 @@ import java.nio.channels.SocketChannel;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 public class OnlinePlayScene extends GameScene {

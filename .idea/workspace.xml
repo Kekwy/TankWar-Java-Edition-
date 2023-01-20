@@ -4,26 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 客户端接入服务器且生成一个玩家角色。">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/FrameUpdate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/KeyEvent.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/server/io/PositionUpdate.java" afterDir="false" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 在线实现玩家坦克移动">
+      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/game.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/game.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/NewPlayerTankHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/NewPlayerTankHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/gamemap/MapTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/EnemyTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/PlayerTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/JoinGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/JoinGameHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,23 +46,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;16&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/NJUCSSFzyx/Java/tankwarProj/client/src/main/java/com/kekwy/jw/tankwar&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;File.Encoding&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "jdk.selected.JAVA_MODULE": "16",
+    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj",
+    "settings.editor.selected.configurable": "File.Encoding"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\main\java\com\kekwy\jw\tankwar" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\src\main\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server\src\main\java\com\kekwy\jw\server\util" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server\src\main\java\com\kekwy\jw\server\game" />
-      <recent name="E:\NJUCSSFzyx\Java\tankwarProj" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server" />
@@ -85,7 +72,7 @@
     </key>
   </component>
   <component name="RunManager" selected="应用程序.client">
-    <configuration name="client" type="Application" factoryName="Application">
+    <configuration name="client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
       <module name="client" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
@@ -132,11 +119,11 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.ServerTest.LoginTest" />
       <item itemvalue="JUnit.MysqlTest.connectionTest" />
+      <item itemvalue="JUnit.ServerTest.LoginTest" />
       <item itemvalue="JUnit.UuidTest.uuidTest" />
-      <item itemvalue="应用程序.server" />
       <item itemvalue="应用程序.client" />
+      <item itemvalue="应用程序.server" />
     </list>
     <recent_temporary>
       <list>
@@ -176,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1672241450597</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="feat: 在线实现玩家坦克移动">
+      <created>1672376289719</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1672376289719</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -194,7 +188,8 @@
     <MESSAGE value="refactor: 调整项目结构至多模块" />
     <MESSAGE value="feat: 服务端实现玩家登录功能" />
     <MESSAGE value="feat: 客户端接入服务器且生成一个玩家角色。" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 客户端接入服务器且生成一个玩家角色。" />
+    <MESSAGE value="feat: 在线实现玩家坦克移动" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 在线实现玩家坦克移动" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

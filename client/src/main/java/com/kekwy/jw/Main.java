@@ -1,6 +1,7 @@
 package com.kekwy.jw;
 
 import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.gamescenes.MainScene;
 import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.util.ResourceUtil;
 import javafx.application.Application;
@@ -35,7 +36,8 @@ public class Main extends Application {
 		stage.show();
 //		TankWar.LOCAL_PLAY_SCENE.setStage(stage);
 //		TankWar.LOCAL_PLAY_SCENE.start();
-		GameScene scene = new OnlinePlayScene();
+//		GameScene scene = new OnlinePlayScene();
+		GameScene scene = new MainScene();
 		scene.setStage(stage);
 		scene.start();
 	}
