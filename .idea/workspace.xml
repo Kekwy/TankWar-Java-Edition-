@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw5_1">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
-    </list>
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw5_2" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -174,7 +170,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674209771361</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="README#jw5_2">
+      <created>1674229457055</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1674229457055</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -194,7 +197,8 @@
     <MESSAGE value="feat: 客户端接入服务器且生成一个玩家角色。" />
     <MESSAGE value="feat: 在线实现玩家坦克移动" />
     <MESSAGE value="README#jw5_1" />
-    <option name="LAST_COMMIT_MESSAGE" value="README#jw5_1" />
+    <MESSAGE value="README#jw5_2" />
+    <option name="LAST_COMMIT_MESSAGE" value="README#jw5_2" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
