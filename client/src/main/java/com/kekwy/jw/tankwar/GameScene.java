@@ -131,9 +131,10 @@ public class GameScene extends Scene {
 	 * @param gameObject 待添加的游戏对象
 	 */
 	public void addGameObject(GameObject gameObject) {
-//		if (!active) {
-//			return;
-//		}
+
+		if (!active) {
+			return;
+		}
 
 		// 加入总对象列表
 		synchronized (objectList) {

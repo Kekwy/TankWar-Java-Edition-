@@ -5,15 +5,29 @@ import com.kekwy.tankwar.server.io.Protocol;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.locks.ReentrantLock;
 
 
 public abstract class GameObject implements Serializable {
 
-	public void update(Protocol p) {}
+	public void update(Protocol p) {
+	}
+
+	boolean destroyed = false;
+
+	public void waitFor() {
+		try {
+			synchronized (this) {
+				if (!destroyed) {
+					this.wait();
+				}
+			}
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		}
+	}
 
 
 	/* =============================================================================
@@ -32,7 +46,12 @@ public abstract class GameObject implements Serializable {
 	 */
 	public abstract void refresh(GraphicsContext g, long timestamp);
 
-	public void destroy() {}
+	public void destroy() {
+		synchronized (this) {
+			destroyed = true;
+			this.notify();
+		}
+	}
 
 	/**
 	 * 默认每各0.02会被调用的方法
@@ -74,7 +93,7 @@ public abstract class GameObject implements Serializable {
 
 	protected boolean isCollide(GameObject object) {
 		double x1, y1, x2, y2, radius1, radius2;
-		if(this.getRadius() >= object.getRadius()) {
+		if (this.getRadius() >= object.getRadius()) {
 			x1 = this.transform.getX();
 			y1 = this.transform.getY();
 			x2 = object.transform.getX();
@@ -159,6 +178,20 @@ public abstract class GameObject implements Serializable {
 
 		public void setGridCol(int gridCol) {
 			this.gridCol = gridCol;
+		}
+
+
+		@Override
+		public boolean equals(Object o) {
+			if (this == o) return true;
+			if (o == null || getClass() != o.getClass()) return false;
+			Transform transform = (Transform) o;
+			return Math.abs(Double.compare(transform.x, x)) <= 10 && Math.abs(Double.compare(transform.y, y)) <= 10 && gridRow == transform.gridRow && gridCol == transform.gridCol;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(x, y, gridRow, gridCol);
 		}
 	}
 
@@ -296,4 +329,17 @@ public abstract class GameObject implements Serializable {
 		return lock;
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		GameObject object = (GameObject) o;
+		return layer == object.layer && active == object.active && radius == object.radius && transform.equals(object.transform) && colliderType == object.colliderType;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(transform, layer, active, colliderType, radius);
+	}
 }

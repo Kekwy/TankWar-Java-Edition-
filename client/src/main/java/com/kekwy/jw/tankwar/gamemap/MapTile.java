@@ -1,13 +1,15 @@
 package com.kekwy.jw.tankwar.gamemap;
 
+import com.kekwy.jw.tankwar.tank.Bullet;
+import com.kekwy.jw.tankwar.util.TankWarUtil;
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
-import com.kekwy.jw.tankwar.tank.Bullet;
-import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.Objects;
 
 public class MapTile extends GameObject {
 	public static final int TILE_WIDTH = 40;
@@ -85,5 +87,20 @@ public class MapTile extends GameObject {
 
 	public Type getType() {
 		return type;
+	}
+
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o)) return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		MapTile mapTile = (MapTile) o;
+		return hp == mapTile.hp && type == mapTile.type;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(hp, type);
 	}
 }

@@ -129,4 +129,19 @@ public class PlayerTank extends Tank {
 		}
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o)) return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		PlayerTank that = (PlayerTank) o;
+
+		return isFired == that.isFired;
+	}
+
+	@Override
+	public int hashCode() {
+		return (isFired ? 1 : 0);
+	}
 }

@@ -9,4 +9,7 @@ module com.kekwy.jw {
 
 	opens com.kekwy.jw to javafx.fxml;
 	exports com.kekwy.jw;
+	exports com.kekwy.jw.tankwar;
+	exports com.kekwy.jw.tankwar.gamescenes;
+	exports com.kekwy.jw.tankwar.tank;
 }

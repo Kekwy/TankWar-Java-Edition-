@@ -1,9 +1,9 @@
 package com.kekwy.jw.tankwar.handler;
 
-import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.tank.PlayerTank;
 import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.util.Direction;
+import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.tankwar.server.io.NewPlayerTank;
 import com.kekwy.tankwar.server.io.Protocol;
 

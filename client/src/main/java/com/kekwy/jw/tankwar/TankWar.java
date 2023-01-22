@@ -1,8 +1,10 @@
 package com.kekwy.jw.tankwar;
 
-import com.kekwy.jw.tankwar.gamescenes.*;
 import com.kekwy.jw.tankwar.level.Level;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
+import com.kekwy.jw.tankwar.gamescenes.MainScene;
+import com.kekwy.jw.tankwar.gamescenes.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 

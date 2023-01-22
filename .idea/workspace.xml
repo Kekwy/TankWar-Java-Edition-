@@ -4,22 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw5_3">
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 游戏进度的保存以及恢复。">
+      <change afterPath="$PROJECT_DIR$/client/src/test/java/com/kekwy/jwtest/tankwar/gamescenes/LocalPlaySceneTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/src/test/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/client/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/game.properties" beforeDir="false" afterPath="$PROJECT_DIR$/client/game.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/maps/level1.xlsx" beforeDir="false" afterPath="$PROJECT_DIR$/client/maps/level1.xlsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/NetWork.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/TankWar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/Handler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/Handler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/NewPlayerTankHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/NewPlayerTankHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/level/Level.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/trigger/Trigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/trigger/Trigger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/PlayerTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/handler/LoginHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,6 +45,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="JUnit5 Test Class" />
       </list>
     </option>
   </component>
@@ -55,32 +70,46 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;16&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/NJUCSSFzyx/Java/tankwarProj&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;terminal&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
+    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
+    "jdk.selected.JAVA_MODULE": "16",
+    "last_directory_selection": "E:/NJUCSSFzyx/Java/tankwarProj/client/src/test/java/com/kekwy/jwtest/tankwar",
+    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj/client/src/test/java",
+    "project.structure.last.edited": "模块",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "terminal"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\test\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\main\java\com\kekwy\jw\tankwar" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\src\main\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server\src\main\java\com\kekwy\jw\server\util" />
-      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server\src\main\java\com\kekwy\jw\server\game" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\test\java" />
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\test\java\com\kekwy\jwtest" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="com.kekwy.jw.tankwar.gamescenes" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
       <recent name="com.kekwy.jw.server.game" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.client">
+  <component name="RunManager" selected="JUnit.LocalPlaySceneTest.saveAndLoad">
     <configuration name="client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
       <module name="client" />
@@ -97,48 +126,51 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="MysqlTest.connectionTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="MysqlTest" />
-      <option name="METHOD_NAME" value="connectionTest" />
-      <option name="TEST_OBJECT" value="method" />
+    <configuration name="LocalPlaySceneTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.kekwy.jwtest.tankwar.gamescenes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.kekwy.jwtest.tankwar.gamescenes" />
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.jwtest.tankwar.gamescenes.LocalPlaySceneTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ServerTest.LoginTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="ServerTest" />
-      <option name="METHOD_NAME" value="LoginTest" />
+    <configuration name="LocalPlaySceneTest.saveAndLoad" type="JUnit" factoryName="JUnit" temporary="true">
+      <module name="client" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.kekwy.jwtest.tankwar.gamescenes.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.kekwy.jwtest.tankwar.gamescenes" />
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.jwtest.tankwar.gamescenes.LocalPlaySceneTest" />
+      <option name="METHOD_NAME" value="saveAndLoad" />
       <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="UuidTest.uuidTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="server" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="UuidTest" />
-      <option name="METHOD_NAME" value="uuidTest" />
-      <option name="TEST_OBJECT" value="method" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
     <list>
-      <item itemvalue="JUnit.MysqlTest.connectionTest" />
-      <item itemvalue="JUnit.ServerTest.LoginTest" />
-      <item itemvalue="JUnit.UuidTest.uuidTest" />
+      <item itemvalue="JUnit.LocalPlaySceneTest" />
+      <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
       <item itemvalue="应用程序.client" />
       <item itemvalue="应用程序.server" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.ServerTest.LoginTest" />
-        <item itemvalue="JUnit.MysqlTest.connectionTest" />
-        <item itemvalue="JUnit.UuidTest.uuidTest" />
+        <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
+        <item itemvalue="JUnit.LocalPlaySceneTest" />
+        <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
       </list>
     </recent_temporary>
   </component>
@@ -200,7 +232,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674229809756</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="feat: 游戏进度的保存以及恢复。">
+      <created>1674358053990</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1674358053990</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -222,15 +261,16 @@
     <MESSAGE value="README#jw5_1" />
     <MESSAGE value="README#jw5_2" />
     <MESSAGE value="README#jw5_3" />
-    <option name="LAST_COMMIT_MESSAGE" value="README#jw5_3" />
+    <MESSAGE value="feat: 游戏进度的保存以及恢复。" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 游戏进度的保存以及恢复。" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java</url>
-          <line>486</line>
-          <option name="timeStamp" value="1" />
+          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java</url>
+          <line>125</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -241,5 +281,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/tankwarProj$LocalPlaySceneTest_saveAndLoad.ic" NAME="LocalPlaySceneTest.saveAndLoad 覆盖结果" MODIFIED="1674375649407" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.kekwy.jwtest.tankwar.gamescenes.*</FILTER>
+    </SUITE>
   </component>
 </project>

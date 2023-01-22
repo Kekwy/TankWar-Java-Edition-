@@ -7,6 +7,7 @@ import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
+import java.util.Objects;
 import java.util.concurrent.Semaphore;
 
 public class EnemyTank extends Tank {
@@ -120,4 +121,17 @@ public class EnemyTank extends Tank {
 		return count;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!super.equals(o)) return false;
+		if (o == null || getClass() != o.getClass()) return false;
+		EnemyTank enemyTank = (EnemyTank) o;
+		return lastChangTime == enemyTank.lastChangTime && fireTime == enemyTank.fireTime && changeInterval == enemyTank.changeInterval;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(lastChangTime, fireTime, changeInterval);
+	}
 }

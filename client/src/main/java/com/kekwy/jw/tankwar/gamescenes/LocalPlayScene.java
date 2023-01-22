@@ -1,8 +1,5 @@
 package com.kekwy.jw.tankwar.gamescenes;
 
-import com.kekwy.jw.tankwar.GameObject;
-import com.kekwy.jw.tankwar.GameScene;
-import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.effect.MusicPlayer;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
@@ -14,6 +11,9 @@ import com.kekwy.jw.tankwar.trigger.Trigger;
 import com.kekwy.jw.tankwar.trigger.TriggerHandler;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
+import com.kekwy.jw.tankwar.GameObject;
+import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.TankWar;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -105,7 +105,7 @@ public class LocalPlayScene extends GameScene {
 		return level;
 	}
 
-	PlayerTank player;
+	public PlayerTank player;
 
 
 	AudioClip audioPassLevel = TankWar.passBGM;
@@ -474,10 +474,12 @@ public class LocalPlayScene extends GameScene {
 	}
 
 	// 单人游戏进度保存
-	public void saveToDisk() {
+	public List<GameObject> saveToDisk() {
 		this.stop();
+		// for test
+		List<GameObject> list = new ArrayList<>();
 		if (over) {
-			return;
+			return null;
 		}
 		try {
 			// 创建临时文件
@@ -490,6 +492,7 @@ public class LocalPlayScene extends GameScene {
 			oos.writeObject(getLevel().getEnemyCount());
 			for (GameObject object : super.objectList) {
 				// 跳过一些不需要保存的对象
+				object.waitFor();
 				if (object instanceof BackGround ||
 						object instanceof OverBackGround ||
 						object instanceof PassNotice ||
@@ -497,6 +500,7 @@ public class LocalPlayScene extends GameScene {
 					continue;
 				}
 				object.setActive(true);
+				list.add(object);
 				oos.writeObject(object);
 			}
 			oos.writeObject(null);
@@ -504,14 +508,16 @@ public class LocalPlayScene extends GameScene {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+		return list;
 	}
 
-	public void loadFromDisk(File file) {
+	public List<GameObject> loadFromDisk(File file) {
+		List<GameObject> list = new ArrayList<>();
 		ObjectInputStream ois;
 		try {
 			ois = new ObjectInputStream(new FileInputStream(file));
 		} catch (IOException e) {
-			System.out.println("找不到文件：" + file);
+//			System.out.println("找不到文件：" + file);
 			throw new RuntimeException(e);
 		}
 
@@ -526,6 +532,7 @@ public class LocalPlayScene extends GameScene {
 			int enemyCount = 0;
 
 			while ((object = (GameObject) ois.readObject()) != null) {
+				list.add(object);
 				if (object instanceof PlayerTank tank) {
 					player = tank;
 					player.setColor(player.r, player.g, player.b);
@@ -559,7 +566,7 @@ public class LocalPlayScene extends GameScene {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-
+		return list;
 	}
 
 }

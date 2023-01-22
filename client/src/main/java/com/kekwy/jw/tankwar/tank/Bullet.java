@@ -2,7 +2,6 @@ package com.kekwy.jw.tankwar.tank;
 
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
-import com.kekwy.jw.tankwar.effect.Blast;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
 import com.kekwy.jw.tankwar.trigger.Trigger;
 import com.kekwy.jw.tankwar.util.Direction;
@@ -13,6 +12,7 @@ import javafx.scene.paint.Paint;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -162,6 +162,7 @@ public class Bullet extends GameObject implements Runnable {
 		synchronized (SERVICE) {
 			SERVICE.execute(helper);
 		}
+		super.destroy();
 	}
 
 
@@ -200,4 +201,17 @@ public class Bullet extends GameObject implements Runnable {
 		this.color = Color.color(r, g, b);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o)) return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Bullet bullet = (Bullet) o;
+		return atk == bullet.atk && speed == bullet.speed && isExit == bullet.isExit && Double.compare(bullet.r, r) == 0 && Double.compare(bullet.g, g) == 0 && Double.compare(bullet.b, b) == 0 && direction == bullet.direction && from.equals(bullet.from);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(atk, speed, direction, from, isExit, r, g, b);
+	}
 }

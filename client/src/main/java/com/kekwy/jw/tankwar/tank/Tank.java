@@ -14,12 +14,12 @@ import com.kekwy.tankwar.server.io.Protocol;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public abstract class Tank extends GameObject implements Runnable {
 
@@ -214,6 +214,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	@Override
 	public void destroy() {
 		this.setActive(false);
+		super.destroy();
 	}
 
 	protected void initTank(double x, double y, Direction direction, String name, int group) {
@@ -340,5 +341,19 @@ public abstract class Tank extends GameObject implements Runnable {
 		this.g = g;
 		this.b = b;
 		this.color = Color.color(r, g, b);
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o)) return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Tank tank = (Tank) o;
+		return visible == tank.visible && hp == tank.hp && atk == tank.atk && speed == tank.speed && maxHp == tank.maxHp && isOnline == tank.isOnline && group == tank.group && Double.compare(tank.r, r) == 0 && Double.compare(tank.g, g) == 0 && Double.compare(tank.b, b) == 0 && direction == tank.direction && state == tank.state && name.equals(tank.name);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(visible, hp, atk, speed, maxHp, direction, state, isOnline, group, name, r, g, b);
 	}
 }

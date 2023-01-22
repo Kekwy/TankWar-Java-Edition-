@@ -2,8 +2,8 @@ package com.kekwy.jw.server.game.tank;
 
 
 import com.kekwy.jw.server.GameServer;
-import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.util.Direction;
+import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.tankwar.server.io.NewPlayerTank;
 import com.kekwy.tankwar.server.io.Protocol;
 import com.kekwy.tankwar.server.io.KeyEvent;

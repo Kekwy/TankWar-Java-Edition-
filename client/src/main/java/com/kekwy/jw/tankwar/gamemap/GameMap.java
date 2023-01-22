@@ -1,8 +1,8 @@
 package com.kekwy.jw.tankwar.gamemap;
 
+import com.kekwy.jw.tankwar.util.TankWarUtil;
 import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
-import com.kekwy.jw.tankwar.util.TankWarUtil;
 
 import java.io.InputStream;
 

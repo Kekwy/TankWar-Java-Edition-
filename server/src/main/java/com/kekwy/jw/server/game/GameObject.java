@@ -1,7 +1,6 @@
 package com.kekwy.jw.server.game;
 
 import com.kekwy.jw.server.GameServer;
-import com.kekwy.jw.server.handler.Handler;
 import com.kekwy.tankwar.server.io.Protocol;
 
 import java.util.UUID;

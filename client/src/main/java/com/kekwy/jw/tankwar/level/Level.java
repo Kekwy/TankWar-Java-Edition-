@@ -1,12 +1,12 @@
 package com.kekwy.jw.tankwar.level;
 
+import com.kekwy.jw.tankwar.tank.Bullet;
+import com.kekwy.jw.tankwar.tank.EnemyTank;
+import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.gamemap.GameMap;
 import com.kekwy.jw.tankwar.gamemap.MapTile;
 import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
-import com.kekwy.jw.tankwar.tank.Bullet;
-import com.kekwy.jw.tankwar.tank.EnemyTank;
-import com.kekwy.jw.tankwar.tank.Tank;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
 import javafx.scene.media.Media;
 

@@ -1,10 +1,12 @@
 package com.kekwy.jw.tankwar.effect;
 
+import com.kekwy.jw.tankwar.util.ObjectPool;
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
-import com.kekwy.jw.tankwar.util.ObjectPool;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+
+import java.util.Objects;
 
 
 public class Blast extends GameObject {
@@ -67,4 +69,18 @@ public class Blast extends GameObject {
 		super(parent);
 	}
 
+
+	@Override
+	public boolean equals(Object o) {
+		if (!super.equals(o)) return false;
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Blast blast = (Blast) o;
+		return index == blast.index && radius == blast.radius;
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(index, radius);
+	}
 }
