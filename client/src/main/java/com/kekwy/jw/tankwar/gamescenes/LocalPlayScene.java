@@ -492,12 +492,14 @@ public class LocalPlayScene extends GameScene {
 			oos.writeObject(getLevel().getEnemyCount());
 			for (GameObject object : super.objectList) {
 				// 跳过一些不需要保存的对象
-				object.waitFor();
 				if (object instanceof BackGround ||
 						object instanceof OverBackGround ||
 						object instanceof PassNotice ||
 						object instanceof Trigger) {
 					continue;
+				}
+				if (object instanceof Runnable) {
+					object.waitFor();
 				}
 				object.setActive(true);
 				list.add(object);

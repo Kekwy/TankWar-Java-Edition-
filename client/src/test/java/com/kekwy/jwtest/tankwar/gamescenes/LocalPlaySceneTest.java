@@ -28,7 +28,7 @@ class LocalPlaySceneTest {
 			scene = new LocalPlayScene();
 			scene.start();
 			// 等待游戏运行十秒钟
-			Thread.sleep(10000);
+			Thread.sleep(15000);
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
@@ -42,6 +42,10 @@ class LocalPlaySceneTest {
 		assertTrue(file.listFiles().length > 0);
 
 		LocalPlayScene newScene = new LocalPlayScene();
+		newScene.start();
+		newScene.stop(); // 阻止读出的对象加入场景
+		// 若对象读出后仍然直接加入场景，场景的线程池会直接尝试为该对象创建线程，
+		// 造成对比结果的同时，后台线程修改了数据，导致测试用例“假”不通过。
 		List<GameObject> newObjectList = newScene.loadFromDisk(file.listFiles()[0]);
 
 		// 比较保存前和恢复后对象的数量。

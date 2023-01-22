@@ -46,7 +46,9 @@ public abstract class GameObject implements Serializable {
 	 */
 	public abstract void refresh(GraphicsContext g, long timestamp);
 
-	public void destroy() {
+	public void destroy(){}
+
+	public void exit() {
 		synchronized (this) {
 			destroyed = true;
 			this.notify();

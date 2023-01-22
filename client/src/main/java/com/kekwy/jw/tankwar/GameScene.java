@@ -193,7 +193,7 @@ public class GameScene extends Scene {
 		}
 		for (GameObject object : objectList) {
 			object.setActive(false);
-			object.destroy();
+//			object.destroy();
 		}
 //		for (ShowLayer layer : layers) {
 //			layer.clear();

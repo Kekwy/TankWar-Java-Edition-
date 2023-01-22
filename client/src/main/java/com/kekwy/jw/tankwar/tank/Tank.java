@@ -119,6 +119,7 @@ public abstract class Tank extends GameObject implements Runnable {
 				throw new RuntimeException(e);
 			}
 		}
+		this.exit();
 	}
 
 	private final List<GameObject> collideList = new LinkedList<>();

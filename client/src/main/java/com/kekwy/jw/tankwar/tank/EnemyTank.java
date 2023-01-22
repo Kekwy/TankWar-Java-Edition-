@@ -87,7 +87,7 @@ public class EnemyTank extends Tank {
 				2 * getRadius(), 2 * getRadius());
 	}
 
-	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 1);
+	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 0);
 
 	public static final int ENEMY_TANK_MAX_HP = 500;
 	public static Tank createEnemyTank(GameScene parent, double x, double y, String name, int group) {
@@ -128,6 +128,7 @@ public class EnemyTank extends Tank {
 		if (o == null || getClass() != o.getClass()) return false;
 		EnemyTank enemyTank = (EnemyTank) o;
 		return lastChangTime == enemyTank.lastChangTime && fireTime == enemyTank.fireTime && changeInterval == enemyTank.changeInterval;
+		// return true;
 	}
 
 	@Override
