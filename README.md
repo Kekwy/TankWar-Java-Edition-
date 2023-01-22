@@ -1,315 +1,360 @@
-# j05：自制坦克大战#part1
+# j06：自制坦克大战#part2
 
-> 201220214 张宇轩
->
-> 1.  Java 高级程序设计课程大作业的第一部分；
-> 2. 基于 Javafx 手搓的一个坦克大战小游戏，比较简陋；
-> 3. 每个活动实体是一个线程，主要用于加强对线程的理解以及练习 Java 中与线程相关的操作；
-> 4. 更多细节详见大作业完整报告。
+> 1. Java 高级程序设计课程大作业的第二部分；
+> 2. 学习 JavaIO 的相关知识，学习如何通过 maven 进行项目管理；
+> 3. 基于 Java 中的对象序列化，通过将对象写入文件/从文件读取实现游戏进度的保存/恢复；
+> 4. 通过 maven 添加依赖，并使用外部依赖 poi 工具读取 Excel 文件，根据 Excel 文件内容加载地图；
+> 5. 针对地图加载部分的代码编写单元测试用例。
 
-* **[展示视频](#展示视频)**
-* **[多线程设计](#多线程设计)**
-  * [坦克行为](#坦克行为)
-    * [敌人坦克](#敌人坦克)
-  * [子弹行为](#子弹行为)
-  * [线程安全](#线程安全)
-    * [坐标更新](#坐标更新)
-    * [碰撞处理](#碰撞处理)
-    * [屏幕刷新](#屏幕刷新)
 
 
 ## 展示视频
 
-[![image-20230120234016264](https://assets.kekwy.com/images/image-20230120234016264.png)](https://www.bilibili.com/video/BV1VP4y1r7pL/)
+[![image-20230122114028308](https://assets.kekwy.com/images/image-20230122114028308.png)](https://www.bilibili.com/video/BV1wR4y1Y7VB/)
 
-## 多线程设计
+## 进度保存
 
-[class]GameScene -> [func] addGameObject：
+#### 上层调用
 
-```java
-// 将游戏对象加入对应的渲染图层
-layers[gameObject.getLayer()].add(gameObject);
-if (gameObject instanceof Runnable runnable) {
-	service.execute(runnable);
-}
-```
+保存：
 
-新游戏对象加入场景时，判断其是否实现 runnable 接口，若其实现 runnable 接口则将其加入当前场景的线程池中，线程池自动为其创建线程并进行管理。
-
-### 坦克行为
-
-[class]Tank：
+[class]Main：
 
 ```java
-@SuppressWarnings("BusyWait")
 @Override
-public void run() {
-	while (this.isActive()) {
-		move();				// 移动
-		try {
-			doCollide();	// 碰撞检测
-			check(System.currentTimeMillis()); // 检查对象状态
-			Thread.sleep(UPDATE_INTERVAL);
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
-	}
+public void stop() throws Exception {
+   // 若当前 stage 上的场景是单人游戏场景，
+   // 则在退出前将游戏进度写入磁盘。
+   if (stage.getScene() instanceof LocalPlayScene scene) {
+      scene.saveToDisk();
+   }
+   System.exit(-1);
 }
 ```
 
-每一个坦克的线程中周期性地进行上述操作，直到调用 GameObject 中的方法 isActive 返回 false（表示游戏对象将要被销毁）。
+重写 JavaFx 中 Application 类中的方法 `stop()`，该方法将在点击窗口关闭按钮时被调用。点击关闭游戏时，若当前有正在进行的游戏，则进行保存。
 
-- 移动：
+若保存成功会在游戏根目录下的 save/ 子目录下生成一个以“save”为前缀，“.tmp”为后缀的临时文件，其中保存了游戏对象序列化后的数据。
 
-  [class]Tank：
+恢复：
 
-  ```java
-  private void move() {
-     // 若当前处于移动状态，进行移动
-     if (state == State.STATE_MOVE) {
-        double x = this.transform.getX();
-        double y = this.transform.getY();
-        // 根据方向和速度改变坐标
-        switch (direction) {
-           case DIR_UP -> y -= speed;
-           case DIR_DOWN -> y += speed;
-           case DIR_LEFT -> x -= speed;
-           case DIR_RIGHT -> x += speed;
-        }
-        // 调用场景中更新游戏对象的方法
-        this.getParent().update(this, x, y, TANK_RADIUS);
-     }
-  }
-  ```
-
-- 碰撞：
-
-  ```java
-  // 当与坦克相碰时：
-  if (gameObject instanceof Tank tank) {
-     if (tank.group == this.group) {
-        // TODO 队友 BUFF
-     } else {
-        // 不同阵营的坦克相碰时，则同归于尽
-        ...
-     }
-  } else if (gameObject instanceof Bullet bullet && bullet.getFrom().group != this.group) {
-     // 当碰撞对象为子弹且开火的坦克与自己不是同一阵营时，
-     // 根据子弹攻击力扣除当前坦克对应的血量，
-     // 并将该子弹的 active 设置为 false，
-     // 表示即将销毁该子弹。
-     ...
-  } else if (gameObject instanceof MapTile mapTile) {
-     // 若碰撞对象为地图块且为树叶时，
-     if (mapTile.getType() == MapTile.Type.TYPE_COVER) {
-        // 隐藏坦克名字的血条
-        setVisible(false);
-        // 将坦克的覆盖状态设置为 true，
-        // 表示当前坦克被树叶覆盖。
-        isCovered = true;
-     } else {
-        // 若为其他类型的地图块，则坦克不能穿过，
-        // 需要根据两者的相对位置重置坦克的坐标。
-        ...
-     }
-  }
-  ```
-
-实现细节详见大作业报告。
-
-#### 敌人坦克
-
-> 暂时基于随机算法的行为设计。
-
-敌人坦克需要由程序自驱动，除了上述操作外还需要检测自身状态，并自动执行某些动作。
-
-[class]EnemyTank：
-
-- 状态转换：
-
-  ```java
-  @Override
-  public void check(long timestamp) {
-  	...
-      // 若当前时间与上次状态改变时间差值大于状态改变间隔
-      // （状态改变间隔同样由每次进行状态更新时随机生成），
-      // 进行敌人坦克的状态改变。
-  	if (timestamp - lastChangTime > changeInterval) {
-  		// 随机生成下一次的状态改变间隔
-  		changeInterval = (int)TankWarUtil.getRandomNumber(1000, 2000);
-          // 随机设置一个状态：闲置或移动
-  		setState(State.values()[(int)TankWarUtil.getRandomNumber(0, 2)]);
-  		// 随机设置一个方向：上、下、左、右
-          setDirection(Direction.values()[(int)TankWarUtil.getRandomNumber(0, 4)]);
-  		// 更新上次状态改变时间
-          lastChangTime = timestamp;
-  	}
-      // 开火概率为 0.05，并且需要大于开火间隔
-  	if (Math.random() < 0.05 && timestamp - fireTime > FIRE_INTERVAL) {
-          // 更新上次开火时间
-  		fireTime = timestamp;
-  		fire();
-  	}
-  }
-  ```
-
-### 子弹行为
-
-子弹移动和碰撞行为的实现方式与坦克的实现相同，此处不重复说明。
-
-### 线程安全
-
-#### 坐标更新
-
-为了最大限度的减少碰撞检测时遍历的对象并且该项目中出现的游戏对象大小相近，故在游戏场景中将整个场景按块划分，每个游戏对象在加入场景的同时按坐标计算出其所属的区块并将其加入，而在其坐标改变时，若其移动到了新的区块，则将其加入新的区块并从之前的区块中移除。这样，在碰撞检测的时候就只需要读取对象所在的区块及其一周的区块（一共九个区块）中的对象，对齐进行进一步判断即可，而不必遍历所有在场的游戏对象。
-
-加入区块和离开区块的操作不影响当前对象主线程的执行，其需要进行同步操作，故通过线程池创建“后台”线程实现上述操作，避免对象主线程阻塞。
-
-**一个假设：**通过后台线程“延时”加入区块可能会导致判断碰撞时读取到旧的数据，造成碰撞判断出错——本该相碰的两个物体，由于其中一个物体还没有加入其真实所处的区块，导致碰撞检测时从该区块中没有读出该对象。
-
-下面将从两个方面论述上述假设的结果不会对游戏运行产生影响：
-
-- 首先，碰撞检测每个周期都会进行，而每个周期内游戏对象最多移动一次，一般情况下游戏对象的移动不会太快，即经过一个周期游戏对象的位置可能变化不大，而 enter、leave 操作从加入线程池到被调度执行的时间远小于游戏对象主线程的循环周期，故这次循环没有检测到的碰撞在下个周期内仍然可以被检测到而不产生过大的误差。
-
-- 更进一步，游戏对象是先加入新区块，再退出原来的区块，故不会产生一个对象从所有的区块中都无法访问的情况。又由于设置区块的大小大于游戏对象的大小，两个物体相撞时，若一个物体正在跨区块，那么其之前所处的区块一定在碰撞检测的对象所读取的九个区块中（如下图，无论是站在谁的角度，对方之前所在的区块都在自己的扫描范围内）。故碰撞检测依然可以正确执行，故假设本身就不成立。
-
-  <img src="https://assets.kekwy.com/images/image-20230120231019960.png" alt="image-20230120231019960" style="zoom: 67%;" />
-
-[class]GameScene：
+[class]Main -> [func]start(Stage stage)：
 
 ```java
-public void update(GameObject object, double x, double y, int offset) {
-   int oldRow = object.transform.getGridRow();
-   int oldCol = object.transform.getGridCol();
-   int row = (int) y / GRID_SIZE;
-   int col = (int) x / GRID_SIZE;
-   if (row != oldRow || col != oldCol) {
-      object.transform.setGridRow(row);
-      object.transform.setGridCol(col);
-      synchronized (service) {
-         service.execute(() -> {
-		    grid[row][col].enter(object);
-		    grid[oldRow][oldCol].leave(object);
-         });
+File file = new File("./save/");
+if (file.exists() && file.isDirectory()
+      && Objects.requireNonNull(file.listFiles()).length > 0) {
+   // 如果存在则弹出会话窗
+   scene = showAlert(Objects.requireNonNull(file.listFiles())[0]);
+} else {
+   // 如果不存在则正常加载主场景
+   scene = new MainScene();
+}
+```
+
+在游戏窗口初始化完毕后，判断游戏根目录下 save/ 子目录是否为空。不为空说明存在保存进度的临时文件，这里会弹出一个对话框，提示玩家。
+
+![image-20230122115846356](https://assets.kekwy.com/images/image-20230122115846356.png)
+
+```java
+@SuppressWarnings("OptionalGetWithoutIsPresent")
+private GameScene showAlert(File file) {
+   // 生成选择对话框
+   Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+   // 设置头文字
+   alert.setHeaderText("上次关闭游戏时有一场未完成的单人游戏");
+   // 设置对话框内容
+   alert.setContentText(
+         """
+               选择“确定”恢复上次游戏进度，
+               选择“取消”或关闭对话框跳转至主界面,
+               并删除保存上次进度的临时文件，
+               删除操作无法恢复。"""
+   );
+   // 展示对话框并阻塞直到玩家确认
+   Optional<ButtonType> result = alert.showAndWait();
+
+   GameScene scene;
+   
+   // 如果玩家点击“确定”按钮，则从磁盘加载游戏进度；
+   // 否则正常加载主场景。
+   if (result.get() == ButtonType.OK) {
+      LocalPlayScene playScene = new LocalPlayScene();
+      playScene.loadFromDisk(file);
+      scene = playScene;
+   } else {
+      // ... user chose CANCEL or closed the dialog
+      scene = new MainScene();
+   }
+   // 删除临时文件
+   //noinspection ResultOfMethodCallIgnored
+   file.delete();
+   return scene;
+}
+```
+
+#### 底层实现
+
+保存：
+
+[class]LocalPlayScene：
+
+```java
+public void saveToDisk() {
+   // 结束当前场景中的所有对象线程
+   this.stop();
+   // 如果当前场景的状态为游戏结束则不进行进度保存
+   if (over) {
+      return;
+   }
+   try {
+      // 创建临时文件
+      File saveFile = File.createTempFile("save", ".tmp", new File("./save/"));
+      // 创建对象输出流
+      ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
+      // 对象写入顺序：
+      // currentLevel, 
+      // isWin, 
+      // playing, 
+      // level中的EnemyCount变量, 
+      // 场景中的游戏对象
+      oos.writeObject(currentLevel);
+      oos.writeObject(isWin);
+      oos.writeObject(playing);
+      oos.writeObject(getLevel().getEnemyCount());
+      for (GameObject object : super.objectList) {
+         // 跳过一些不需要保存的对象
+         if (object instanceof BackGround ||
+               object instanceof OverBackGround ||
+               object instanceof PassNotice ||
+               object instanceof Trigger) {
+            continue;
+         }
+         // 由于在 stop() 方法中所有的对象的 active
+         // 都被置为 false，则在保存前需要将其还原为 true。
+         object.setActive(true);
+         oos.writeObject(object);
+      }
+      // 写入 null 用于标志文件末尾
+      oos.writeObject(null);
+      oos.close();
+   } catch (IOException e) {
+      throw new RuntimeException(e);
+   }
+}
+```
+
+恢复：
+
+[class]LocalPlayScene：
+
+```java
+public void loadFromDisk(File file) {
+   ObjectInputStream ois;
+   try {
+      ois = new ObjectInputStream(new FileInputStream(file));
+   } catch (IOException e) {
+      System.out.println("找不到文件：" + file);
+      throw new RuntimeException(e);
+   }
+
+   try {
+      // 先按顺序读取特殊变量
+      currentLevel = (int) ois.readObject();
+      isWin = (boolean) ois.readObject();
+      playing = (boolean) ois.readObject();
+      getLevel().setEnemyCount((Integer) ois.readObject());
+
+      GameObject object;
+
+      int enemyCount = 0;
+
+      // 读出文件中的所有游戏对象，按种类分别进行处理
+      while ((object = (GameObject) ois.readObject()) != null) {
+         if (object instanceof PlayerTank tank) {
+            player = tank;
+            // 由于 javafx 中的 Color 类不可序列化，
+            // 则需要借助可序列化的 double 型的 rgb 对其进行复原。
+            player.setColor(player.r, player.g, player.b);
+            object.setParent(this);
+            tank.recoveryFromDisk();
+            continue;
+         } else if (object instanceof MapTile tile) {
+            mapTileList.add(tile);
+         } else if (object instanceof EnemyTank enemy) {
+            // 用于还原当前在场的敌人数量
+            enemyCount++;
+            enemy.setColor(enemy.r, enemy.g, enemy.b);
+         } else if (object instanceof Bullet bullet) {
+            bullet.setColor(bullet.r, bullet.g, bullet.b);
+         }
+         object.setParent(this);
+         addGameObject(object);
+      }
+
+      EnemyTank.setCount(enemyCount);
+
+   } catch (IOException e) {
+      System.out.println("目标文件损坏（格式异常）");
+      throw new RuntimeException(e);
+   } catch (ClassNotFoundException e) {
+      System.out.println("找不到指定的类");
+      throw new RuntimeException(e);
+   }
+
+   try {
+      ois.close();
+   } catch (IOException e) {
+      throw new RuntimeException(e);
+   }
+
+}
+```
+
+上述代码实现中的某些细节将在最终版的报告中进行优化。
+
+## 地图加载
+
+### 效果展示
+
+本项目在游戏启动时基于 Excel 表格生成游戏地图：
+
+![image-20230122122742595](https://assets.kekwy.com/images/image-20230122122742595.png)
+
+程序识别的标准地图格式如下：
+
+![image-20230122122835472](https://assets.kekwy.com/images/image-20230122122835472.png)
+
+每个关卡的配置文件中都保存着该关卡对应地图文件的文件路径，同时关卡配置文件中还有许多其他可以自定义的参数：
+
+```properties
+# 请确保自定义关卡设置满足对应的格式
+# 自定义关卡设置仅单人游戏下生效
+# 关卡地图（必须为合法的.xlsx文件）
+# 路径相对于游戏运行目录，非该设置文件目录
+map_file=./maps/level1.xlsx
+```
+
+### 代码实现
+
+添加依赖：
+
+```xml
+<dependencies>
+    ...
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>5.2.3</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+    <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>5.2.3</version>
+    </dependency>
+    ...
+</dependencies>
+```
+
+读取Excel：
+
+```java
+/**
+ * 读取 Excel 文件，并返回包含表格指定范围内容的二维数组
+ * @param file Excel 文件输入流
+ * @param rowFrom 读取的起始行
+ * @param colFrom 读取的起始列
+ * @param rowN 期望读取的行数
+ * @param colN 期望读取的列数
+ * @param sheetIndex 期望读取的工作簿索引号
+ * @return 包含表格指定范围内容的二维数组
+ */
+public static int[][] readWorkBook(InputStream file, int rowFrom, int colFrom, int rowN, int colN, int sheetIndex) {
+   // 根据读取大小设置保存结果的二维数组
+   int[][] content = new int[rowN][colN];
+   Workbook workbook = null;
+   try {
+      // 生成表格对象
+      workbook = new XSSFWorkbook(file);//Excel 2007
+   } catch (IOException e) {
+      throw new RuntimeException(e);
+   }
+   // 获取指定工作簿
+   Sheet sheet = workbook.getSheetAt(sheetIndex);
+   for (int i = 0; i < rowN; i++) {
+      // 根据行号获取工作簿中的指定行
+      Row row = sheet.getRow(i + rowFrom);
+      for (int j = 0; j < colN; j++) {
+         // 根据列号获取指定的单元格
+         Cell cell = row.getCell(j + colFrom);
+         // 读取单元格数据并保存
+         content[i][j] = Double.valueOf(cell.getNumericCellValue()).intValue();
+      }
+   }
+   return content;
+}
+```
+
+生成地图时遍历返回的二维数组，根据 Excel 文件中单元格的数据生成指定种类的地图块并计算其在场景中对应的坐标。
+
+## 单元测试
+
+> 由于项目代码略微冗杂，且其中涉及多线程并包含随机逻辑，短时间内无法对项目每个模块进行单元测试，此处仅针对本次实现的游戏进度保存方法进行单元测试。
+
+对于涉及多线程的单元测试需要避免比较结果时存在活动的后台线程，导致对比结果的同时结果被后台线程修改，造成测试用例“假”不通过。
+
+### 测试用例
+
+```java
+class LocalPlaySceneTest {
+
+   @Test
+   void saveAndLoad() {
+
+      LocalPlayScene scene;
+      try {
+         new Thread(() -> Main.main(null)).start();
+         Thread.sleep(1000);
+         scene = new LocalPlayScene();
+         scene.start();
+         // 等待游戏运行十秒钟
+         Thread.sleep(15000);
+      } catch (InterruptedException e) {
+         throw new RuntimeException(e);
+      }
+
+      // 获取游戏对象列表
+      List<GameObject> objectList = scene.saveToDisk();
+      File file = new File("./save/");
+
+      assertTrue(file.exists());
+      assertTrue(file.isDirectory());
+      assertTrue(file.listFiles().length > 0);
+
+      LocalPlayScene newScene = new LocalPlayScene();
+      newScene.start();
+      newScene.stop(); // 阻止读出的对象加入场景
+      // 若对象读出后仍然直接加入场景，场景的线程池会直接尝试为该对象创建线程，
+      // 造成对比结果的同时，后台线程修改了数据，导致测试用例“假”不通过。
+      List<GameObject> newObjectList = newScene.loadFromDisk(file.listFiles()[0]);
+
+      // 比较保存前和恢复后对象的数量。
+      assertEquals(objectList.size(), newObjectList.size());
+
+      for (int i = 0; i < newObjectList.size(); i++) {
+         assertEquals(objectList.get(i), newObjectList.get(i));
       }
    }
 }
 ```
 
-对于每个网格对象的获取对象列表操作和 enter、leave 操作使用读写锁（java.util.concurrent.locks.ReentrantReadWriteLock）同步：
+### 测试结果
 
-[class]GameScene -> [class]GridCell：
+![image-20230122175033737](https://assets.kekwy.com/images/image-20230122175033737.png)
 
-```java
-private final ReentrantReadWriteLock readWriteLock 
-    = new ReentrantReadWriteLock();
+![image-20230122174746181](https://assets.kekwy.com/images/image-20230122174746181.png)
 
-public void enter(GameObject object) {
-   readWriteLock.writeLock().lock();
-   ...
-   readWriteLock.writeLock().unlock();
-}
-
-public void leave(GameObject object) {
-   readWriteLock.writeLock().lock();
-   ...
-   readWriteLock.writeLock().unlock();
-}
-
-public void getObjects(List<GameObject> list) {
-   readWriteLock.readLock().lock();
-   ...
-   readWriteLock.readLock().unlock();
-}
-```
-
-特别地，由于所有的 enter、leave 操作都是通过线程池中的线程执行的，而各线程之间的执行进度与调度时机不确定，试想一种情况：
-
-某个对象先进入某个区块，片刻后又离开，假如该在执行离开该区块的 leave 操作时，相应的 enter 操作还没有执行（要从对应的区块中移除该对象，但是其还没有加入）。无论是直接执行移除操作（移除不存在的对象），还是什么都不做（后续执行的 enter 操作并不知道其自身的逻辑顺序，仍会将该对象重新加入该区块），都会产生很严重的错误。
-
-以下将讨论项目中采用的解决方案：
-
-[class]GameScene -> [class]GridCell：
-
-```java
-// “未来”要被移除的游戏对象列表
-private final List<GameObject> removeBuffer = new ArrayList<>();
-
-public void enter(GameObject object) {
-   readWriteLock.writeLock().lock();
-   // 若该对象在该区块的待删除列表中，
-   // 则将其从待删除列表中移除，而不加入区块的对象列表。
-   if (removeBuffer.contains(object)) {
-      removeBuffer.remove(object);
-      readWriteLock.writeLock().unlock();
-      return;
-   }
-   objects.add(object);
-   readWriteLock.writeLock().unlock();
-}
-
-public void leave(GameObject object) {
-   readWriteLock.writeLock().lock();
-   // 对象列表中不包含目标对象，
-   // 则将其加入待移除列表中。
-   if (!objects.remove(object)) {
-      removeBuffer.add(object);
-   }
-   readWriteLock.writeLock().unlock();
-}
-```
-
-由于在游戏进行时，leave 操作与 enter 操作一定是成对出现的，一条 leave 操作一定对应一个 enter 操作，而当执行 leave 操作时发现区块中没有该对象，则说明将由一个延迟抵达的 enter 操作，故先将该对象加入一个列表，当 enter 操作执行时，告知它“这个对象未来要被删掉了，你就不要加进来啦”。
-
-#### 碰撞处理
-
-> 包含典型的哲学家问题
-
-由于需要保证同一次碰撞只生效一次，并且正在参与碰撞处理的对象不能参与其他的碰撞处理（如 A 与 B 碰，B 与 C 碰，假设先判断处理A与B的碰撞，由于在检测到B与C的碰撞时，B正在参与碰撞处理，则B与C的碰撞必须要等待 A 与 B 的碰撞处理结束后才能进行处理），故在碰撞处理时需要进行线程同步，且需要获取两个对象的锁。
-
-而同时获取两个锁就是典型的[哲学家就餐问题](https://blog.csdn.net/theLostLamb/article/details/80741319)，不能使用一般的方法依次获取两个锁。
-
-这次通过 `trylock()` 方法实现：
-
-> trylock()：成功获取锁时返回 true，锁被占用时直接返回 false 而不阻塞。
-
-```java
-while (true) {
-   // 若自身的锁被占用，则直接阻塞等待
-   if (!this.collideLock().tryLock()) {
-      this.collideLock().lock();
-   }
-   // 在拿到自己的锁后，如另一个对象的锁获取失败
-   if (!gameObject.collideLock().tryLock()) {
-      // 将自己的锁释放
-      this.collideLock().unlock();
-      // 阻塞等待在另一个对象的锁上
-      gameObject.collideLock().lock();
-      // 从阻塞等待中被唤醒时，释放持有的锁
-      gameObject.collideLock().unlock();
-      // 再进行判断
-      continue;
-   }
-   // 直到同时获得两个对象的锁，退出循环
-   break;
-}
-// 若两个对象任意一个处于待销毁的状态，
-// 则直接释放所有锁，跳过两者的碰撞处理。
-if (!this.isActive() || !gameObject.isActive()) {
-   gameObject.collideLock().unlock();
-   this.collideLock().unlock();
-   if (!this.isActive()) {
-      return;
-   } else {
-      continue;
-   }
-}
-```
-
-#### 屏幕刷新
-
-对于屏幕刷新（刷帧）线程频繁读取游戏对象的坐标等数据的操作不需要做线程同步，因为就算读取数据的同时数据被修改，导致读到了旧数据，使当前帧的显示出现错误，下一帧刷新时就会重新读到更新后的数据，正确显示对象状态。综上，不同步的代价仅仅是可能导致一帧显示错误，而这个错误人眼往往无法分辨，故可以不进行线程同步，从而避免频繁同步而带来的不必要的开销。
-
-
-
-【感谢评阅】
+对于 Localscene 类的方法覆盖率为 55%，行覆盖率为 47%；对于我们针对测试的两个方法，实际的行覆盖率则达到了 80% 以上。

@@ -4,16 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="tmp: 部分类重写了 equal 和 hashCode 方法">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/test/java/com/kekwy/jwtest/tankwar/gamescenes/LocalPlaySceneTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/test/java/com/kekwy/jwtest/tankwar/gamescenes/LocalPlaySceneTest.java" afterDir="false" />
-    </list>
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -225,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674376587122</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试">
+      <created>1674380931796</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1674380931796</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -249,7 +247,8 @@
     <MESSAGE value="README#jw5_3" />
     <MESSAGE value="feat: 游戏进度的保存以及恢复。" />
     <MESSAGE value="tmp: 部分类重写了 equal 和 hashCode 方法" />
-    <option name="LAST_COMMIT_MESSAGE" value="tmp: 部分类重写了 equal 和 hashCode 方法" />
+    <MESSAGE value="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
+    <option name="LAST_COMMIT_MESSAGE" value="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -287,8 +286,8 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/tankwarProj$LocalPlaySceneTest_saveAndLoad.ic" NAME="LocalPlaySceneTest.saveAndLoad 覆盖结果" MODIFIED="1674379386389" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
-      <FILTER>com.kekwy.jwtest.tankwar.gamescenes.*</FILTER>
+    <SUITE FILE_PATH="coverage/tankwarProj$LocalPlaySceneTest_saveAndLoad.ic" NAME="LocalPlaySceneTest.saveAndLoad 覆盖结果" MODIFIED="1674380806129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>com.kekwy.jw.tankwar.gamescenes.LocalPlayScene</FILTER>
     </SUITE>
   </component>
 </project>

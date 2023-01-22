@@ -54,6 +54,5 @@ class LocalPlaySceneTest {
 		for (int i = 0; i < newObjectList.size(); i++) {
 			assertEquals(objectList.get(i), newObjectList.get(i));
 		}
-
 	}
 }
