@@ -4,7 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw6_1" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,7 +49,7 @@
     "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
     "jdk.selected.JAVA_MODULE": "16",
     "last_directory_selection": "E:/NJUCSSFzyx/Java/tankwarProj/client/src/test/java/com/kekwy/jwtest/tankwar",
-    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj/client/src/test/java",
+    "last_opened_file_path": "E:/NJUCSSFzyx/Java/tankwarProj",
     "project.structure.last.edited": "模块",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
@@ -58,8 +58,8 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\test\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj" />
+      <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\test\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\client\src\main\java\com\kekwy\jw\tankwar" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\src\main\java" />
       <recent name="E:\NJUCSSFzyx\Java\tankwarProj\server\src\main\java\com\kekwy\jw\server\util" />
@@ -223,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674380931796</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="README#jw6_1">
+      <created>1674381404614</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1674381404614</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -248,7 +255,8 @@
     <MESSAGE value="feat: 游戏进度的保存以及恢复。" />
     <MESSAGE value="tmp: 部分类重写了 equal 和 hashCode 方法" />
     <MESSAGE value="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
-    <option name="LAST_COMMIT_MESSAGE" value="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
+    <MESSAGE value="README#jw6_1" />
+    <option name="LAST_COMMIT_MESSAGE" value="README#jw6_1" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -286,7 +294,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/tankwarProj$server.ic" NAME="server 覆盖结果" MODIFIED="1672118379988" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/tankwarProj$LocalPlaySceneTest_saveAndLoad.ic" NAME="LocalPlaySceneTest.saveAndLoad 覆盖结果" MODIFIED="1674380806129" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+    <SUITE FILE_PATH="coverage/tankwarProj$LocalPlaySceneTest_saveAndLoad.ic" NAME="LocalPlaySceneTest.saveAndLoad 覆盖结果" MODIFIED="1674380988827" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>com.kekwy.jw.tankwar.gamescenes.LocalPlayScene</FILTER>
     </SUITE>
   </component>
