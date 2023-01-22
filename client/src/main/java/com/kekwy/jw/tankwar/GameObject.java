@@ -4,13 +4,14 @@ import com.kekwy.jw.tankwar.util.TankWarUtil;
 import com.kekwy.tankwar.server.io.Protocol;
 import javafx.scene.canvas.GraphicsContext;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
 
-public abstract class GameObject {
+public abstract class GameObject implements Serializable {
 
 	public void update(Protocol p) {}
 
@@ -99,7 +100,7 @@ public abstract class GameObject {
 	}
 
 
-	public static class Transform {
+	public static class Transform implements Serializable {
 
 		private double x, y;
 		private int gridRow, gridCol;
@@ -164,111 +165,6 @@ public abstract class GameObject {
 
 	public final Transform transform = new Transform();
 
-
-
-	/* ==================================================================
-	     _____            __     ______    __
-	    / ___/  __  __   / /_   / ____/   / /  ____ _   _____   _____
-	    \__ \  / / / /  / __ \ / /       / /  / __ `/  / ___/  / ___/
-	   ___/ / / /_/ /  / /_/ // /___    / /  / /_/ /  (__  )  (__  )
-	  /____/  \__,_/  /_.___/ \____/   /_/   \__,_/  /____/  /____/
-	  ===================================================================
-	 */
-
-	public static final int RELOAD_render = 32;
-	public static final int RELOAD_keyReleasedEvent = 16;
-	public static final int RELOAD_keyPressedEvent = 8;
-	public static final int RELOAD_collide = 4;
-	public static final int RELOAD_fixUpdate = 2;
-	public static final int RELOAD_update = 1;
-
-
-	/**
-	 * 记录当前子类重载了[Game]中的哪些函数
-	 */
-	private int attribute;
-	private static final Map<Class<? extends GameObject>, Integer> classAttribute = new HashMap<>();
-
-	@Deprecated
-	public int getAttribute() {
-		return attribute;
-	}
-
-	@SuppressWarnings("unchecked")
-	@Deprecated
-	private void setAttribute() {
-
-		attribute = 0;
-
-		Class<? extends GameObject> c = this.getClass();
-
-
-		if (classAttribute.containsKey(c)) {
-			attribute = classAttribute.get(c);
-			return;
-		}
-
-		// System.out.println(this.getClass());
-
-		while (!c.equals(GameObject.class)) {
-			boolean temp = true;
-
-			try {
-				c.getDeclaredMethod("keyReleasedEvent", int.class);
-			} catch (NoSuchMethodException e) {
-				temp = false; // System.out.println("null");// throw new RuntimeException(e);
-			}
-			if (temp) {
-				attribute |= RELOAD_keyReleasedEvent;
-			}
-
-			temp = true;
-			try {
-				c.getDeclaredMethod("keyPressedEvent", int.class);
-			} catch (NoSuchMethodException e) {
-				temp = false;
-			}
-			if (temp) {
-				attribute |= RELOAD_keyPressedEvent;
-			}
-
-			temp = true;
-			try {
-				c.getDeclaredMethod("collide", List.class);
-			} catch (NoSuchMethodException e) {
-				temp = false;
-			}
-			if (temp) {
-				attribute |= RELOAD_collide;
-			}
-
-			temp = true;
-			try {
-				c.getDeclaredMethod("fixedUpdate");
-			} catch (NoSuchMethodException e) {
-				temp = false;
-			}
-			if (temp) {
-				attribute |= RELOAD_fixUpdate;
-			}
-
-			temp = true;
-			try {
-				c.getDeclaredMethod("update");
-			} catch (NoSuchMethodException e) {
-				temp = false;
-			}
-			if (temp) {
-				attribute |= RELOAD_update;
-			}
-
-			c = (Class<? extends GameObject>) c.getSuperclass();
-		}
-		classAttribute.put(this.getClass(), attribute);
-
-	}
-
-
 	/* ====================================================
 	      __
 	     / /   ____ _   __  __  ___    _____
@@ -308,7 +204,7 @@ public abstract class GameObject {
 	/**
 	 * 游戏对象所在的场景
 	 */
-	GameScene parent;
+	transient GameScene parent;
 
 	public GameObject(GameScene parent) {
 		this.parent = parent;
@@ -344,31 +240,6 @@ public abstract class GameObject {
 	 */
 	private boolean active = false;
 
-	public boolean isDestroyed() {
-		boolean res;
-		// toRead();
-		res = (destroyed & RELOAD_render) != 0 && (destroyed & 31) == this.attribute;
-		// finishRead();
-		return res;
-	}
-
-	private void setDestroyed(boolean b) {
-		if(b){
-			this.destroyed = RELOAD_render | this.attribute;
-		}
-		else {
-			this.destroyed = 0;
-		}
-	}
-
-	public void setDestroyed(int cycle) {
-		// toWrite();
-		this.destroyed |= cycle;
-		// finishWrite();
-	}
-
-	private int destroyed = 0;
-
 	public boolean isActive() {
 		boolean active;
 		// toRead();
@@ -380,7 +251,6 @@ public abstract class GameObject {
 	public void setActive(boolean active) {
 		// toWrite();
 		this.active = active;
-		setDestroyed(false);
 		// finishWrite();
 	}
 
@@ -393,7 +263,7 @@ public abstract class GameObject {
 	  ======================================================
 	 */
 
-	public enum ColliderType {
+	public enum ColliderType implements Serializable {
 		COLLIDER_TYPE_NULL,
 		COLLIDER_TYPE_RECT,
 		COLLIDER_TYPE_CIRCLE,

@@ -55,7 +55,7 @@ public class ObjectPool {
 			throw new RuntimeException(e);
 		}
 
-		if (pool.size() == 0 || !pool.get(0).isDestroyed()) {
+		if (pool.size() == 0) {
 			try {
 				gameObject = (GameObject)constructor.newInstance((GameScene)null);
 			} catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {

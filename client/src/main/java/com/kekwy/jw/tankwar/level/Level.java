@@ -48,10 +48,10 @@ public class Level {
 		Properties props = TankWarUtil.loadProperties(levelConfigFile);
 		isFinalLevel = Boolean.parseBoolean(props.getProperty("final_level", "false"));
 		InputStream mapFile;
-		if(isFinalLevel) {
+		if (isFinalLevel) {
 			mapFile = Level.class.getResourceAsStream("/levels/map/finalMap.xlsx");
 			// mapFile = mapFile.substring(mapFile.indexOf("file:") + 6);
-		}else {
+		} else {
 			try {
 				mapFile = new FileInputStream(props.getProperty("map_file"));
 			} catch (FileNotFoundException e) {
@@ -111,17 +111,11 @@ public class Level {
 	}
 
 	public void start() {
-		currentThread = new Thread(this::run);
-		currentThread.start();
-	}
-
-	@SuppressWarnings("BusyWait")
-	public void run() {
 		active = true;
 
 		if (!bgmList.isEmpty()) {
 			parent.gameBGM.load(bgmList);
-		} else if (isFinalLevel){
+		} else if (isFinalLevel) {
 			parent.gameBGM.load(TankWar.bossBGM);
 		} else {
 			parent.gameBGM.load(TankWar.pve1BGM);
@@ -129,31 +123,49 @@ public class Level {
 		if (TankWar.BGM_ENABLE)
 			parent.gameBGM.play();
 
-		try {
-			GAME_MAP.createGameMap(parent);
-		} catch (NullPointerException e) {
-			System.out.println("关卡未设置部署场景");
-			throw new RuntimeException(e);
-		}
-
-		try {
-			player.setMaxHp(PLAYER_HP);
-			player.setSpeed(PLAYER_SPEED);
-			player.setAtk(PLAYER_ATK);
-			player.setState(Tank.State.STATE_IDLE);
-			player.transform.setX(SPAWN_X);
-			player.transform.setY(SPAWN_Y - 6);
-			if (RECOVER) {
-				player.setHp(PLAYER_HP);
+		if (!parent.isPlaying()) {
+			try {
+				GAME_MAP.createGameMap(parent);
+			} catch (NullPointerException e) {
+				System.out.println("关卡未设置部署场景");
+				throw new RuntimeException(e);
 			}
-		} catch (NullPointerException e) {
-			System.out.println("关卡未设置游戏玩家");
-			throw new RuntimeException(e);
+
+			try {
+				player.setMaxHp(PLAYER_HP);
+				player.setSpeed(PLAYER_SPEED);
+				player.setAtk(PLAYER_ATK);
+				player.setState(Tank.State.STATE_IDLE);
+				player.transform.setX(SPAWN_X);
+				player.transform.setY(SPAWN_Y - 6);
+				if (RECOVER) {
+					player.setHp(PLAYER_HP);
+				}
+			} catch (NullPointerException e) {
+				System.out.println("关卡未设置游戏玩家");
+				throw new RuntimeException(e);
+			}
+
+			Bullet.setSpeed(BULLET_SPEED);
+
 		}
+		currentThread = new Thread(this::run);
+		currentThread.start();
+	}
 
-		Bullet.setSpeed(BULLET_SPEED);
+	public int getEnemyCount() {
+		return enemyCount;
+	}
 
-		int enemyCount = 1;
+	public void setEnemyCount(int enemyCount) {
+		this.enemyCount = enemyCount;
+	}
+
+	private int enemyCount = 1;
+
+	@SuppressWarnings("BusyWait")
+	public void run() {
+
 		double spawnX;
 		// 开始生成敌方坦克
 		while (active && enemyCount <= ENEMY_COUNT) {
@@ -168,7 +180,7 @@ public class Level {
 				continue;
 			}
 
-			int number = (int)TankWarUtil.getRandomNumber(0, 2);
+			int number = (int) TankWarUtil.getRandomNumber(0, 2);
 			if (number == 0) {
 				spawnX = Tank.TANK_RADIUS + 6;
 			} else {

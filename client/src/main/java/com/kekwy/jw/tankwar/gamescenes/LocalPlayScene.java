@@ -22,6 +22,8 @@ import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -70,21 +72,37 @@ public class LocalPlayScene extends GameScene {
 				player.keyReleasedHandle(keyEvent);
 			}
 		});
+		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME, 1);
 	}
 
 	@Override
 	public void start() {
 		super.start();
-		player = new PlayerTank(this, 200, 400, Direction.DIR_UP, TankWar.PLAYER_NAME, 1);
 		play();
 	}
 
 	public void play() {
-		playing = true;
 		addGameObject(player);
-		TankWar.levels[currentLevel].setParent(this);
-		TankWar.levels[currentLevel].setPlayer(player);
-		TankWar.levels[currentLevel].start();
+		if (!pass) {
+			Level level = getLevel();
+			level.setParent(this);
+			level.setPlayer(player);
+			level.start();
+			playing = true;
+		} else {
+			levelPassed();
+		}
+	}
+
+
+	private Level getLevel() {
+		Level level;
+		if (currentLevel < levelCount) {
+			level = TankWar.levels[currentLevel];
+		} else {
+			level = TankWar.finalLevel;
+		}
+		return level;
 	}
 
 	PlayerTank player;
@@ -110,6 +128,10 @@ public class LocalPlayScene extends GameScene {
 
 	boolean playing = false;
 
+	boolean pass = false;
+
+	boolean over = false;
+
 	public boolean isPlaying() {
 		return playing;
 	}
@@ -117,6 +139,7 @@ public class LocalPlayScene extends GameScene {
 	public void levelPassed() {
 		if (!playing)
 			return;
+		pass = true;
 		playing = false;
 		// waitCurrentLevel();
 		System.out.println("Pass!");
@@ -132,6 +155,7 @@ public class LocalPlayScene extends GameScene {
 	 * 用于设置游戏结束的方法
 	 */
 	public void gameOver() {
+		over = true;
 
 		if (isWin) {
 			// waitCurrentLevel();
@@ -260,9 +284,9 @@ public class LocalPlayScene extends GameScene {
 				TankWar.finalLevel.setParent(LocalPlayScene.this);
 				TankWar.finalLevel.setPlayer(player);
 				isWin = true;
-				playing = true;
 				audioPassLevel.stop();
 				TankWar.finalLevel.start();
+				playing = true;
 			}).start();
 //			object.collideLock().unlock();
 //			this.collideLock().unlock();
@@ -292,6 +316,7 @@ public class LocalPlayScene extends GameScene {
 				TankWar.levels[currentLevel].setPlayer(player);
 				TankWar.levels[currentLevel].start();
 				playing = true;
+				pass = false;
 			}
 		}
 
@@ -429,25 +454,117 @@ public class LocalPlayScene extends GameScene {
 		object.transform.setY(y);
 	}
 
-	private MapTile[][] gameMap;
+	private final List<MapTile> mapTileList = new ArrayList<>();
 
 	public void setGameMap(MapTile[][] gameMap) {
-		this.gameMap = gameMap;
-	}
-
-	private void mapClear() {
-		for (MapTile[] mapTiles : gameMap) {
-			for (MapTile tile : mapTiles) {
-				if (tile != null)
-					tile.setActive(false);
+		mapTileList.clear();
+		for (MapTile[] tiles : gameMap) {
+			for (MapTile tile : tiles) {
+				if (tile != null) {
+					mapTileList.add(tile);
+				}
 			}
 		}
 	}
+
+	private void mapClear() {
+		for (MapTile tile : mapTileList) {
+			tile.setActive(false);
+		}
+	}
+
+	// 单人游戏进度保存
+	public void saveToDisk() {
+		this.stop();
+		if (over) {
+			return;
+		}
+		try {
+			// 创建临时文件
+			File saveFile = File.createTempFile("save", ".tmp", new File("./save/"));
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(saveFile));
+			// 对象写入顺序：currentLevel, isWin, playing, level中的EnemyCount变量, 场景中的游戏对象
+			oos.writeObject(currentLevel);
+			oos.writeObject(isWin);
+			oos.writeObject(playing);
+			oos.writeObject(getLevel().getEnemyCount());
+			for (GameObject object : super.objectList) {
+				// 跳过一些不需要保存的对象
+				if (object instanceof BackGround ||
+						object instanceof OverBackGround ||
+						object instanceof PassNotice ||
+						object instanceof Trigger) {
+					continue;
+				}
+				object.setActive(true);
+				oos.writeObject(object);
+			}
+			oos.writeObject(null);
+			oos.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	public void loadFromDisk(File file) {
+		ObjectInputStream ois;
+		try {
+			ois = new ObjectInputStream(new FileInputStream(file));
+		} catch (IOException e) {
+			System.out.println("找不到文件：" + file);
+			throw new RuntimeException(e);
+		}
+
+		try {
+			currentLevel = (int) ois.readObject();
+			isWin = (boolean) ois.readObject();
+			playing = (boolean) ois.readObject();
+			getLevel().setEnemyCount((Integer) ois.readObject());
+
+			GameObject object;
+
+			int enemyCount = 0;
+
+			while ((object = (GameObject) ois.readObject()) != null) {
+				if (object instanceof PlayerTank tank) {
+					player = tank;
+					player.setColor(player.r, player.g, player.b);
+					object.setParent(this);
+					tank.recoveryFromDisk();
+					continue;
+				} else if (object instanceof MapTile tile) {
+					mapTileList.add(tile);
+				} else if (object instanceof EnemyTank enemy) {
+					enemyCount++;
+					enemy.setColor(enemy.r, enemy.g, enemy.b);
+				} else if (object instanceof Bullet bullet) {
+					bullet.setColor(bullet.r, bullet.g, bullet.b);
+				}
+				object.setParent(this);
+				addGameObject(object);
+			}
+
+			EnemyTank.setCount(enemyCount);
+
+		} catch (IOException e) {
+			System.out.println("目标文件损坏（格式异常）");
+			throw new RuntimeException(e);
+		} catch (ClassNotFoundException e) {
+			System.out.println("找不到指定的类");
+			throw new RuntimeException(e);
+		}
+
+		try {
+			ois.close();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+	}
+
 }
 
 
-// TODO：寻路
 // TODO：其他游戏场景
-// TODO：双人协同作战
-// TODO：四人混战
+// TODO：多人混战
 // TODO：简单的寻路AI

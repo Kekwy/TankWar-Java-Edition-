@@ -1,4 +1,5 @@
 assets/
+save/
 
 target/
 !.mvn/wrapper/maven-wrapper.jar

@@ -17,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	private Direction direction = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
 
-	private Color color;
+	transient private Color color;
 
 	private final HPBar hpBar = new HPBar();
 
@@ -222,6 +223,9 @@ public abstract class Tank extends GameObject implements Runnable {
 //		 fireTime = getParent().currentTimeMillis();
 		this.direction = direction;
 		this.color = TankWarUtil.getRandomColor();
+		r = color.getRed();
+		g = color.getGreen();
+		b = color.getBlue();
 //		 防止颜色过暗
 //		do {
 //			this.color = TankWarUtil.getRandomColor();
@@ -310,7 +314,7 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	private static final AudioClip hitSound = TankWar.hitSound;
 
-	private class HPBar {
+	private class HPBar implements Serializable {
 		public static final int BAR_LENGTH = 50;
 		public static final int BAR_HEIGHT = 5;
 
@@ -327,7 +331,14 @@ public abstract class Tank extends GameObject implements Runnable {
 		}
 	}
 
+	public double r, g, b;
+
+
+
 	public void setColor(double r, double g, double b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
 		this.color = Color.color(r, g, b);
 	}
 }

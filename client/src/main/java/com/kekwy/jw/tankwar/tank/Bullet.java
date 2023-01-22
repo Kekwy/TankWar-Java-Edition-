@@ -8,6 +8,7 @@ import com.kekwy.jw.tankwar.trigger.Trigger;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ObjectPool;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
 import java.util.LinkedList;
@@ -36,7 +37,7 @@ public class Bullet extends GameObject implements Runnable {
 
 	// private final int radius = DEFAULT_BULLET_RADIUS;
 	private Direction direction;
-	private Paint color;
+	transient private Paint color;
 
 	private Tank from;
 
@@ -189,6 +190,14 @@ public class Bullet extends GameObject implements Runnable {
 
 	public void setFrom(Tank from) {
 		this.from = from;
+	}
+
+	public double r, g, b;
+	public void setColor(double r, double g, double b) {
+		this.r = r;
+		this.g = g;
+		this.b = b;
+		this.color = Color.color(r, g, b);
 	}
 
 }

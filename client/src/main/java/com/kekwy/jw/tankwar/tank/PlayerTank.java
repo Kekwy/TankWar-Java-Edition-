@@ -67,7 +67,11 @@ public class PlayerTank extends Tank {
 		}
 	}
 
-	List<KeyCode> keyStack = new LinkedList<>();
+	transient List<KeyCode> keyStack = new LinkedList<>();
+
+	public void recoveryFromDisk() {
+		keyStack = new LinkedList<>();
+	}
 
 	boolean isFired = false;
 

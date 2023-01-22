@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.function.Consumer;
 
@@ -84,10 +83,16 @@ public class GameScene extends Scene {
 				if (!object.isActive()) {
 					removeBuffer.add(object);
 					object.destroy();
+					// TODO
 					final int row = object.transform.getGridRow();
 					final int col = object.transform.getGridCol();
 					final GameObject objectToRemove = object;
 					service.execute(() -> grid[row][col].leave(objectToRemove));
+
+					synchronized (GameScene.this.objectList) {
+						GameScene.this.objectList.remove(objectToRemove);
+					}
+
 					continue;
 				}
 				object.refresh(g, System.currentTimeMillis());
@@ -118,15 +123,23 @@ public class GameScene extends Scene {
 	};
 
 
+	protected final List<GameObject> objectList = new LinkedList<>();
+
 	/**
 	 * 向当前场景中添加游戏对象
 	 *
 	 * @param gameObject 待添加的游戏对象
 	 */
 	public void addGameObject(GameObject gameObject) {
-		if (!active) {
-			return;
+//		if (!active) {
+//			return;
+//		}
+
+		// 加入总对象列表
+		synchronized (objectList) {
+			objectList.add(gameObject);
 		}
+
 		int row = (int) gameObject.transform.getY() / GRID_SIZE;
 		int col = (int) gameObject.transform.getX() / GRID_SIZE;
 		if (row < gridRow && col < gridCol) {
@@ -177,9 +190,13 @@ public class GameScene extends Scene {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
-		for (ShowLayer layer : layers) {
-			layer.clear();
+		for (GameObject object : objectList) {
+			object.setActive(false);
+			object.destroy();
 		}
+//		for (ShowLayer layer : layers) {
+//			layer.clear();
+//		}
 	}
 
 	private Stage stage;

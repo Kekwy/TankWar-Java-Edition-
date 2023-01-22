@@ -5,6 +5,7 @@ import com.kekwy.jw.tankwar.GameScene;
 import javafx.scene.canvas.GraphicsContext;
 
 public class Trigger extends GameObject {
+
 	private final TriggerHandler handler;
 
 	public Trigger(GameScene parent, TriggerHandler handler, double x, double y, int radius) {
