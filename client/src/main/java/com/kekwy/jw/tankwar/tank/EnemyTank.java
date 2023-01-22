@@ -120,19 +120,4 @@ public class EnemyTank extends Tank {
 		mutex_count.release();
 		return count;
 	}
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!super.equals(o)) return false;
-		if (o == null || getClass() != o.getClass()) return false;
-		EnemyTank enemyTank = (EnemyTank) o;
-		return lastChangTime == enemyTank.lastChangTime && fireTime == enemyTank.fireTime && changeInterval == enemyTank.changeInterval;
-		// return true;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(lastChangTime, fireTime, changeInterval);
-	}
 }

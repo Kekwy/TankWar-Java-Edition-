@@ -4,7 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw6_1" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="README#jw6_2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/com/kekwy/jwtest/tankwar/gamescenes/LocalPlaySceneTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/test/java/module-info.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -79,7 +91,7 @@
       <recent name="com.kekwy.jw.server.game" />
     </key>
   </component>
-  <component name="RunManager" selected="JUnit.LocalPlaySceneTest.saveAndLoad">
+  <component name="RunManager" selected="应用程序.client">
     <configuration name="client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
       <module name="client" />
@@ -96,50 +108,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="LocalPlaySceneTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kekwy.jwtest.tankwar.gamescenes.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.kekwy.jwtest.tankwar.gamescenes" />
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.jwtest.tankwar.gamescenes.LocalPlaySceneTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="LocalPlaySceneTest.saveAndLoad" type="JUnit" factoryName="JUnit" temporary="true">
-      <module name="client" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.kekwy.jw.tankwar.gamescenes.LocalPlayScene" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.kekwy.jwtest.tankwar.gamescenes" />
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.jwtest.tankwar.gamescenes.LocalPlaySceneTest" />
-      <option name="METHOD_NAME" value="saveAndLoad" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <list>
-      <item itemvalue="JUnit.LocalPlaySceneTest" />
-      <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
       <item itemvalue="应用程序.client" />
       <item itemvalue="应用程序.server" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
-        <item itemvalue="JUnit.LocalPlaySceneTest" />
         <item itemvalue="JUnit.LocalPlaySceneTest.saveAndLoad" />
       </list>
     </recent_temporary>
@@ -230,7 +204,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674381404614</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="README#jw6_2">
+      <created>1674381678005</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1674381678005</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -256,29 +237,12 @@
     <MESSAGE value="tmp: 部分类重写了 equal 和 hashCode 方法" />
     <MESSAGE value="test: 针对 LocalPlayScene 中的 saveToDisk 方法与 loadFromDisk 方法进行了单元测试" />
     <MESSAGE value="README#jw6_1" />
-    <option name="LAST_COMMIT_MESSAGE" value="README#jw6_1" />
+    <MESSAGE value="README#jw6_2" />
+    <option name="LAST_COMMIT_MESSAGE" value="README#jw6_2" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="hp != mapTile.hp || type != mapTile.type" language="JAVA" />
-          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java</url>
-          <line>98</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="!(lastChangTime == enemyTank.lastChangTime &amp;&amp; fireTime == enemyTank.fireTime &amp;&amp; changeInterval == enemyTank.changeInterval)" language="JAVA" />
-          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java</url>
-          <line>129</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <condition expression="!(visible == tank.visible &amp;&amp; hp == tank.hp &amp;&amp; atk == tank.atk &amp;&amp; speed == tank.speed &amp;&amp; maxHp == tank.maxHp &amp;&amp; isOnline == tank.isOnline &amp;&amp; group == tank.group &amp;&amp; Double.compare(tank.r, r) == 0 &amp;&amp; Double.compare(tank.g, g) == 0 &amp;&amp; Double.compare(tank.b, b) == 0 &amp;&amp; direction == tank.direction &amp;&amp; state == tank.state &amp;&amp; name.equals(tank.name))" language="JAVA" />
-          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java</url>
-          <line>352</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <condition expression="!(Math.abs(Double.compare(transform.x, x)) &lt;= 10 &amp;&amp; Math.abs(Double.compare(transform.y, y)) &lt;= 10 &amp;&amp; gridRow == transform.gridRow &amp;&amp; gridCol == transform.gridCol)" language="JAVA" />
           <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java</url>

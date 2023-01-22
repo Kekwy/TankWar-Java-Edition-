@@ -330,18 +330,4 @@ public abstract class GameObject implements Serializable {
 	public ReentrantLock collideLock() {
 		return lock;
 	}
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		GameObject object = (GameObject) o;
-		return layer == object.layer && active == object.active && radius == object.radius && transform.equals(object.transform) && colliderType == object.colliderType;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(transform, layer, active, colliderType, radius);
-	}
 }

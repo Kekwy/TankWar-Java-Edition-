@@ -68,19 +68,4 @@ public class Blast extends GameObject {
 	public Blast(GameScene parent) {
 		super(parent);
 	}
-
-
-	@Override
-	public boolean equals(Object o) {
-		if (!super.equals(o)) return false;
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Blast blast = (Blast) o;
-		return index == blast.index && radius == blast.radius;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(index, radius);
-	}
 }

@@ -89,18 +89,4 @@ public class MapTile extends GameObject {
 		return type;
 	}
 
-
-	@Override
-	public boolean equals(Object o) {
-		if (!super.equals(o)) return false;
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		MapTile mapTile = (MapTile) o;
-		return hp == mapTile.hp && type == mapTile.type;
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(hp, type);
-	}
 }

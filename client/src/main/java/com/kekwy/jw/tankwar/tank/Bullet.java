@@ -203,17 +203,4 @@ public class Bullet extends GameObject implements Runnable {
 		this.color = Color.color(r, g, b);
 	}
 
-	@Override
-	public boolean equals(Object o) {
-		if (!super.equals(o)) return false;
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		Bullet bullet = (Bullet) o;
-		return atk == bullet.atk && speed == bullet.speed && isExit == bullet.isExit && Double.compare(bullet.r, r) == 0 && Double.compare(bullet.g, g) == 0 && Double.compare(bullet.b, b) == 0 && direction == bullet.direction && from.equals(bullet.from);
-	}
-
-	@Override
-	public int hashCode() {
-		return Objects.hash(atk, speed, direction, from, isExit, r, g, b);
-	}
 }
