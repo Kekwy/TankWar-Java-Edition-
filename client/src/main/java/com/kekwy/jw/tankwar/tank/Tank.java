@@ -9,7 +9,7 @@ import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ResourceUtil;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
-import com.kekwy.tankwar.io.actions.updateAction;
+import com.kekwy.tankwar.io.actions.UpdatePositionAction;
 import com.kekwy.tankwar.io.actions.GameAction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
@@ -98,14 +98,14 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 
-	@Override
-	public void update(GameAction p) {
-		updateAction f = (updateAction) p;
-		this.getParent().update(this, f.x, f.y, TANK_RADIUS);
-		this.setState(State.values()[f.state]);
-		this.setDirection(Direction.values()[f.direction]);
-
-	}
+//	@Override
+//	public void update(GameAction p) {
+//		UpdatePositionAction f = (UpdatePositionAction) p;
+//		this.getParent().update(this, f.x, f.y, TANK_RADIUS);
+//		this.setState(State.values()[f.state]);
+//		this.setDirection(Direction.values()[f.direction]);
+//
+//	}
 
 	private int group;
 

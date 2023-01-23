@@ -38,7 +38,9 @@ public class GameScene {
 
 
 
-	private Map<String, GameObject> objectMap = new HashMap<>();
+	public final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+	public final Map<String, GameObject> objectMap = new HashMap<>();
+
 
 
 	/**
@@ -50,7 +52,9 @@ public class GameScene {
 		if (!active) {
 			return;
 		}
-		objectMap.put(gameObject.getUuid(), gameObject);
+		lock.writeLock().lock();
+		objectMap.put(gameObject.getIdentity(), gameObject);
+		lock.writeLock().unlock();
 		int row = (int) gameObject.transform.getY() / GRID_SIZE;
 		int col = (int) gameObject.transform.getX() / GRID_SIZE;
 		if (row < gridRow && col < gridCol) {
@@ -66,7 +70,11 @@ public class GameScene {
 	}
 
 	public GameObject findObject(String uuid) {
-		return objectMap.get(uuid);
+		GameObject object;
+		lock.readLock().lock();
+		object = objectMap.get(uuid);
+		lock.readLock().unlock();
+		return object;
 	}
 
 	public static final long REFRESH_INTERVAL = 1000 / 30;

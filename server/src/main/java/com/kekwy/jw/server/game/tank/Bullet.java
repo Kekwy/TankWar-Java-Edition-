@@ -17,7 +17,7 @@ public class Bullet extends GameObject implements Runnable {
 	private static int BULLET_SPEED = 6;
 	public static final int DEFAULT_BULLET_RADIUS = 4;
 
-	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 100);
+//	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 0);
 	private int atk;
 
 	public int getSpeed() {
@@ -39,7 +39,8 @@ public class Bullet extends GameObject implements Runnable {
 
 	public static Bullet createBullet(GameScene parent, int atk, double r, double g, double b, double x, double y,
 	                                  Direction direction, Tank from) {
-		Bullet bullet = (Bullet) bulletPool.getObject();
+//		Bullet bullet = (Bullet) bulletPool.getObject();
+		Bullet bullet = new Bullet(null, null);
 		// Bullet bullet = new Bullet(null);
 		bullet.setParent(parent);
 		bullet.setAtk(atk);
@@ -150,7 +151,7 @@ public class Bullet extends GameObject implements Runnable {
 						throw new RuntimeException(e);
 					}
 				}
-				bulletPool.returnObject(this);
+//				bulletPool.returnObject(this);
 			}
 		};
 

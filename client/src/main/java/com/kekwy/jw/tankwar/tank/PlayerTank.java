@@ -3,6 +3,7 @@ package com.kekwy.jw.tankwar.tank;
 import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.util.Direction;
+import com.kekwy.tankwar.io.actions.GameAction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -56,13 +57,13 @@ public class PlayerTank extends Tank {
 	@Override
 	protected void check(long timestamp) {
 		if (getState() == State.STATE_DIE) {
-			new Thread(()->{
+			new Thread(() -> {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
-				((LocalPlayScene)getParent()).gameOver();
+				((LocalPlayScene) getParent()).gameOver();
 			}).start();
 		}
 	}
@@ -75,20 +76,30 @@ public class PlayerTank extends Tank {
 
 	boolean isFired = false;
 
-	public void keyPressedHandle(KeyEvent keyEvent) {
+	public static final int MOVE_ACTION = 1;
+	public static final int FIRE_ACTION = 2;
+
+	public int keyPressedHandle(KeyEvent keyEvent) {
+		int action = 0;
 		if (getState().equals(State.STATE_DIE))
-			return;
+			return action;
 		KeyCode keyCode = keyEvent.getCode();
-		setMove(keyEvent.getCode());
 
 		if (keyCode == KeyCode.W || keyCode == KeyCode.S
 				|| keyCode == KeyCode.A || keyCode == KeyCode.D) {
-			if (!keyStack.contains(keyCode))
+			if (!keyStack.contains(keyCode)) {
+				if (!getParent().isOnline())
+					setMove(keyEvent.getCode());
 				keyStack.add(keyCode);
+				action |= MOVE_ACTION;
+			}
 		} else if (keyCode == KeyCode.J && !isFired) {
-			fire();
+			if (!getParent().isOnline())
+				fire();
 			isFired = true;
+			action |= FIRE_ACTION;
 		}
+		return action;
 	}
 
 	public void keyReleasedHandle(KeyEvent keyEvent) {
@@ -101,10 +112,14 @@ public class PlayerTank extends Tank {
 		} else if (keyCode == KeyCode.J && isFired) {
 			isFired = false;
 		}
+
+		if (!getParent().isOnline()) return;
+
 		if (keyStack.isEmpty())
 			setState(State.STATE_IDLE);
-		else
+		else {
 			setMove(keyStack.get(keyStack.size() - 1));
+		}
 	}
 
 	private void setMove(KeyCode keyCode) {

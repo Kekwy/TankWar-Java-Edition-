@@ -2,16 +2,15 @@ package com.kekwy.jw.tankwar.gamescenes;
 
 import com.kekwy.jw.tankwar.effect.MusicPlayer;
 import com.kekwy.jw.tankwar.handler.Handler;
-import com.kekwy.jw.tankwar.handler.NewPlayerTankHandler;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
-import com.kekwy.jw.tankwar.handler.LoginSuccessHandler;
+import com.kekwy.jw.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.io.actions.*;
 import com.kekwy.tankwar.io.handlers.client.GameHandler;
 import com.kekwy.tankwar.io.handlers.client.LoginHandler;
-import com.kekwy.tankwar.io.handlers.client.NewObjectHandler;
+import com.kekwy.tankwar.io.handlers.client.NewTankHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -47,7 +46,7 @@ public class OnlinePlayScene extends GameScene {
 	private final Map<String, GameObject> objectMap = new HashMap<>();
 
 	Handler frameUpdateHandler = (protocol -> {
-		if (protocol instanceof updateAction p) {
+		if (protocol instanceof UpdatePositionAction p) {
 			GameObject object = objectMap.get(p.uuid);
 			object.update(p);
 		}
@@ -55,22 +54,35 @@ public class OnlinePlayScene extends GameScene {
 
 	ByteBuffer buffer = ByteBuffer.allocate(1024);
 
+	PlayerTank player = null;
+
 	public OnlinePlayScene() {
 		super(SCENE_WIDTH, SCENE_HEIGHT, GAME_TITLE);
+		// 设置为在线模式
+		setOnline();
 
-//		setOnKeyPressed((keyEvent -> {
-//			if (uuid != null) {
-//				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 0));
-//			}
-//		}));
-//
-//		setOnKeyReleased((keyEvent -> {
-//			if (uuid != null) {
-//				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 1));
-//			}
-//		}));
-//
-		handlerMap.put(NewObjectAction.class, new NewObjectHandler());
+		setOnKeyPressed((keyEvent -> {
+			if (player != null && player.isActive()) {
+				int action = player.keyPressedHandle(keyEvent);
+				if ((action & PlayerTank.MOVE_ACTION) != 0) {
+					new PlayerMoveAction(player.getIdentity(), player.getDirection().ordinal(),
+							player.getState().ordinal()).send(channel, buffer);
+				}
+				if ((action & PlayerTank.FIRE_ACTION) != 0) {
+					new PlayerFireAction(player.getIdentity()).send(channel, buffer);
+				}
+			}
+		}));
+
+		setOnKeyReleased((keyEvent -> {
+			if (player != null && player.isActive()) {
+				player.keyReleasedHandle(keyEvent);
+				new PlayerMoveAction(player.getIdentity(), player.getDirection().ordinal(),
+						player.getState().ordinal()).send(channel, buffer);
+			}
+		}));
+
+		handlerMap.put(NewTankAction.class, new NewTankHandler());
 		handlerMap.put(LoginAction.class, new LoginHandler());
 //		handlerMap.put(updateAction.class, frameUpdateHandler);
 
@@ -144,6 +156,9 @@ public class OnlinePlayScene extends GameScene {
 
 	@Override
 	public void addGameObject(GameObject gameObject) {
+		if (player == null && gameObject instanceof PlayerTank) {
+			player = (PlayerTank) gameObject;
+		}
 		lock.writeLock().lock();
 		objectMap.put(uuid, gameObject);
 		lock.writeLock().unlock();

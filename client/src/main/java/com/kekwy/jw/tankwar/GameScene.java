@@ -155,9 +155,19 @@ public class GameScene extends Scene {
 		}
 		// 将游戏对象加入对应的渲染图层
 		layers[gameObject.getLayer()].add(gameObject);
-		if (gameObject instanceof Runnable runnable) {
+		if (!online && gameObject instanceof Runnable runnable) {
 			service.execute(runnable);
 		}
+	}
+
+	boolean online = false;
+
+	public boolean isOnline() {
+		return online;
+	}
+
+	public void setOnline() {
+		this.online = true;
 	}
 
 	public static final long REFRESH_INTERVAL = 1000 / 30;

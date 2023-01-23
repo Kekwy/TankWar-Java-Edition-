@@ -17,6 +17,26 @@ public class ChannelIOUtil {
 		return buffer.getInt();
 	}
 
+	public static double readDouble(SocketChannel channel, ByteBuffer buffer) throws IOException {
+		buffer.clear();
+		buffer.limit(8);
+		do {
+			channel.read(buffer);
+		} while (buffer.position() < 8);
+		buffer.flip();
+		return buffer.getDouble();
+	}
+
+	public static byte readByte(SocketChannel channel, ByteBuffer buffer) throws IOException {
+		buffer.clear();
+		buffer.limit(1);
+		do {
+			channel.read(buffer);
+		} while (buffer.position() < 1);
+		buffer.flip();
+		return buffer.get();
+	}
+
 	public static String readString(SocketChannel channel, ByteBuffer buffer) throws IOException {
 		int strLength = readInt(channel, buffer);
 		buffer.clear();

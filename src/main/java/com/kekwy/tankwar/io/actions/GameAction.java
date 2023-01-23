@@ -9,16 +9,30 @@ import java.util.Map;
 
 public abstract class GameAction {
 
-	public static final int LOGIN_CODE = 0;
-	public static final int JOIN_CODE = 1;
-	public static final int NEW_OBJECT_CODE = 2;
+	public static final int LOGIN_CODE = 0x00;
+	public static final int JOIN_CODE = 0x01;
+	public static final int NEW_Tank_CODE = 0x02;
+	public static final int PLAYER_FIRE_CODE = 0x10;
+	public static final int PLAYER_MOVE_CODE = 0x11;
+
+	public static final int UPDATE_TANK_CODE = 0x20;
+	public static final int UPDATE_BULLET_CODE = 0x21;
+	public static final int UPDATE_MAP_TILE_CODE = 0x22;
+	public static final int UPDATE_BLAST_CODE = 0x23;
 
 	static final Map<Integer, Class<? extends GameAction>> ACTION_MAP = new HashMap<>();
 
 	static {
 		ACTION_MAP.put(LOGIN_CODE, LoginAction.class);
 		ACTION_MAP.put(JOIN_CODE, JoinGameAction.class);
-		ACTION_MAP.put(NEW_OBJECT_CODE, NewObjectAction.class);
+		ACTION_MAP.put(NEW_Tank_CODE, NewTankAction.class);
+		ACTION_MAP.put(PLAYER_FIRE_CODE, PlayerFireAction.class);
+		ACTION_MAP.put(PLAYER_MOVE_CODE, PlayerMoveAction.class);
+
+		ACTION_MAP.put(UPDATE_TANK_CODE, UpdateTankAction.class);
+		ACTION_MAP.put(UPDATE_BULLET_CODE, UpdateBulletAction.class);
+		ACTION_MAP.put(UPDATE_MAP_TILE_CODE, UpdateMapTileAction.class);
+
 	}
 
 	public GameAction() {

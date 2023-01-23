@@ -6,33 +6,38 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 
-public abstract class NewObjectAction extends GameAction {
+public abstract class UpdateObjectAction extends GameAction {
 
+	/**
+	 * 0 - false; <br/>
+	 * 1 - true; <br/>
+	 */
 	public String identity;
-	public String className;
+	public byte active;
 
-	public NewObjectAction(String identity, String className) {
+	public UpdateObjectAction(String identity, boolean active) {
 		this.identity = identity;
-		this.className = className;
+		this.active = (byte) (active ? 1 : 0);
 	}
 
-	public NewObjectAction(SocketChannel channel, ByteBuffer buffer) {
+	public UpdateObjectAction(SocketChannel channel, ByteBuffer buffer) {
 		try {
 			identity = ChannelIOUtil.readString(channel, buffer);
-			className = ChannelIOUtil.readString(channel, buffer);
+			active = ChannelIOUtil.readByte(channel, buffer);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	public void send(int actionCode, SocketChannel channel, ByteBuffer buffer) {
-		buffer.clear();
-		buffer.putInt(actionCode);
+	public void send(int actionCode, ByteBuffer buffer) {
 		try {
+			buffer.clear();
+			buffer.putInt(actionCode);
 			ChannelIOUtil.writeString(identity, buffer);
-			ChannelIOUtil.writeString(className, buffer);
+			buffer.put(active);
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
+
 }

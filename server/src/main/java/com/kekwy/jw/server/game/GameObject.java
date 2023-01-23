@@ -2,6 +2,7 @@ package com.kekwy.jw.server.game;
 
 import com.kekwy.jw.server.GameServer;
 import com.kekwy.tankwar.io.actions.GameAction;
+import com.kekwy.tankwar.io.actions.NewObjectAction;
 
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
@@ -9,21 +10,33 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class GameObject {
 
+
+	private boolean flag = true;
+
+	public boolean isNew() {
+		return flag;
+	}
+
+	public void setNewFalse() {
+		flag = false;
+	}
+
 	private String uuid = UUID.randomUUID().toString();
 
 	public void setUuid(String uuid) {
 		this.uuid = uuid;
 	}
 
-	public String getUuid() {
+	public String getIdentity() {
 		return uuid;
 	}
 
-	public void destroy() {}
+	public void destroy() {
+	}
 
 	protected boolean isCollide(GameObject object) {
 		double x1, y1, x2, y2, radius1, radius2;
-		if(this.getRadius() >= object.getRadius()) {
+		if (this.getRadius() >= object.getRadius()) {
 			x1 = this.transform.getX();
 			y1 = this.transform.getY();
 			x2 = object.transform.getX();
@@ -150,10 +163,6 @@ public abstract class GameObject {
 		return dirty;
 	}
 
-	protected void forward(GameAction p) {
-		server.forward(p);
-	}
-
 	public GameScene getParent() {
 		GameScene parent;
 		// toRead();
@@ -238,6 +247,10 @@ public abstract class GameObject {
 
 	public void recvPackage(GameAction p) {
 
+	}
+
+	public NewObjectAction getNewObjectAction() {
+		return null;
 	}
 
 }

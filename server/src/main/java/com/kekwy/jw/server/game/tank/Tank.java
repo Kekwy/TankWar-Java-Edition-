@@ -6,12 +6,24 @@ import com.kekwy.jw.server.util.RandomGen;
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.game.gamemap.MapTile;
-import com.kekwy.tankwar.io.actions.updateAction;
+import com.kekwy.tankwar.io.actions.NewObjectAction;
+import com.kekwy.tankwar.io.actions.NewTankAction;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Tank extends GameObject implements Runnable {
+	@Override
+	public NewObjectAction getNewObjectAction() {
+		if (this instanceof PlayerTank)
+			return new NewTankAction(getIdentity(), getClass().getName(), 0,
+					transform.getX(), transform.getY(), direction.ordinal(),
+					name, group, r, g, b);
+		else
+			return new NewTankAction(getIdentity(), getClass().getName(), 1,
+					transform.getX(), transform.getY(), direction.ordinal(),
+					name, group, r, g, b);
+	}
 
 	boolean visible = true;
 
@@ -36,6 +48,9 @@ public abstract class Tank extends GameObject implements Runnable {
 	public static final Direction DEFAULT_DIR = Direction.DIR_DOWN;
 	public static final State DEFAULT_STATE = State.STATE_IDLE;
 
+	public String getName() {
+		return name;
+	}
 
 	private int hp = DEFAULT_HP, atk = DEFAULT_ATK, speed = DEFAULT_SPEED;
 	private int maxHp = DEFAULT_HP;
@@ -43,7 +58,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	private Direction direction = DEFAULT_DIR;
 	private State state = DEFAULT_STATE;
 
-	private double r, g, b;
+	public double r, g, b;
 
 	public Tank(GameScene parent, GameServer server) {
 		super(parent, server);
@@ -72,7 +87,6 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 
-
 	private int group;
 
 	private static final long UPDATE_INTERVAL = 20;
@@ -86,20 +100,13 @@ public abstract class Tank extends GameObject implements Runnable {
 			try {
 				doCollide();
 				check(System.currentTimeMillis());
-				sendToClient();
+//				sendToClient();
 //				System.out.println("17171717");
 				Thread.sleep(UPDATE_INTERVAL);
 			} catch (InterruptedException e) {
 				throw new RuntimeException(e);
 			}
 		}
-	}
-
-	private void sendToClient() {
-//		System.out.println(getUuid());
-		updateAction p = new updateAction(getUuid(), transform.getX(), transform.getY(), direction.ordinal(), state.ordinal());
-		forward(p);
-//		System.out.println(p.x);
 	}
 
 	private final List<GameObject> collideList = new LinkedList<>();
@@ -189,8 +196,12 @@ public abstract class Tank extends GameObject implements Runnable {
 		}
 	}
 
+	public int getGroup() {
+		return group;
+	}
 
-	protected void check(long timestamp) {}
+	protected void check(long timestamp) {
+	}
 
 	@Override
 	public void destroy() {

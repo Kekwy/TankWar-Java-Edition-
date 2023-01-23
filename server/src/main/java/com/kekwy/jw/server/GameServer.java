@@ -2,12 +2,8 @@ package com.kekwy.jw.server;
 
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
-import com.kekwy.tankwar.io.actions.JoinGameAction;
-import com.kekwy.tankwar.io.actions.LoginAction;
-import com.kekwy.tankwar.io.actions.GameAction;
-import com.kekwy.tankwar.io.handlers.server.GameHandler;
-import com.kekwy.tankwar.io.handlers.server.JoinGameHandler;
-import com.kekwy.tankwar.io.handlers.server.LoginHandler;
+import com.kekwy.tankwar.io.actions.*;
+import com.kekwy.tankwar.io.handlers.server.*;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -55,6 +51,7 @@ public class GameServer {
 
 
 
+
 	public GameServer(String host, int port) throws IOException {
 
 		try {
@@ -66,6 +63,8 @@ public class GameServer {
 
 		HANDLER_MAP.put(LoginAction.class, new LoginHandler(statement));
 		HANDLER_MAP.put(JoinGameAction.class, new JoinGameHandler());
+		HANDLER_MAP.put(PlayerFireAction.class, new PlayerFireHandler());
+		HANDLER_MAP.put(PlayerMoveAction.class, new PlayerMoveHandler());
 //		HANDLER_MAP.put(KeyEvent.class, keyEventHandler);
 
 		selector = Selector.open();
@@ -89,14 +88,16 @@ public class GameServer {
 
 	public void launch() {
 		active = true;
-		workThread = new Thread(this::run);
+		workThread = new Thread(this::listen);
 		workThread.start();
+		forwardThread = new Thread(this::forward);
+		forwardThread.start();
 		scene.start();
 //		forwardThread = new Thread(this::forward);
 //		forwardThread.start();
 	}
 
-	public void run() {
+	public void listen() {
 		try {
 			while (selector.select() > 0 && active) {
 				Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
@@ -115,6 +116,66 @@ public class GameServer {
 			throw new RuntimeException(e);
 		}
 	}
+
+	final List<GameObject> tmpList = new ArrayList<>();
+	final List<GameObject> removeBuffer = new ArrayList<>();
+
+	static final long FORWARD_INTERVAL = 20;
+
+	private void forward() {
+
+		while (active) {
+			long lastForwardTimestamp = System.currentTimeMillis();
+
+			tmpList.clear();
+			removeBuffer.clear();
+			scene.lock.readLock().lock();
+			tmpList.addAll(scene.objectMap.values());
+			scene.lock.readLock().unlock();
+
+			List<GameAction> actionList = new ArrayList<>();
+
+			for (GameObject object : tmpList) {
+				if (!object.isActive()) {
+					removeBuffer.add(object);
+				}
+				if (object.isNew()) {
+					object.setNewFalse();
+					actionList.add(object.getNewObjectAction());
+				} else {
+					// TODO
+				}
+			}
+
+			for (GameAction action : actionList) {
+				for (SelectionKey key : selector.keys()) {
+					if (key.channel() instanceof ServerSocketChannel) continue;
+					action.send((SocketChannel) key.channel(), buffer);
+				}
+			}
+
+			scene.lock.writeLock().lock();
+			for (GameObject object : removeBuffer) {
+				scene.objectMap.remove(object.getIdentity());
+			}
+			scene.lock.writeLock().unlock();
+
+			long timestamp = System.currentTimeMillis();
+
+			if (timestamp - lastForwardTimestamp < FORWARD_INTERVAL) {
+				try {
+					//noinspection BusyWait
+					Thread.sleep(timestamp - lastForwardTimestamp);
+				} catch (InterruptedException e) {
+					throw new RuntimeException(e);
+				}
+			}
+
+		}
+
+	}
+
+
 
 	ByteBuffer buffer = ByteBuffer.allocate(1024);
 
@@ -169,34 +230,6 @@ public class GameServer {
 	}
 
 	private final List<GameObject> objectList = new LinkedList<>();
-
-	public void forward(GameAction p) {
-		try {
-			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bAos);
-			oos.writeObject(p);
-			int length = bAos.toByteArray().length;
-			ByteBuffer head = ByteBuffer.allocate(4);
-			head.putInt(length);
-			head.flip();
-			ByteBuffer body = ByteBuffer.wrap(bAos.toByteArray());
-			bAos.close();
-			oos.close();
-
-			for (SelectionKey key : selector.keys()) {
-				if (key.channel() instanceof ServerSocketChannel) continue;
-				SocketChannel channel = (SocketChannel) key.channel();
-				synchronized (channel) {
-//					System.out.println("hwsjfhsdkl");
-					channel.write(head);
-					channel.write(body);
-				}
-			}
-
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 //	@SuppressWarnings("BusyWait")
 //	private void forward() {
