@@ -7,10 +7,7 @@ import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.tank.PlayerTank;
 import com.kekwy.tankwar.io.actions.*;
-import com.kekwy.tankwar.io.handlers.client.GameHandler;
-import com.kekwy.tankwar.io.handlers.client.LoginHandler;
-import com.kekwy.tankwar.io.handlers.client.NewTankHandler;
-import com.kekwy.tankwar.io.handlers.client.UpdateTankHandler;
+import com.kekwy.tankwar.io.handlers.client.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -77,9 +74,12 @@ public class OnlinePlayScene extends GameScene {
 		}));
 
 		handlerMap.put(NewTankAction.class, new NewTankHandler());
+		handlerMap.put(NewBulletAction.class, new NewBulletHandler());
+
 		handlerMap.put(LoginAction.class, new LoginHandler());
 //		handlerMap.put(updateAction.class, frameUpdateHandler);
 		handlerMap.put(UpdateTankAction.class, new UpdateTankHandler());
+		handlerMap.put(UpdateBulletAction.class, new UpdateBulletHandler());
 
 		addGameObject(new BackGround(this));
 

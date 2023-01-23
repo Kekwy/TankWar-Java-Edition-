@@ -58,7 +58,7 @@ public class Bullet extends GameObject implements Runnable {
 		return bullet;
 	}
 
-	private void setDirection(Direction direction) {
+	public void setDirection(Direction direction) {
 		this.direction = direction;
 	}
 

@@ -11,9 +11,12 @@ public abstract class GameAction {
 
 	public static final int LOGIN_CODE = 0x00;
 	public static final int JOIN_CODE = 0x01;
-	public static final int NEW_Tank_CODE = 0x02;
-	public static final int PLAYER_FIRE_CODE = 0x10;
-	public static final int PLAYER_MOVE_CODE = 0x11;
+	public static final int PLAYER_FIRE_CODE = 0x02;
+	public static final int PLAYER_MOVE_CODE = 0x03;
+
+	public static final int NEW_Tank_CODE = 0x10;
+	public static final int NEW_BULLET_CODE = 0x11;
+
 
 	public static final int UPDATE_TANK_CODE = 0x20;
 	public static final int UPDATE_BULLET_CODE = 0x21;
@@ -25,9 +28,11 @@ public abstract class GameAction {
 	static {
 		ACTION_MAP.put(LOGIN_CODE, LoginAction.class);
 		ACTION_MAP.put(JOIN_CODE, JoinGameAction.class);
-		ACTION_MAP.put(NEW_Tank_CODE, NewTankAction.class);
 		ACTION_MAP.put(PLAYER_FIRE_CODE, PlayerFireAction.class);
 		ACTION_MAP.put(PLAYER_MOVE_CODE, PlayerMoveAction.class);
+
+		ACTION_MAP.put(NEW_Tank_CODE, NewTankAction.class);
+		ACTION_MAP.put(NEW_BULLET_CODE, NewBulletAction.class);
 
 		ACTION_MAP.put(UPDATE_TANK_CODE, UpdateTankAction.class);
 		ACTION_MAP.put(UPDATE_BULLET_CODE, UpdateBulletAction.class);

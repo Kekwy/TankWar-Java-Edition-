@@ -6,6 +6,10 @@ import com.kekwy.jw.server.game.gamemap.MapTile;
 import com.kekwy.jw.server.util.Direction;
 import com.kekwy.jw.server.util.ObjectPool;
 import com.kekwy.jw.server.game.GameScene;
+import com.kekwy.tankwar.io.actions.NewBulletAction;
+import com.kekwy.tankwar.io.actions.NewObjectAction;
+import com.kekwy.tankwar.io.actions.UpdateBulletAction;
+import com.kekwy.tankwar.io.actions.UpdateObjectAction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -179,4 +183,15 @@ public class Bullet extends GameObject implements Runnable {
 		this.from = from;
 	}
 
+	@Override
+	public NewObjectAction getNewObjectAction() {
+		return new NewBulletAction(getIdentity(), transform.getX(), transform.getY(),
+				atk, direction.ordinal(), from.getIdentity(), r, g, b);
+	}
+
+	@Override
+	public UpdateObjectAction getUpdateObjectAction() {
+		return new UpdateBulletAction(getIdentity(), transform.getX(), transform.getY(),
+				direction.ordinal(), isActive());
+	}
 }

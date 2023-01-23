@@ -13,7 +13,11 @@ import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class GameObject implements Serializable {
 
-	private final String identity;
+	public void setIdentity(String identity) {
+		this.identity = identity;
+	}
+
+	private String identity;
 
 	public String getIdentity() {
 		return identity;

@@ -48,7 +48,7 @@ public class NewBulletAction extends NewObjectAction {
 
 	@Override
 	public void send(SocketChannel channel, ByteBuffer buffer) {
-		super.send(NEW_Tank_CODE, channel, buffer);
+		super.send(NEW_BULLET_CODE, channel, buffer);
 		try {
 			ChannelIOUtil.writeString(identity, buffer);
 			ChannelIOUtil.writeString(fromIdentity, buffer);
