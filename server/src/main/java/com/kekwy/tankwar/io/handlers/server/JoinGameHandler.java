@@ -1,9 +1,8 @@
 package com.kekwy.tankwar.io.handlers.server;
 
-import com.kekwy.jw.server.GameServer;
-import com.kekwy.jw.server.game.GameScene;
-import com.kekwy.jw.server.game.tank.PlayerTank;
-import com.kekwy.jw.server.util.Direction;
+import com.kekwy.tankwar.server.GameScene;
+import com.kekwy.tankwar.server.tank.PlayerTank;
+import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.JoinGameAction;
 

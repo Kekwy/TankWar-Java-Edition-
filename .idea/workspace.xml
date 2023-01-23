@@ -4,16 +4,65 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 基于新的通信架构实现玩家加入游戏以及移动">
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewBulletHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/UpdateBulletHandler.java" afterDir="false" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 实现在线模式下的开火功能">
+      <change afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/trigger/TriggerHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/GameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/GameAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/NewBulletAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/NewBulletAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/TankWar.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/TankWar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/BgmPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/effect/BgmPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/Blast.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/effect/Blast.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/effect/MusicPlayer.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/effect/MusicPlayer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamemap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamemap/MapTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/AboutScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/AboutScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/HallScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/HallScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/HelpScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/HelpScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/LocalPlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/LocalPlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/MainScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/MainScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/OnlinePlayScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/gamescenes/RoomScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/RoomScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/Handler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/LoginSuccessHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/handler/NewPlayerTankHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/level/Level.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/level/Level.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/PlayerTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/trigger/Trigger.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/trigger/Trigger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/trigger/TriggerHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/util/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/ObjectPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/util/ObjectPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/ResourceUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/util/ResourceUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/jw/tankwar/util/TankWarUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/util/TankWarUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/GameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/GameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/LoginHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewBulletHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewBulletHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewTankHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewTankHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/UpdateBulletHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/UpdateBulletHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/UpdateTankHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/UpdateTankHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/client/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/ServerMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/ServerMain.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/GameServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/GameServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameObject.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/GameObject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/GameScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/GameMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/MapTile.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Bullet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/EnemyTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/PlayerTank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/game/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Tank.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/util/Direction.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/util/Direction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/util/ObjectPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/util/ObjectPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/util/RandomGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/util/RandomGen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/jw/server/util/ThreadSafeList.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/GameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/GameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/JoinGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/JoinGameHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/LoginHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/PlayerFireHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/PlayerFireHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/PlayerMoveHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/PlayerMoveHandler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,7 +141,7 @@
   </component>
   <component name="RunManager" selected="应用程序.client">
     <configuration name="client" type="Application" factoryName="Application" singleton="false">
-      <option name="MAIN_CLASS_NAME" value="com.kekwy.jw.Main" />
+      <option name="MAIN_CLASS_NAME" value="com.kekwy.tankwar.Main" />
       <module name="client" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
       <method v="2">
@@ -233,7 +282,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674482420765</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="feat: 实现在线模式下的开火功能">
+      <created>1674484494293</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1674484494293</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -264,18 +320,8 @@
     <MESSAGE value="refactor: 重写客户端与服务端的通信方式&#10;&#10;出于性能考虑，将发送序列化对象的通信方式更改为将对象数据拆分后依次发送的方式。拆分后的数据将在目标主机根据对象类型重组。" />
     <MESSAGE value="feat: 完成定义了大部分的游戏行为类" />
     <MESSAGE value="feat: 基于新的通信架构实现玩家加入游戏以及移动" />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: 基于新的通信架构实现玩家加入游戏以及移动" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewBulletHandler.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="32" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="feat: 实现在线模式下的开火功能" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 实现在线模式下的开火功能" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

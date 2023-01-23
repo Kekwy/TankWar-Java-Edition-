@@ -1,4 +1,4 @@
-module com.kekwy.jw {
+module com.kekwy.tankwar {
 	requires javafx.controls;
 	requires javafx.fxml;
 	requires java.desktop;
@@ -7,6 +7,8 @@ module com.kekwy.jw {
 	requires org.apache.poi.ooxml;
 	requires com.kekwy.tankwar.server.io;
 
-	opens com.kekwy.jw to javafx.fxml;
-	exports com.kekwy.jw;
+	opens com.kekwy.tankwar to javafx.fxml;
+	exports com.kekwy.tankwar;
+	exports com.kekwy.tankwar.client;
+	opens com.kekwy.tankwar.client to javafx.fxml;
 }

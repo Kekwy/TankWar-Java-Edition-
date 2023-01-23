@@ -1,6 +1,6 @@
 package com.kekwy.tankwar.io.handlers.client;
 
-import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.tankwar.client.GameScene;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.LoginAction;
 

@@ -1,10 +1,10 @@
 package com.kekwy.tankwar.io.handlers.client;
 
-import com.kekwy.jw.tankwar.GameObject;
-import com.kekwy.jw.tankwar.GameScene;
-import com.kekwy.jw.tankwar.tank.Bullet;
-import com.kekwy.jw.tankwar.tank.Tank;
-import com.kekwy.jw.tankwar.util.Direction;
+import com.kekwy.tankwar.client.GameObject;
+import com.kekwy.tankwar.client.GameScene;
+import com.kekwy.tankwar.client.tank.Bullet;
+import com.kekwy.tankwar.client.tank.Tank;
+import com.kekwy.tankwar.client.util.Direction;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.NewBulletAction;
 import javafx.scene.paint.Color;
