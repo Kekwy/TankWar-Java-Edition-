@@ -9,8 +9,8 @@ import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import com.kekwy.jw.tankwar.util.Direction;
 import com.kekwy.jw.tankwar.util.ResourceUtil;
 import com.kekwy.jw.tankwar.util.TankWarUtil;
-import com.kekwy.tankwar.server.io.FrameUpdate;
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.io.actions.updateAction;
+import com.kekwy.tankwar.io.actions.GameAction;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
@@ -19,11 +19,18 @@ import javafx.scene.text.Font;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public abstract class Tank extends GameObject implements Runnable {
 
 	boolean visible = true;
+
+	public Tank(GameScene parent, double x, double y, Direction direction, String name, int group, String identity) {
+		super(parent, identity);
+		setRadius(TANK_RADIUS);
+		initTank(x, y, direction, name, group);
+		setLayer(1);
+		isOnline = parent instanceof OnlinePlayScene;
+	}
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
@@ -92,8 +99,8 @@ public abstract class Tank extends GameObject implements Runnable {
 
 
 	@Override
-	public void update(Protocol p) {
-		FrameUpdate f = (FrameUpdate) p;
+	public void update(GameAction p) {
+		updateAction f = (updateAction) p;
 		this.getParent().update(this, f.x, f.y, TANK_RADIUS);
 		this.setState(State.values()[f.state]);
 		this.setDirection(Direction.values()[f.direction]);

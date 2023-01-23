@@ -28,11 +28,11 @@ public class PlayerTank extends Tank {
 	public PlayerTank(GameScene parent, double x, double y, Direction direction, String name, int group) {
 		super(parent, x, y, direction, name, group);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
-//		parent.addGameObject(this);
-		// 按键按下时的响应
-//		 parent.setOnKeyPressed(KeyEvent -> System.out.println("sadsad"));
-		// 按键抬起时的响应
-		// parent.setOnKeyPressed(this::keyReleasedHandle);
+	}
+
+	public PlayerTank(GameScene parent, double x, double y, Direction direction, String name, int group, String identity) {
+		super(parent, x, y, direction, name, group, identity);
+		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 	}
 
 	private static final Image[] tankImg;

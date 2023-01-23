@@ -6,7 +6,7 @@ import com.kekwy.jw.server.util.RandomGen;
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.game.gamemap.MapTile;
-import com.kekwy.tankwar.server.io.FrameUpdate;
+import com.kekwy.tankwar.io.actions.updateAction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -97,7 +97,7 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	private void sendToClient() {
 //		System.out.println(getUuid());
-		FrameUpdate p = new FrameUpdate(getUuid(), transform.getX(), transform.getY(), direction.ordinal(), state.ordinal());
+		updateAction p = new updateAction(getUuid(), transform.getX(), transform.getY(), direction.ordinal(), state.ordinal());
 		forward(p);
 //		System.out.println(p.x);
 	}

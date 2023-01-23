@@ -2,10 +2,12 @@ package com.kekwy.jw.server;
 
 import com.kekwy.jw.server.game.GameObject;
 import com.kekwy.jw.server.game.GameScene;
-import com.kekwy.jw.server.handler.Handler;
-import com.kekwy.jw.server.handler.JoinGameHandler;
-import com.kekwy.jw.server.handler.LoginHandler;
-import com.kekwy.tankwar.server.io.*;
+import com.kekwy.tankwar.io.actions.JoinGameAction;
+import com.kekwy.tankwar.io.actions.LoginAction;
+import com.kekwy.tankwar.io.actions.GameAction;
+import com.kekwy.tankwar.io.handlers.server.GameHandler;
+import com.kekwy.tankwar.io.handlers.server.JoinGameHandler;
+import com.kekwy.tankwar.io.handlers.server.LoginHandler;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -33,7 +35,7 @@ public class GameServer {
 
 	private final Logger logger = Logger.getLogger(this.getClass().toString());
 
-	final Map<Class<? extends Protocol>, Handler> HANDLER_MAP = new HashMap<>();
+	final Map<Class<? extends GameAction>, GameHandler> HANDLER_MAP = new HashMap<>();
 
 
 	private boolean active = false;
@@ -44,12 +46,12 @@ public class GameServer {
 	private final GameScene scene = new GameScene(960, 560);
 
 
-	Handler keyEventHandler = (protocol, channel) -> {
-		logger.info("[INFO] 用户键盘事件");
-		if ((!(protocol instanceof KeyEvent p))) return;
-		GameObject object = scene.findObject(p.uuid);
-		object.recvPackage(p);
-	};
+//	Handler keyEventHandler = (protocol, channel) -> {
+//		logger.info("[INFO] 用户键盘事件");
+//		if ((!(protocol instanceof KeyEvent p))) return;
+//		GameObject object = scene.findObject(p.uuid);
+//		object.recvPackage(p);
+//	};
 
 
 
@@ -62,9 +64,9 @@ public class GameServer {
 			throw new RuntimeException(e);
 		}
 
-		HANDLER_MAP.put(LoginProtocol.class, new LoginHandler(statement, logger, this));
-		HANDLER_MAP.put(JoinGame.class, new JoinGameHandler(scene, this));
-		HANDLER_MAP.put(KeyEvent.class, keyEventHandler);
+		HANDLER_MAP.put(LoginAction.class, new LoginHandler(statement));
+		HANDLER_MAP.put(JoinGameAction.class, new JoinGameHandler());
+//		HANDLER_MAP.put(KeyEvent.class, keyEventHandler);
 
 		selector = Selector.open();
 		serverChannel = ServerSocketChannel.open();
@@ -114,52 +116,14 @@ public class GameServer {
 		}
 	}
 
-	private Protocol recv(SocketChannel channel) throws IOException {
-		try {
-			ByteBuffer head = ByteBuffer.allocate(4);
-			channel.read(head);
-			head.flip();
-			int length = head.getInt();
-			ByteBuffer body = ByteBuffer.allocate(length);
-			do {
-				channel.read(body);
-			} while (body.position() < length);
-			body.flip();
-			ByteArrayInputStream bAis = new ByteArrayInputStream(body.array());
-			ObjectInputStream ois = new ObjectInputStream(bAis);
-			Protocol protocol = (Protocol) ois.readObject();
-			bAis.close();
-			ois.close();
-			return protocol;
-		} catch (ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
-	public void send(SocketChannel channel, Protocol protocol) {
-		try {
-			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bAos);
-			oos.writeObject(protocol);
-			int length = bAos.toByteArray().length;
-			ByteBuffer head = ByteBuffer.allocate(4);
-			head.putInt(length);
-			head.flip();
-			ByteBuffer body = ByteBuffer.wrap(bAos.toByteArray());
-			channel.write(head);
-			channel.write(body);
-			bAos.close();
-			oos.close();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+	ByteBuffer buffer = ByteBuffer.allocate(1024);
 
 	private void handle(SelectionKey selKey) {
 		SocketChannel channel = (SocketChannel) selKey.channel();
 		try {
-			Protocol p = recv(channel);
-			HANDLER_MAP.get(p.getClass()).handle(p, channel);
+//			GameAction p = recv(channel);
+			GameAction p = GameAction.getInstance(channel, buffer);
+			HANDLER_MAP.get(p.getClass()).handleAction(scene, p, channel, buffer, logger);
 		} catch (IOException e) {
 			try {
 				SocketAddress remoteAddr = channel.socket().getRemoteSocketAddress();
@@ -169,7 +133,7 @@ public class GameServer {
 			} catch (IOException ex) {
 				throw new RuntimeException(ex);
 			}
-			throw new RuntimeException(e);
+//			throw new RuntimeException(e);
 		}
 	}
 
@@ -206,7 +170,7 @@ public class GameServer {
 
 	private final List<GameObject> objectList = new LinkedList<>();
 
-	public void forward(Protocol p) {
+	public void forward(GameAction p) {
 		try {
 			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
 			ObjectOutputStream oos = new ObjectOutputStream(bAos);

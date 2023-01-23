@@ -1,8 +1,7 @@
 package com.kekwy.jw.tankwar.handler;
 
 import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
-import com.kekwy.tankwar.server.io.LoginSuccess;
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.io.actions.GameAction;
 
 public class LoginSuccessHandler implements Handler {
 
@@ -13,8 +12,8 @@ public class LoginSuccessHandler implements Handler {
 	}
 
 	@Override
-	public void handle(Protocol protocol) {
-		if (!(protocol instanceof LoginSuccess p)) return;
-		scene.setUuid(p.uuid);
+	public void handle(GameAction protocol) {
+//		if (!(protocol instanceof LoginSuccess p)) return;
+//		scene.setUuid(p.uuid);
 	}
 }

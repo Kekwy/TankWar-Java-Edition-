@@ -3,6 +3,7 @@ package com.kekwy.jw;
 import com.kekwy.jw.tankwar.gamescenes.LocalPlayScene;
 import com.kekwy.jw.tankwar.gamescenes.MainScene;
 import com.kekwy.jw.tankwar.GameScene;
+import com.kekwy.jw.tankwar.gamescenes.OnlinePlayScene;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -36,18 +37,23 @@ public class Main extends Application {
 		stage.show();
 //		TankWar.LOCAL_PLAY_SCENE.setStage(stage);
 //		TankWar.LOCAL_PLAY_SCENE.start();
-//		GameScene scene = new OnlinePlayScene();
-		GameScene scene;
+		GameScene scene = new OnlinePlayScene();
+//		GameScene scene;
+
 		// 判断是否存在保存游戏进度的临时文件
-		File file = new File("./save/");
-		if (file.exists() && file.isDirectory()
-				&& Objects.requireNonNull(file.listFiles()).length > 0) {
-			// 如果存在则弹出会话窗
-			scene = showAlert(Objects.requireNonNull(file.listFiles())[0]);
-		} else {
-			// 如果不存在则正常加载主场景
-			scene = new MainScene();
-		}
+
+
+//		File file = new File("./save/");
+//		if (file.exists() && file.isDirectory()
+//				&& Objects.requireNonNull(file.listFiles()).length > 0) {
+//			// 如果存在则弹出会话窗
+//			scene = showAlert(Objects.requireNonNull(file.listFiles())[0]);
+//		} else {
+//			// 如果不存在则正常加载主场景
+//			scene = new MainScene();
+//		}
+
+
 		scene.setStage(stage);
 		scene.start();
 	}

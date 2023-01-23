@@ -52,6 +52,9 @@ public class GameScene extends Scene {
 
 	private final ExecutorService service = Executors.newCachedThreadPool();
 
+	public void setPlayerUUid(String s) {
+	}
+
 	private class ShowLayer {
 		private final List<GameObject> objectList = new LinkedList<>();
 		private final List<GameObject> removeBuffer = new ArrayList<>();

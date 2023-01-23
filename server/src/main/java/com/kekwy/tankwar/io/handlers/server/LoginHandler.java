@@ -1,8 +1,8 @@
-package com.kekwy.jw.server.handler;
+package com.kekwy.tankwar.io.handlers.server;
 
-import com.kekwy.jw.server.GameServer;
-import com.kekwy.tankwar.io.actions.LoginAction;
+import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.tankwar.io.actions.GameAction;
+import com.kekwy.tankwar.io.actions.LoginAction;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -12,23 +12,19 @@ import java.sql.Statement;
 import java.util.Objects;
 import java.util.logging.Logger;
 
-public class LoginHandler implements Handler {
+public class LoginHandler implements GameHandler {
 
 	private static final String SQL_QUERY = "SELECT uuid, passwd FROM players WHERE name=";
 
 	private final Statement statement;
-	private final Logger logger;
-	GameServer server;
 
-	public LoginHandler(Statement statement, Logger logger, GameServer server) {
+	public LoginHandler(Statement statement) {
 		this.statement = statement;
-		this.logger = logger;
-		this.server = server;
 	}
 
 	@Override
-	public void handle(GameAction protocol, SocketChannel channel) {
-		if (!(protocol instanceof LoginAction loginAction)) {
+	public void handleAction(GameScene scene, GameAction action, SocketChannel channel, ByteBuffer buffer, Logger logger) {
+		if (!(action instanceof LoginAction loginAction)) {
 			logger.severe("[SEVERE] 处理用户请求的过程中调用了错误的方法或用户请求参数错误！");
 			throw new RuntimeException();
 		}
@@ -42,15 +38,11 @@ public class LoginHandler implements Handler {
 				if (!Objects.equals(rs.getString("passwd"), passwd)) {
 					loginAction.stateCode = 1; // 登录失败
 					loginAction.send(channel, ByteBuffer.allocate(1024));
-//					server.send(channel, new LoginFailed());
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，密码错误".formatted(name, passwd));
 				} else {
-//					LoginSuccess success = new LoginSuccess();
 					String uuid = rs.getString("uuid");
 					loginAction.stateCode = 0;
 					loginAction.userUuid = uuid;
-//					success.setUuid(uuid);
-//					server.send(channel,success);
 					loginAction.send(channel, ByteBuffer.allocate(1024));
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，登录成功[uuid=%s]".formatted(name, passwd, uuid));
 				}

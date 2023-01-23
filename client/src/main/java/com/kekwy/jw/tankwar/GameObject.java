@@ -1,18 +1,25 @@
 package com.kekwy.jw.tankwar;
 
 import com.kekwy.jw.tankwar.util.TankWarUtil;
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.io.actions.GameAction;
 import javafx.scene.canvas.GraphicsContext;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
 
 
 public abstract class GameObject implements Serializable {
 
-	public void update(Protocol p) {
+	private final String identity;
+
+	public String getIdentity() {
+		return identity;
+	}
+
+	public void update(GameAction p) {
 	}
 
 	boolean destroyed = false;
@@ -181,20 +188,6 @@ public abstract class GameObject implements Serializable {
 		public void setGridCol(int gridCol) {
 			this.gridCol = gridCol;
 		}
-
-
-		@Override
-		public boolean equals(Object o) {
-			if (this == o) return true;
-			if (o == null || getClass() != o.getClass()) return false;
-			Transform transform = (Transform) o;
-			return Math.abs(Double.compare(transform.x, x)) <= 10 && Math.abs(Double.compare(transform.y, y)) <= 10 && gridRow == transform.gridRow && gridCol == transform.gridCol;
-		}
-
-		@Override
-		public int hashCode() {
-			return Objects.hash(x, y, gridRow, gridCol);
-		}
 	}
 
 
@@ -241,8 +234,17 @@ public abstract class GameObject implements Serializable {
 	 */
 	transient GameScene parent;
 
+	public GameObject(GameScene parent, String identity) {
+		this.parent = parent;
+		// 外部指定（多为服务器）游戏对象的唯一标识符
+		this.identity = identity;
+		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
+	}
+
 	public GameObject(GameScene parent) {
 		this.parent = parent;
+		// 本地生成 uuid 作为游戏对象的唯一标识符
+		this.identity = this.getClass().getName() + "@" + UUID.randomUUID();
 		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
 	}
 

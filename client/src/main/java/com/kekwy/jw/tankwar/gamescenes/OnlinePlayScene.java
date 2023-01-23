@@ -8,7 +8,10 @@ import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
 import com.kekwy.jw.tankwar.TankWar;
 import com.kekwy.jw.tankwar.handler.LoginSuccessHandler;
-import com.kekwy.tankwar.server.io.*;
+import com.kekwy.tankwar.io.actions.*;
+import com.kekwy.tankwar.io.handlers.client.GameHandler;
+import com.kekwy.tankwar.io.handlers.client.LoginHandler;
+import com.kekwy.tankwar.io.handlers.client.NewObjectHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -41,60 +44,41 @@ public class OnlinePlayScene extends GameScene {
 
 	String uuid = null;
 
-	private void send(Protocol protocol) {
-		try {
-			ByteArrayOutputStream bAos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(bAos);
-			oos.writeObject(protocol);
-			int length = bAos.toByteArray().length;
-			ByteBuffer head = ByteBuffer.allocate(4);
-			head.putInt(length);
-			head.flip();
-			ByteBuffer body = ByteBuffer.wrap(bAos.toByteArray());
-//			body.flip();
-			synchronized (channel) {
-				channel.write(head);
-				channel.write(body);
-			}
-			bAos.close();
-			oos.close();
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private final Map<String, GameObject> objectMap = new HashMap<>();
 
 	Handler frameUpdateHandler = (protocol -> {
-		if (protocol instanceof FrameUpdate p) {
+		if (protocol instanceof updateAction p) {
 			GameObject object = objectMap.get(p.uuid);
 			object.update(p);
 		}
 	});
 
+	ByteBuffer buffer = ByteBuffer.allocate(1024);
+
 	public OnlinePlayScene() {
 		super(SCENE_WIDTH, SCENE_HEIGHT, GAME_TITLE);
 
-		setOnKeyPressed((keyEvent -> {
-			if (uuid != null) {
-				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 0));
-			}
-		}));
-
-		setOnKeyReleased((keyEvent -> {
-			if (uuid != null) {
-				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 1));
-			}
-		}));
-
-		handlerMap.put(NewPlayerTank.class, new NewPlayerTankHandler(this));
-		handlerMap.put(LoginSuccess.class, new LoginSuccessHandler(this));
-		handlerMap.put(FrameUpdate.class, frameUpdateHandler);
+//		setOnKeyPressed((keyEvent -> {
+//			if (uuid != null) {
+//				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 0));
+//			}
+//		}));
+//
+//		setOnKeyReleased((keyEvent -> {
+//			if (uuid != null) {
+//				send(new KeyEvent(uuid, keyEvent.getCode().ordinal(), 1));
+//			}
+//		}));
+//
+		handlerMap.put(NewObjectAction.class, new NewObjectHandler());
+		handlerMap.put(LoginAction.class, new LoginHandler());
+//		handlerMap.put(updateAction.class, frameUpdateHandler);
 
 		addGameObject(new BackGround(this));
 
 		connectToServer();
-		send(new LoginProtocol(TankWar.PLAYER_NAME, TankWar.PASSWORD));
+		new LoginAction(TankWar.PLAYER_NAME, TankWar.PASSWORD).send(channel, buffer);
+
 		synchronized (this) {
 			if (uuid == null) {
 				try {
@@ -104,7 +88,8 @@ public class OnlinePlayScene extends GameScene {
 				}
 			}
 		}
-		send(new JoinGame(uuid, TankWar.PLAYER_NAME));
+		//
+		new JoinGameAction(uuid, TankWar.PLAYER_NAME).send(channel, buffer);
 	}
 
 	private static final String SERVER_HOST = "127.0.0.1";
@@ -127,29 +112,6 @@ public class OnlinePlayScene extends GameScene {
 
 	private Thread netWorkThread;
 
-
-	private Protocol recv(SocketChannel channel) {
-		try {
-			ByteBuffer head = ByteBuffer.allocate(4);
-			channel.read(head);
-			head.flip();
-			int length = head.getInt();
-			ByteBuffer body = ByteBuffer.allocate(length);
-			do {
-				channel.read(body);
-			} while (body.position() < length);
-			body.flip();
-			ByteArrayInputStream bAis = new ByteArrayInputStream(body.array());
-			ObjectInputStream ois = new ObjectInputStream(bAis);
-			Protocol protocol = (Protocol) ois.readObject();
-			bAis.close();
-			ois.close();
-			return protocol;
-		} catch (IOException | ClassNotFoundException e) {
-			throw new RuntimeException(e);
-		}
-	}
-
 	private void netWork() {
 		try {
 			while (selector.select() > 0 && isActive()) {
@@ -158,8 +120,8 @@ public class OnlinePlayScene extends GameScene {
 					SelectionKey key = iterator.next();
 					iterator.remove();
 					SocketChannel channel = (SocketChannel) key.channel();
-					Protocol protocol = recv(channel);
-					handlerMap.get(protocol.getClass()).handle(protocol);
+					GameAction action = GameAction.getInstance(channel, buffer);
+					handlerMap.get(action.getClass()).handleAction(this, action, channel, buffer);
 				}
 			}
 		} catch (IOException e) {
@@ -168,12 +130,20 @@ public class OnlinePlayScene extends GameScene {
 	}
 
 
+	@Override
+	public void setPlayerUUid(String s) {
+		synchronized (this) {
+			uuid = s;
+			this.notify();
+		}
+	}
 
-	private final Map<Class<? extends Protocol>, Handler> handlerMap = new HashMap<>();
+	private final Map<Class<? extends GameAction>, GameHandler> handlerMap = new HashMap<>();
 
 	private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
-	public void addGameObject(String uuid, GameObject gameObject) {
+	@Override
+	public void addGameObject(GameObject gameObject) {
 		lock.writeLock().lock();
 		objectMap.put(uuid, gameObject);
 		lock.writeLock().unlock();
@@ -185,13 +155,6 @@ public class OnlinePlayScene extends GameScene {
 		GameObject object = objectMap.get(uuid);
 		lock.readLock().unlock();
 		return object;
-	}
-
-	public void setUuid(String uuid) {
-		synchronized (this) {
-			this.uuid = uuid;
-			this.notify();
-		}
 	}
 
 	static class BackGround extends GameObject {
@@ -226,5 +189,7 @@ public class OnlinePlayScene extends GameScene {
 		object.transform.setX(x);
 		object.transform.setY(y);
 	}
+
+
 
 }

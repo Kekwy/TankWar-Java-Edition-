@@ -1,7 +1,7 @@
 package com.kekwy.jw.server.game;
 
 import com.kekwy.jw.server.GameServer;
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.io.actions.GameAction;
 
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
@@ -150,7 +150,7 @@ public abstract class GameObject {
 		return dirty;
 	}
 
-	protected void forward(Protocol p) {
+	protected void forward(GameAction p) {
 		server.forward(p);
 	}
 
@@ -236,7 +236,7 @@ public abstract class GameObject {
 		return lock;
 	}
 
-	public void recvPackage(Protocol p) {
+	public void recvPackage(GameAction p) {
 
 	}
 

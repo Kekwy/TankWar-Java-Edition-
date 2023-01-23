@@ -1,9 +1,9 @@
 package com.kekwy.jw.server.handler;
 
-import com.kekwy.tankwar.server.io.Protocol;
+import com.kekwy.tankwar.io.actions.GameAction;
 
 import java.nio.channels.SocketChannel;
 
 public interface Handler {
-	void handle(Protocol protocol, SocketChannel channel);
+	void handle(GameAction protocol, SocketChannel channel);
 }
