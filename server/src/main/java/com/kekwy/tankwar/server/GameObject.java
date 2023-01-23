@@ -141,11 +141,9 @@ public abstract class GameObject {
 	 */
 	GameScene parent;
 
-	private final GameServer server;
 
-	public GameObject(GameScene parent, GameServer server) {
+	public GameObject(GameScene parent) {
 		this.parent = parent;
-		this.server = server;
 		setColliderType(ColliderType.COLLIDER_TYPE_NULL);
 	}
 

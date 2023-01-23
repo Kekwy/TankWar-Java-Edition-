@@ -63,12 +63,12 @@ public abstract class Tank extends GameObject implements Runnable {
 	public double r, g, b;
 
 	public Tank(GameScene parent, GameServer server) {
-		super(parent, server);
+		super(parent);
 		setRadius(TANK_RADIUS);
 	}
 
 	public Tank(GameScene parent, GameServer server, int x, int y, Direction direction, String name, int group) {
-		super(parent, server);
+		super(parent);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, direction, name, group);
@@ -149,16 +149,16 @@ public abstract class Tank extends GameObject implements Runnable {
 						this.hp = 0;
 						tank.setHp(0);
 						tank.setState(State.STATE_DIE);
-//						Blast blast = Blast.createBlast(getParent(), this.transform.getX(), this.transform.getY());
-//						getParent().addGameObject(blast);
+						Blast blast = Blast.createBlast(getParent(), this.transform.getX(), this.transform.getY());
+						getParent().addGameObject(blast);
 						tank.setHp(0);
 					}
 				} else if (gameObject instanceof Bullet bullet && bullet.getFrom().group != this.group) {
 //					hitSound.play();
 					hp -= bullet.getAtk();
 					if (hp < 0) hp = 0;
-//					Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
-//					getParent().addGameObject(blast);
+					Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
+					getParent().addGameObject(blast);
 					bullet.setActive(false);
 				} else if (gameObject instanceof MapTile mapTile) {
 					if (mapTile.getType() == MapTile.Type.TYPE_COVER) {

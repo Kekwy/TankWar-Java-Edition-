@@ -75,6 +75,7 @@ public class OnlinePlayScene extends GameScene {
 
 		handlerMap.put(NewTankAction.class, new NewTankHandler());
 		handlerMap.put(NewBulletAction.class, new NewBulletHandler());
+		handlerMap.put(NewBlastAction.class, new NewBlastHandler());
 
 		handlerMap.put(LoginAction.class, new LoginHandler());
 //		handlerMap.put(updateAction.class, frameUpdateHandler);

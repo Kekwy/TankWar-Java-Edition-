@@ -139,9 +139,15 @@ public class GameServer {
 				}
 				if (object.isNew()) {
 					object.setNewFalse();
-					actionList.add(object.getNewObjectAction());
+					GameAction action = object.getNewObjectAction();
+					if (action != null) {
+						actionList.add(action);
+					}
 				} else {
-					actionList.add(object.getUpdateObjectAction());
+					GameAction action = object.getUpdateObjectAction();
+					if (action != null) {
+						actionList.add(action);
+					}
 				}
 			}
 

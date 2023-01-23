@@ -13,8 +13,6 @@ public class NewTankAction extends NewObjectAction {
 	 * 1 - enemyTank<br/>
 	 */
 	public int typeCode;
-
-	public double x, y;
 	public int direction;
 	public String name;
 	public int group;
@@ -22,10 +20,8 @@ public class NewTankAction extends NewObjectAction {
 
 	public NewTankAction(String identity, String className, int typeCode, double x, double y,
 	                     int direction, String name, int group, double r, double g, double b) {
-		super(identity, className);
+		super(identity, className, x, y);
 		this.typeCode = typeCode;
-		this.x = x;
-		this.y = y;
 		this.direction = direction;
 		this.name = name;
 		this.group = group;
@@ -38,8 +34,6 @@ public class NewTankAction extends NewObjectAction {
 		super(channel, buffer);
 		try {
 			typeCode = ChannelIOUtil.readInt(channel, buffer);
-			x = ChannelIOUtil.readDouble(channel, buffer);
-			y = ChannelIOUtil.readDouble(channel, buffer);
 			direction = ChannelIOUtil.readInt(channel, buffer);
 			name = ChannelIOUtil.readString(channel, buffer);
 			group = ChannelIOUtil.readInt(channel, buffer);
@@ -54,11 +48,9 @@ public class NewTankAction extends NewObjectAction {
 
 	@Override
 	public void send(SocketChannel channel, ByteBuffer buffer) {
-		super.send(NEW_Tank_CODE, channel, buffer);
+		super.send(NEW_Tank_CODE, buffer);
 		try {
 			buffer.putInt(typeCode);
-			buffer.putDouble(x);
-			buffer.putDouble(y);
 			buffer.putInt(direction);
 
 			ChannelIOUtil.writeString(name, buffer);

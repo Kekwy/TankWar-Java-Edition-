@@ -15,7 +15,7 @@ public class MapTile extends GameObject {
 	int hp = 10;
 
 	public MapTile(GameScene parent, GameServer server, Type type, int x, int y) {
-		super(parent, server);
+		super(parent);
 		this.setRadius(TILE_WIDTH / 2);
 		this.type = type;
 		this.transform.setX(x);

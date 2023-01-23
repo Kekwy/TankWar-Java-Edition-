@@ -59,7 +59,7 @@ public class Blast extends GameObject {
 		index++;
 		if (index >= EXPLODE_FRAME_COUNT) {
 			setActive(false);
-			blastPool.returnObject(this);
+//			blastPool.returnObject(this);
 		}
 	}
 

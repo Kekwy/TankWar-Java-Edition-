@@ -168,7 +168,7 @@ public class Bullet extends GameObject implements Runnable {
 	 * 通过反射调用
 	 */
 	public Bullet(GameScene parent, GameServer server) {
-		super(parent, server);
+		super(parent);
 		setRadius(DEFAULT_BULLET_RADIUS);
 		setColliderType(ColliderType.COLLIDER_TYPE_CIRCLE);
 	}
