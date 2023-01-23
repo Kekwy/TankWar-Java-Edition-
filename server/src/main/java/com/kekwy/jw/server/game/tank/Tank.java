@@ -8,6 +8,8 @@ import com.kekwy.jw.server.game.GameScene;
 import com.kekwy.jw.server.game.gamemap.MapTile;
 import com.kekwy.tankwar.io.actions.NewObjectAction;
 import com.kekwy.tankwar.io.actions.NewTankAction;
+import com.kekwy.tankwar.io.actions.UpdateObjectAction;
+import com.kekwy.tankwar.io.actions.UpdateTankAction;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -292,4 +294,9 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	private String name;
 
+	@Override
+	public UpdateObjectAction getUpdateObjectAction() {
+		return new UpdateTankAction(getIdentity(), transform.getX(), transform.getY(),
+				direction.ordinal(), isActive(), hp, state.ordinal());
+	}
 }

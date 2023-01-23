@@ -143,14 +143,14 @@ public class GameServer {
 					object.setNewFalse();
 					actionList.add(object.getNewObjectAction());
 				} else {
-					// TODO
+					actionList.add(object.getUpdateObjectAction());
 				}
 			}
 
 			for (GameAction action : actionList) {
 				for (SelectionKey key : selector.keys()) {
 					if (key.channel() instanceof ServerSocketChannel) continue;
-					action.send((SocketChannel) key.channel(), buffer);
+					action.send((SocketChannel) key.channel(), forwardBuffer);
 				}
 			}
 
@@ -177,14 +177,15 @@ public class GameServer {
 
 
 
-	ByteBuffer buffer = ByteBuffer.allocate(1024);
+	ByteBuffer listenBuffer = ByteBuffer.allocate(1024);
+	ByteBuffer forwardBuffer = ByteBuffer.allocate(1024);
 
 	private void handle(SelectionKey selKey) {
 		SocketChannel channel = (SocketChannel) selKey.channel();
 		try {
 //			GameAction p = recv(channel);
-			GameAction p = GameAction.getInstance(channel, buffer);
-			HANDLER_MAP.get(p.getClass()).handleAction(scene, p, channel, buffer, logger);
+			GameAction p = GameAction.getInstance(channel, listenBuffer);
+			HANDLER_MAP.get(p.getClass()).handleAction(scene, p, channel, listenBuffer, logger);
 		} catch (IOException e) {
 			try {
 				SocketAddress remoteAddr = channel.socket().getRemoteSocketAddress();

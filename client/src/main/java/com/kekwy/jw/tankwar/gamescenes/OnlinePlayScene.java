@@ -1,7 +1,6 @@
 package com.kekwy.jw.tankwar.gamescenes;
 
 import com.kekwy.jw.tankwar.effect.MusicPlayer;
-import com.kekwy.jw.tankwar.handler.Handler;
 import com.kekwy.jw.tankwar.tank.Bullet;
 import com.kekwy.jw.tankwar.GameObject;
 import com.kekwy.jw.tankwar.GameScene;
@@ -11,6 +10,7 @@ import com.kekwy.tankwar.io.actions.*;
 import com.kekwy.tankwar.io.handlers.client.GameHandler;
 import com.kekwy.tankwar.io.handlers.client.LoginHandler;
 import com.kekwy.tankwar.io.handlers.client.NewTankHandler;
+import com.kekwy.tankwar.io.handlers.client.UpdateTankHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 
@@ -45,14 +45,8 @@ public class OnlinePlayScene extends GameScene {
 
 	private final Map<String, GameObject> objectMap = new HashMap<>();
 
-	Handler frameUpdateHandler = (protocol -> {
-		if (protocol instanceof UpdatePositionAction p) {
-			GameObject object = objectMap.get(p.uuid);
-			object.update(p);
-		}
-	});
-
-	ByteBuffer buffer = ByteBuffer.allocate(1024);
+	ByteBuffer listenBuffer = ByteBuffer.allocate(1024);
+	ByteBuffer actionBuffer = ByteBuffer.allocate(1024);
 
 	PlayerTank player = null;
 
@@ -66,10 +60,10 @@ public class OnlinePlayScene extends GameScene {
 				int action = player.keyPressedHandle(keyEvent);
 				if ((action & PlayerTank.MOVE_ACTION) != 0) {
 					new PlayerMoveAction(player.getIdentity(), player.getDirection().ordinal(),
-							player.getState().ordinal()).send(channel, buffer);
+							player.getState().ordinal()).send(channel, actionBuffer);
 				}
 				if ((action & PlayerTank.FIRE_ACTION) != 0) {
-					new PlayerFireAction(player.getIdentity()).send(channel, buffer);
+					new PlayerFireAction(player.getIdentity()).send(channel, actionBuffer);
 				}
 			}
 		}));
@@ -78,18 +72,19 @@ public class OnlinePlayScene extends GameScene {
 			if (player != null && player.isActive()) {
 				player.keyReleasedHandle(keyEvent);
 				new PlayerMoveAction(player.getIdentity(), player.getDirection().ordinal(),
-						player.getState().ordinal()).send(channel, buffer);
+						player.getState().ordinal()).send(channel, actionBuffer);
 			}
 		}));
 
 		handlerMap.put(NewTankAction.class, new NewTankHandler());
 		handlerMap.put(LoginAction.class, new LoginHandler());
 //		handlerMap.put(updateAction.class, frameUpdateHandler);
+		handlerMap.put(UpdateTankAction.class, new UpdateTankHandler());
 
 		addGameObject(new BackGround(this));
 
 		connectToServer();
-		new LoginAction(TankWar.PLAYER_NAME, TankWar.PASSWORD).send(channel, buffer);
+		new LoginAction(TankWar.PLAYER_NAME, TankWar.PASSWORD).send(channel, listenBuffer);
 
 		synchronized (this) {
 			if (uuid == null) {
@@ -101,7 +96,7 @@ public class OnlinePlayScene extends GameScene {
 			}
 		}
 		//
-		new JoinGameAction(uuid, TankWar.PLAYER_NAME).send(channel, buffer);
+		new JoinGameAction(uuid, TankWar.PLAYER_NAME).send(channel, listenBuffer);
 	}
 
 	private static final String SERVER_HOST = "127.0.0.1";
@@ -132,8 +127,8 @@ public class OnlinePlayScene extends GameScene {
 					SelectionKey key = iterator.next();
 					iterator.remove();
 					SocketChannel channel = (SocketChannel) key.channel();
-					GameAction action = GameAction.getInstance(channel, buffer);
-					handlerMap.get(action.getClass()).handleAction(this, action, channel, buffer);
+					GameAction action = GameAction.getInstance(channel, listenBuffer);
+					handlerMap.get(action.getClass()).handleAction(this, action, channel, listenBuffer);
 				}
 			}
 		} catch (IOException e) {

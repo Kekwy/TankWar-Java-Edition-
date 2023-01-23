@@ -13,17 +13,17 @@ public abstract class UpdateObjectAction extends GameAction {
 	 * 1 - true; <br/>
 	 */
 	public String identity;
-	public byte active;
+	public boolean active;
 
 	public UpdateObjectAction(String identity, boolean active) {
 		this.identity = identity;
-		this.active = (byte) (active ? 1 : 0);
+		this.active = active;
 	}
 
 	public UpdateObjectAction(SocketChannel channel, ByteBuffer buffer) {
 		try {
 			identity = ChannelIOUtil.readString(channel, buffer);
-			active = ChannelIOUtil.readByte(channel, buffer);
+			active = ChannelIOUtil.readByte(channel, buffer) != 0;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
@@ -34,7 +34,7 @@ public abstract class UpdateObjectAction extends GameAction {
 			buffer.clear();
 			buffer.putInt(actionCode);
 			ChannelIOUtil.writeString(identity, buffer);
-			buffer.put(active);
+			buffer.put((byte) (active ? 1 : 0));
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}

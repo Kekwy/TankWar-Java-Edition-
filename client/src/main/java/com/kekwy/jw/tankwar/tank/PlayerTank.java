@@ -88,8 +88,8 @@ public class PlayerTank extends Tank {
 		if (keyCode == KeyCode.W || keyCode == KeyCode.S
 				|| keyCode == KeyCode.A || keyCode == KeyCode.D) {
 			if (!keyStack.contains(keyCode)) {
-				if (!getParent().isOnline())
-					setMove(keyEvent.getCode());
+//				if (!getParent().isOnline())
+				setMove(keyEvent.getCode());
 				keyStack.add(keyCode);
 				action |= MOVE_ACTION;
 			}

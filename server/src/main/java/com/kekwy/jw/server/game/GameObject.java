@@ -3,6 +3,7 @@ package com.kekwy.jw.server.game;
 import com.kekwy.jw.server.GameServer;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.NewObjectAction;
+import com.kekwy.tankwar.io.actions.UpdateObjectAction;
 
 import java.util.UUID;
 import java.util.concurrent.locks.ReentrantLock;
@@ -250,6 +251,10 @@ public abstract class GameObject {
 	}
 
 	public NewObjectAction getNewObjectAction() {
+		return null;
+	}
+
+	public UpdateObjectAction getUpdateObjectAction() {
 		return null;
 	}
 

@@ -128,6 +128,18 @@ public class GameScene extends Scene {
 
 	protected final List<GameObject> objectList = new LinkedList<>();
 
+	protected final Map<String, GameObject> objectMap = new HashMap<>();
+
+	ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+	public GameObject findObject(String identity) {
+		GameObject object;
+		lock.readLock().lock();
+		object = objectMap.get(identity);
+		lock.readLock().unlock();
+		return object;
+	}
+
 	/**
 	 * 向当前场景中添加游戏对象
 	 *
@@ -143,6 +155,10 @@ public class GameScene extends Scene {
 		synchronized (objectList) {
 			objectList.add(gameObject);
 		}
+
+		lock.writeLock().lock();
+		objectMap.put(gameObject.getIdentity(), gameObject);
+		lock.writeLock().unlock();
 
 		int row = (int) gameObject.transform.getY() / GRID_SIZE;
 		int col = (int) gameObject.transform.getX() / GRID_SIZE;
