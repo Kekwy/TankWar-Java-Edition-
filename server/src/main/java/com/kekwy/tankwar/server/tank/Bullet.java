@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
 
 public class Bullet extends GameObject implements Runnable {
 
-	private static int BULLET_SPEED = 6;
+	private static int BULLET_SPEED = 10;
 	public static final int DEFAULT_BULLET_RADIUS = 4;
 
 //	private static final ObjectPool bulletPool = new ObjectPool(Bullet.class, 0);

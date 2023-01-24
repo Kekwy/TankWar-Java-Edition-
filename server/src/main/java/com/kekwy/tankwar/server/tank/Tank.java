@@ -48,7 +48,7 @@ public abstract class Tank extends GameObject implements Runnable {
 	}
 
 	public static final int TANK_RADIUS = 20;
-	public static final int DEFAULT_SPEED = 3;
+	public static final int DEFAULT_SPEED = 6;
 	public static final int DEFAULT_HP = 1000;
 	public static final int DEFAULT_ATK = 100;
 	public static final Direction DEFAULT_DIR = Direction.DIR_DOWN;

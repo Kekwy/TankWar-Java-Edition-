@@ -5,14 +5,16 @@ import com.kekwy.tankwar.io.handlers.server.*;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.server.gamemap.GameMap;
+import com.kekwy.tankwar.server.tank.Bullet;
+import com.kekwy.tankwar.server.tank.EnemyTank;
 import com.kekwy.tankwar.server.tank.PlayerTank;
 import com.kekwy.tankwar.server.tank.Tank;
 import com.kekwy.tankwar.util.Direction;
+import com.kekwy.tankwar.util.RandomGen;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -65,7 +67,6 @@ public class RoomScene extends GameScene {
 		serverCore.start();
 	}
 
-	// TODO 从配置文件中读取
 	private static final int PORT = 2727;
 	private static final String HOST = "localhost";
 
@@ -131,9 +132,6 @@ public class RoomScene extends GameScene {
 		}
 	}
 
-
-
-
 	@Override
 	public void startGame() {
 		try {
@@ -141,5 +139,11 @@ public class RoomScene extends GameScene {
 		} catch (FileNotFoundException e) {
 			throw new RuntimeException(e);
 		}
+
+		for (String uuid : clientMap.values()) {
+			Tank tank = (Tank) findObject(uuid);
+			tank.setAtk(Tank.DEFAULT_ATK);
+		}
 	}
+
 }

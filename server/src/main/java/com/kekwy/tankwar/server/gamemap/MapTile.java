@@ -48,18 +48,6 @@ public class MapTile extends GameObject {
 		bullet.setActive(false);
 		if (hp <= 0) {
 			setActive(false);
-//			if (type == Type.TYPE_BASE)
-//				base--;
-//			if (base == 0 && getParent() instanceof LocalPlayScene localPlayScene && localPlayScene.isPlaying()) {
-//				new Thread(() -> {
-//					try {
-//						Thread.sleep(1000);
-//					} catch (InterruptedException e) {
-//						throw new RuntimeException(e);
-//					}
-//					((LocalPlayScene) getParent()).gameOver();
-//				}).start();
-//			}
 		}
 	}
 

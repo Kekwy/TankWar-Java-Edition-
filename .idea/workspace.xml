@@ -4,36 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="refactor: 服务端完成重构，尝试重构后的首次连接">
-      <change afterPath="$PROJECT_DIR$/server/maps/gamemap.xlsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/GameStartHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/GameStartAction.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/util/FileReadUtil.java" afterDir="false" />
+    <list default="true" id="caa5c6a2-4554-4497-ab17-2e4812184cf4" name="变更" comment="feat: 服务端启动游戏并向客户端发送地图数据">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/client/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamemap/MapTile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/OnlinePlayScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/OnlinePlaySceneTmp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/RoomScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/gamescenes/RoomScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/client/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewMapTileHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewMapTileHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewTankHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/client/src/main/java/com/kekwy/tankwar/io/handlers/client/NewTankHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/ChangeTeamHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/ChangeTeamHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/JoinGameHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/JoinGameHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/LoginHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/io/handlers/server/LoginHandler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/GameScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/GameScene.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/ServerCore.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/ServerCore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/GameMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/GameMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/MapTile.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamemap/MapTile.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamescenes/RoomScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/gamescenes/RoomScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Bullet.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Bullet.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/EnemyTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/EnemyTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/PlayerTank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/PlayerTank.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Tank.java" beforeDir="false" afterPath="$PROJECT_DIR$/server/src/main/java/com/kekwy/tankwar/server/tank/Tank.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/ChangeTeamAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/ChangeTeamAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/GameAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/GameAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/UpdateMapTileAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/kekwy/tankwar/io/actions/UpdateMapTileAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +93,7 @@
       <recent name="com.kekwy.jw.server.game" />
     </key>
   </component>
-  <component name="RunManager" selected="应用程序.server">
+  <component name="RunManager" selected="应用程序.client">
     <configuration name="client" type="Application" factoryName="Application" singleton="false">
       <option name="MAIN_CLASS_NAME" value="com.kekwy.tankwar.Main" />
       <module name="client" />
@@ -292,7 +271,14 @@
       <option name="project" value="LOCAL" />
       <updated>1674535753433</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="feat: 服务端启动游戏并向客户端发送地图数据">
+      <created>1674549904353</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1674549904353</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -328,7 +314,8 @@
     <MESSAGE value="feat: 在线游戏加入爆炸效果" />
     <MESSAGE value="refactor: 再次调整交互架构，并增加房间场景" />
     <MESSAGE value="refactor: 服务端完成重构，尝试重构后的首次连接" />
-    <option name="LAST_COMMIT_MESSAGE" value="refactor: 服务端完成重构，尝试重构后的首次连接" />
+    <MESSAGE value="feat: 服务端启动游戏并向客户端发送地图数据" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: 服务端启动游戏并向客户端发送地图数据" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

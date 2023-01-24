@@ -78,14 +78,11 @@ public class GameScene {
 		lock.readLock().unlock();
 		return object;
 	}
-
-	public static final long REFRESH_INTERVAL = 1000 / 30;
 	private boolean active = true;
 
 
 	public Map<Channel, String> clientMap = new HashMap<>();
 
-	private Thread refreshThread;
 
 	public void start() {
 		active = true;
@@ -93,23 +90,7 @@ public class GameScene {
 
 	public void stop() {
 		active = false;
-		try {
-			refreshThread.join();
-		} catch (InterruptedException e) {
-			throw new RuntimeException(e);
-		}
 	}
-
-
-//	/**
-//	 * 设置场景窗口标题
-//	 *
-//	 * @param title 窗口标题
-//	 */
-//	protected void setTitle(String title) {
-//		stage.setTitle(title);
-//	}
-
 
 	public void update(GameObject object, double x, double y, int offset) {
 
@@ -171,9 +152,9 @@ public class GameScene {
 		lock.readLock().unlock();
 
 		for (GameObject object : readBuffer1) {
-			if (!object.isActive()) {
-				removeBuffer.add(object);
-			}
+//			if (!object.isActive()) {
+//				removeBuffer.add(object);
+//			}
 			if (object.isNew()) {
 				object.setNewFalse();
 				GameAction action = object.getNewObjectAction();

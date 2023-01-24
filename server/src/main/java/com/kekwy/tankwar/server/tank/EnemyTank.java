@@ -60,7 +60,7 @@ public class EnemyTank extends Tank {
 		}
 	}
 
-	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 1);
+	private static final ObjectPool tankPool = new ObjectPool(EnemyTank.class, 0);
 
 	public static final int ENEMY_TANK_MAX_HP = 500;
 	public static Tank createEnemyTank(GameScene parent, double x, double y, String name, int group) {
