@@ -19,11 +19,13 @@ import java.util.*;
 
 public class RoomScene extends GameScene {
 
+	boolean playing = false;
+
 	private static final String SERVER_HOST = "127.0.0.1";
 	private static final int SERVER_PORT = 2727;
 
 	private static final String GAME_TITLE = "坦克大战v2.3.1 by kekwy - 多人游戏房间";
-	private static final int SCENE_WIDTH = 1030, SCENE_HEIGHT = 840;
+	private static final int SCENE_WIDTH = 1400, SCENE_HEIGHT = 640;
 
 	private final List<List<String>> playerList = new ArrayList<>() {{
 		add(new LinkedList<>());
@@ -79,24 +81,35 @@ public class RoomScene extends GameScene {
 				}
 			}
 
-			KeyCode keyCode = keyEvent.getCode();
+			if (!playing) {
 
-			switch (keyCode) {
-				case NUMPAD1 -> {
-					if (team != 0)
-						new ChangeTeamAction(TankWar.PLAYER_NAME, 0, team).send(serverCore.getChannel(), buffer);
-				}
-				case NUMPAD2 -> {
-					if (team != 1)
-						new ChangeTeamAction(TankWar.PLAYER_NAME, 1, team).send(serverCore.getChannel(), buffer);
-				}
-				case NUMPAD3 -> {
-					if (team != 2)
-						new ChangeTeamAction(TankWar.PLAYER_NAME, 2, team).send(serverCore.getChannel(), buffer);
-				}
-				case NUMPAD4 -> {
-					if (team != 3)
-						new ChangeTeamAction(TankWar.PLAYER_NAME, 3, team).send(serverCore.getChannel(), buffer);
+				KeyCode keyCode = keyEvent.getCode();
+
+				switch (keyCode) {
+					case DIGIT1 -> {
+						if (team != 0)
+							new ChangeTeamAction(uuid, TankWar.PLAYER_NAME, 0, team).
+									send(serverCore.getChannel(), buffer);
+					}
+					case DIGIT2 -> {
+						if (team != 1)
+							new ChangeTeamAction(uuid, TankWar.PLAYER_NAME, 1, team).
+									send(serverCore.getChannel(), buffer);
+					}
+					case DIGIT3 -> {
+						if (team != 2)
+							new ChangeTeamAction(uuid, TankWar.PLAYER_NAME, 2, team).
+									send(serverCore.getChannel(), buffer);
+					}
+					case DIGIT4 -> {
+						if (team != 3)
+							new ChangeTeamAction(uuid, TankWar.PLAYER_NAME, 3, team).
+									send(serverCore.getChannel(), buffer);
+					}
+					case ENTER -> {
+						playing = true;
+						new GameStartAction(uuid).send(serverCore.getChannel(), buffer);
+					}
 				}
 			}
 
@@ -110,12 +123,18 @@ public class RoomScene extends GameScene {
 			}
 		}));
 
-//		serverCore.open(SERVER_HOST, SERVER_PORT);
-//		serverCore.setUpHandlers(HANDLERS);
-//		serverCore.setUpGameScene(this);
+		serverCore.open(SERVER_HOST, SERVER_PORT);
+		serverCore.setUpHandlers(HANDLERS);
+		serverCore.setUpGameScene(this);
 
-//		serverCore.start();
+	}
 
+	@Override
+	public void start() {
+		super.start();
+		serverCore.start();
+		new LoginAction(TankWar.PLAYER_NAME, TankWar.PASSWORD).
+				send(serverCore.getChannel(), ByteBuffer.allocate(1024));
 	}
 
 	public void addPlayer(String name, int team) {
@@ -128,6 +147,7 @@ public class RoomScene extends GameScene {
 	public void changeTeam(String name, int team, int oldTeam) {
 		playerList.get(oldTeam).remove(name);
 		playerList.get(team).add(name);
+		this.team = team;
 	}
 
 	@Override
@@ -197,8 +217,11 @@ public class RoomScene extends GameScene {
 
 				g.setFont(NAME_FONT);
 				g.setFill(Color.WHITE);
-				g.fillText("test", SCENE_WIDTH - MENU_WIDTH + 30, lineY + stepLength);
-				g.fillText("test", SCENE_WIDTH - MENU_WIDTH + 30, lineY + 2 * stepLength);
+
+				for (int j = 0; j < playerList.get(i).size(); j++) {
+					g.fillText(playerList.get(i).get(j),
+							SCENE_WIDTH - MENU_WIDTH + 30, lineY + (j + 1) * stepLength);
+				}
 
 				lineY += stepLength * 4;
 
@@ -225,5 +248,13 @@ public class RoomScene extends GameScene {
 		}
 	}
 
-
+	@Override
+	public void addGameObject(GameObject gameObject) {
+		super.addGameObject(gameObject);
+		if (gameObject instanceof PlayerTank tank) {
+			if (Objects.equals(tank.getIdentity(), uuid)) {
+				player = tank;
+			}
+		}
+	}
 }

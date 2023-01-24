@@ -19,7 +19,10 @@ public class ChangeTeamAction extends GameAction {
 	public int team;
 	public int oldTeam;
 
-	public ChangeTeamAction(String name, int team, int oldTeam) {
+	public String uuid;
+
+	public ChangeTeamAction(String uuid, String name, int team, int oldTeam) {
+		this.uuid = uuid;
 		this.name = name;
 		this.team = team;
 		this.oldTeam = oldTeam;
@@ -32,6 +35,9 @@ public class ChangeTeamAction extends GameAction {
 				name = ChannelIOUtil.readString(channel, buffer);
 				team = ChannelIOUtil.readInt(channel, buffer);
 				oldTeam = ChannelIOUtil.readInt(channel, buffer);
+			}
+			if (stateCode == 1) {
+				uuid = ChannelIOUtil.readString(channel, buffer);
 			}
 		} catch (IOException e) {
 			throw new RuntimeException(e);
@@ -48,6 +54,9 @@ public class ChangeTeamAction extends GameAction {
 				ChannelIOUtil.writeString(name, buffer);
 				buffer.putInt(team);
 				buffer.putInt(oldTeam);
+			}
+			if (stateCode == 1) {
+				ChannelIOUtil.writeString(uuid, buffer);
 			}
 			buffer.flip();
 			channel.write(buffer);

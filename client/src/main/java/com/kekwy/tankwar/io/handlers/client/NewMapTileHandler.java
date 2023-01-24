@@ -12,8 +12,6 @@ public class NewMapTileHandler implements GameHandler {
 	@Override
 	public void handleAction(GameScene scene, GameAction action, SocketChannel channel, ByteBuffer buffer) {
 		if (!(action instanceof NewMapTileAction newAction)) throw new RuntimeException();
-		MapTile tile = new MapTile(scene, MapTile.Type.values()[newAction.type], newAction.x, newAction.y);
-		tile.setIdentity(newAction.identity);
-		scene.addGameObject(tile);
+		MapTile tile = new MapTile(scene, MapTile.Type.values()[newAction.type], newAction.x, newAction.y, newAction.identity);
 	}
 }

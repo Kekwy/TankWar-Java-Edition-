@@ -3,7 +3,6 @@ package com.kekwy.tankwar;
 import com.kekwy.tankwar.client.gamescenes.LocalPlayScene;
 import com.kekwy.tankwar.client.gamescenes.MainScene;
 import com.kekwy.tankwar.client.GameScene;
-import com.kekwy.tankwar.client.gamescenes.OnlinePlayScene;
 import com.kekwy.tankwar.client.gamescenes.RoomScene;
 import javafx.application.Application;
 import javafx.scene.control.Alert;

@@ -16,7 +16,7 @@ public class EnemyTank extends Tank {
 	static Semaphore mutex_count = new Semaphore(10);
 
 	public EnemyTank(GameScene parent, ServerCore server) {
-		super(parent, server);
+		super(parent);
 	}
 
 	long fireTime = 0;

@@ -1,8 +1,13 @@
 package com.kekwy.tankwar.server.gamemap;
 
+import com.kekwy.tankwar.io.actions.NewMapTileAction;
+import com.kekwy.tankwar.io.actions.NewObjectAction;
+import com.kekwy.tankwar.io.actions.UpdateMapTileAction;
+import com.kekwy.tankwar.io.actions.UpdateObjectAction;
 import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.server.GameObject;
 import com.kekwy.tankwar.server.GameScene;
+import com.kekwy.tankwar.server.tank.Blast;
 import com.kekwy.tankwar.server.tank.Bullet;
 
 public class MapTile extends GameObject {
@@ -14,7 +19,7 @@ public class MapTile extends GameObject {
 
 	int hp = 10;
 
-	public MapTile(GameScene parent, ServerCore server, Type type, int x, int y) {
+	public MapTile(GameScene parent, Type type, int x, int y) {
 		super(parent);
 		this.setRadius(TILE_WIDTH / 2);
 		this.type = type;
@@ -38,8 +43,8 @@ public class MapTile extends GameObject {
 		if (type != Type.TYPE_HARD) {
 			hp -= bullet.getAtk();
 		}
-//		Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
-//		getParent().addGameObject(blast);
+		Blast blast = Blast.createBlast(getParent(), bullet.transform.getX(), bullet.transform.getY());
+		getParent().addGameObject(blast);
 		bullet.setActive(false);
 		if (hp <= 0) {
 			setActive(false);
@@ -62,5 +67,15 @@ public class MapTile extends GameObject {
 
 	public Type getType() {
 		return type;
+	}
+
+	@Override
+	public NewObjectAction getNewObjectAction() {
+		return new NewMapTileAction(getIdentity(), transform.getX(), transform.getY(), type.ordinal());
+	}
+
+	@Override
+	public UpdateObjectAction getUpdateObjectAction() {
+		return new UpdateMapTileAction(getIdentity(), isActive());
 	}
 }

@@ -14,7 +14,7 @@ public class JoinGameHandler implements GameHandler {
 	@Override
 	public void handleAction(GameScene scene, GameAction action, SocketChannel channel, ByteBuffer buffer, Logger logger) {
 		if(!(action instanceof JoinGameAction p)) return;
-		PlayerTank tank = new PlayerTank(scene, null, p.uuid, 200, 300, Direction.DIR_UP, p.name);
-		scene.addGameObject(tank);
+//		PlayerTank tank = new PlayerTank(scene, null, p.uuid, 200, 300, Direction.DIR_UP, p.name);
+//		scene.addGameObject(tank);
 	}
 }

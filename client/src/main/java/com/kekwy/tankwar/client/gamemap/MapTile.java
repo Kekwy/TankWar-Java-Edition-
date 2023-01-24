@@ -12,6 +12,26 @@ import javafx.scene.image.Image;
 public class MapTile extends GameObject {
 	public static final int TILE_WIDTH = 40;
 
+	public MapTile(GameScene scene, Type value, double x, double y, String identity) {
+		super(scene);
+		this.setRadius(TILE_WIDTH / 2);
+		this.type = value;
+		this.transform.setX(x);
+		this.transform.setY(y);
+		if (type == Type.TYPE_COVER)
+			setLayer(3);
+		else
+			setLayer(1);
+		if (type == Type.TYPE_NORMAL)
+			hp = 200;
+		else if (type == Type.TYPE_BASE)
+			hp = 500;
+		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
+		setActive(true);
+		this.setIdentity(identity);
+		scene.addGameObject(this);
+	}
+
 	public enum Type {
 		TYPE_NORMAL, TYPE_HARD, TYPE_COVER, TYPE_BASE,
 	}

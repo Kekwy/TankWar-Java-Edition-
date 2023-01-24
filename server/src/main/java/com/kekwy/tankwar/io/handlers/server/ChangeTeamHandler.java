@@ -2,8 +2,10 @@ package com.kekwy.tankwar.io.handlers.server;
 
 import com.kekwy.tankwar.io.actions.ChangeTeamAction;
 import com.kekwy.tankwar.io.actions.GameAction;
+import com.kekwy.tankwar.server.GameObject;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.server.gamescenes.RoomScene;
+import com.kekwy.tankwar.server.tank.PlayerTank;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -31,6 +33,10 @@ public class ChangeTeamHandler implements GameHandler {
 			logger.info("[INFO] 玩家 %s 请求变更队伍到 %s 成功".formatted(changeAction.name, teamNames[changeAction.team]));
 			changeAction.stateCode = 0;
 		}
+		GameObject object = scene.findObject(changeAction.uuid);
+		if (object == null) throw new RuntimeException();
+		if (!(object instanceof PlayerTank tank)) throw new RuntimeException();
+		tank.setGroup(changeAction.team);
 		changeAction.send(channel, buffer);
 	}
 }

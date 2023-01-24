@@ -4,8 +4,16 @@ import com.kekwy.tankwar.io.actions.*;
 import com.kekwy.tankwar.io.handlers.server.*;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.server.ServerCore;
+import com.kekwy.tankwar.server.gamemap.GameMap;
+import com.kekwy.tankwar.server.tank.PlayerTank;
+import com.kekwy.tankwar.server.tank.Tank;
+import com.kekwy.tankwar.util.Direction;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.channels.SocketChannel;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -24,13 +32,15 @@ public class RoomScene extends GameScene {
 	private final Statement statement;
 	private final Connection connection;
 
-	private static final int SCENE_WIDTH = 1030, SCENE_HEIGHT = 840;
+	private static final int SCENE_WIDTH = 1200, SCENE_HEIGHT = 640;
 
 	static final Map<Class<? extends GameAction>, GameHandler> HANDLERS = new HashMap<>(){{
 		put(LoginAction.class, null);
 		put(JoinGameAction.class, new JoinGameHandler());
 		put(PlayerFireAction.class, new PlayerFireHandler());
 		put(PlayerMoveAction.class, new PlayerMoveHandler());
+		put(ChangeTeamAction.class, new ChangeTeamHandler());
+		put(GameStartAction.class, new GameStartHandler());
 	}};
 
 	public RoomScene() throws IOException {
@@ -90,7 +100,8 @@ public class RoomScene extends GameScene {
 		}
 	}
 
-	public void joinATeam(String name) {
+	public int playerJoin(String name, String uuid, SocketChannel channel) {
+
 		int team = 0, minCount = playerList.get(0).size();
 		synchronized (playerList) {
 			for (int i = 1; i < playerList.size(); i++) {
@@ -102,6 +113,11 @@ public class RoomScene extends GameScene {
 			if (!playerList.get(team).contains(name))
 				playerList.get(team).add(name);
 		}
+		clientMap.put(channel, uuid);
+		Tank tank = new PlayerTank(this, uuid, 200, 300, Direction.DIR_UP, name, team);
+		tank.setAtk(0);
+		addGameObject(tank);
+		return team;
 	}
 
 	@Override
@@ -112,6 +128,18 @@ public class RoomScene extends GameScene {
 			for (String name : players) {
 				dst.add(new EnterRoomAction(name, i));
 			}
+		}
+	}
+
+
+
+
+	@Override
+	public void startGame() {
+		try {
+			new GameMap(new FileInputStream("./maps/gamemap.xlsx")).createGameMap(this);
+		} catch (FileNotFoundException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }

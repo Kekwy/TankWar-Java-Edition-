@@ -5,7 +5,7 @@ import com.kekwy.tankwar.client.GameScene;
 import com.kekwy.tankwar.client.TankWar;
 import com.kekwy.tankwar.client.effect.Blast;
 import com.kekwy.tankwar.client.gamemap.MapTile;
-import com.kekwy.tankwar.client.gamescenes.OnlinePlayScene;
+import com.kekwy.tankwar.client.gamescenes.OnlinePlaySceneTmp;
 import com.kekwy.tankwar.client.util.Direction;
 import com.kekwy.tankwar.client.util.ResourceUtil;
 import com.kekwy.tankwar.client.util.TankWarUtil;
@@ -27,7 +27,7 @@ public abstract class Tank extends GameObject implements Runnable {
 		setRadius(TANK_RADIUS);
 		initTank(x, y, direction, name, group);
 		setLayer(1);
-		isOnline = parent instanceof OnlinePlayScene;
+		isOnline = parent instanceof OnlinePlaySceneTmp;
 	}
 
 	public void setVisible(boolean visible) {
@@ -78,7 +78,7 @@ public abstract class Tank extends GameObject implements Runnable {
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);
 		initTank(x, y, direction, name, group);
 		setLayer(1);
-		isOnline = parent instanceof OnlinePlayScene;
+		isOnline = parent instanceof OnlinePlaySceneTmp;
 	}
 
 	private void move() {

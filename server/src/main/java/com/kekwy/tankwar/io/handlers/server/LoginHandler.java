@@ -49,7 +49,8 @@ public class LoginHandler implements GameHandler {
 					loginAction.userUuid = uuid;
 					loginAction.send(channel, ByteBuffer.allocate(1024));
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，登录成功[uuid=%s]".formatted(name, passwd, uuid));
-					roomScene.joinATeam(loginAction.name);
+					int team = roomScene.playerJoin(loginAction.name, uuid, channel);
+					new EnterRoomAction(name, team).send(channel, buffer);
 				}
 			} else {
 				loginAction.stateCode = 1; // 登录失败

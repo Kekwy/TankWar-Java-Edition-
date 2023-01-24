@@ -2,6 +2,7 @@ package com.kekwy.tankwar.io.handlers.client;
 
 import com.kekwy.tankwar.client.GameScene;
 import com.kekwy.tankwar.client.tank.PlayerTank;
+import com.kekwy.tankwar.client.tank.Tank;
 import com.kekwy.tankwar.client.util.Direction;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.NewTankAction;
@@ -14,9 +15,11 @@ public class NewTankHandler implements GameHandler {
 	public void handleAction(GameScene scene, GameAction action, SocketChannel channel, ByteBuffer buffer) {
 		if (!(action instanceof NewTankAction newTankAction)) return;
 		if (newTankAction.typeCode == 0) {
-			scene.addGameObject(new PlayerTank(scene, newTankAction.x, newTankAction.y,
+			Tank tank = new PlayerTank(scene, newTankAction.x, newTankAction.y,
 					Direction.values()[newTankAction.direction], newTankAction.name,
-					newTankAction.group, newTankAction.identity));
+					newTankAction.group, newTankAction.identity);
+			tank.setColor(newTankAction.r, newTankAction.g, newTankAction.b);
+			scene.addGameObject(tank);
 		} else if (newTankAction.typeCode == 1) {
 //				scene.addGameObject(new EnemyTank(scene));
 		} else throw new RuntimeException("???");

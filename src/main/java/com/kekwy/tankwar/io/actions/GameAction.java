@@ -27,6 +27,7 @@ public abstract class GameAction {
 	public static final int ENTER_ROOM_CODE = 0x30;
 	public static final int LEAVE_ROOM_ACTION = 0x31;
 	public static final int CHANGE_TEAM_CODE = 0x32;
+	public static final int GAME_START_CODE = 0x33;
 
 	static final Map<Integer, Class<? extends GameAction>> ACTION_MAP = new HashMap<>();
 
@@ -38,10 +39,16 @@ public abstract class GameAction {
 
 		ACTION_MAP.put(NEW_Tank_CODE, NewTankAction.class);
 		ACTION_MAP.put(NEW_BULLET_CODE, NewBulletAction.class);
+		ACTION_MAP.put(NEW_BLAST_CODE, NewBlastAction.class);
+		ACTION_MAP.put(NEW_MAP_TILE_CODE, NewMapTileAction.class);
 
 		ACTION_MAP.put(UPDATE_TANK_CODE, UpdateTankAction.class);
 		ACTION_MAP.put(UPDATE_BULLET_CODE, UpdateBulletAction.class);
 		ACTION_MAP.put(UPDATE_MAP_TILE_CODE, UpdateMapTileAction.class);
+
+		ACTION_MAP.put(ENTER_ROOM_CODE, EnterRoomAction.class);
+		ACTION_MAP.put(CHANGE_TEAM_CODE, ChangeTeamAction.class);
+		ACTION_MAP.put(GAME_START_CODE, GameStartAction.class);
 
 	}
 

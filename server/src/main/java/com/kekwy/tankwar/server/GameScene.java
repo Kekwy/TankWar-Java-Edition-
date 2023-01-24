@@ -5,6 +5,7 @@ import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.server.GameObject;
 import com.kekwy.tankwar.server.tank.Bullet;
 
+import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -81,6 +82,8 @@ public class GameScene {
 	public static final long REFRESH_INTERVAL = 1000 / 30;
 	private boolean active = true;
 
+
+	public Map<Channel, String> clientMap = new HashMap<>();
 
 	private Thread refreshThread;
 
@@ -191,6 +194,9 @@ public class GameScene {
 		}
 		lock.writeLock().unlock();
 
+	}
+
+	public void startGame() {
 	}
 
 

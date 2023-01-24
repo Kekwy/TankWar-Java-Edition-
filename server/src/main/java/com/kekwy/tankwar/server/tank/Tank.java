@@ -37,6 +37,10 @@ public abstract class Tank extends GameObject implements Runnable {
 		return visible;
 	}
 
+	public void setGroup(int team) {
+		this.group = team;
+	}
+
 	public enum State {
 		STATE_IDLE,
 		STATE_MOVE,
@@ -62,12 +66,12 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	public double r, g, b;
 
-	public Tank(GameScene parent, ServerCore server) {
+	public Tank(GameScene parent) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 	}
 
-	public Tank(GameScene parent, ServerCore server, int x, int y, Direction direction, String name, int group) {
+	public Tank(GameScene parent, int x, int y, Direction direction, String name, int group) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);

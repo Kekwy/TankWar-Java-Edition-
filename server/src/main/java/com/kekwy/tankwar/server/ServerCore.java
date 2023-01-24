@@ -66,6 +66,8 @@ public class ServerCore {
 		listenThread.start();
 		forwardThread = new Thread(this::forward);
 		forwardThread.start();
+		logger.info("[SERVER] done!");
+
 	}
 
 	public void stop() {
@@ -77,6 +79,7 @@ public class ServerCore {
 		} catch (InterruptedException e) {
 			throw new RuntimeException(e);
 		}
+		logger.info("[SERVER] 服务器挂起");
 	}
 
 	public void listen() {
@@ -123,7 +126,7 @@ public class ServerCore {
 			if (timestamp - lastForwardTimestamp < FORWARD_INTERVAL) {
 				try {
 					//noinspection BusyWait
-					Thread.sleep(timestamp - lastForwardTimestamp);
+					Thread.sleep(FORWARD_INTERVAL - (timestamp - lastForwardTimestamp));
 				} catch (InterruptedException e) {
 					throw new RuntimeException(e);
 				}
