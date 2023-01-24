@@ -10,5 +10,6 @@ module com.kekwy.tankwar {
 	opens com.kekwy.tankwar to javafx.fxml;
 	exports com.kekwy.tankwar;
 	exports com.kekwy.tankwar.client;
+	exports com.kekwy.tankwar.io.handlers.client;
 	opens com.kekwy.tankwar.client to javafx.fxml;
 }

@@ -1,5 +1,7 @@
 package com.kekwy.tankwar.server;
 
+import com.kekwy.tankwar.io.actions.EnterRoomAction;
+import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.server.GameObject;
 import com.kekwy.tankwar.server.tank.Bullet;
 
@@ -139,6 +141,9 @@ public class GameScene {
 		object.transform.setX(x);
 		object.transform.setY(y);
 
+	}
+
+	public void forward(GameAction action) {
 	}
 
 

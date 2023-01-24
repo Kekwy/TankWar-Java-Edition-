@@ -6,10 +6,12 @@ import com.kekwy.tankwar.client.GameObject;
 import com.kekwy.tankwar.client.GameScene;
 import com.kekwy.tankwar.client.TankWar;
 import com.kekwy.tankwar.client.tank.PlayerTank;
+import com.kekwy.tankwar.client.util.ResourceUtil;
 import com.kekwy.tankwar.io.actions.*;
 import com.kekwy.tankwar.io.handlers.client.*;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -82,7 +84,7 @@ public class OnlinePlayScene extends GameScene {
 		handlerMap.put(UpdateTankAction.class, new UpdateTankHandler());
 		handlerMap.put(UpdateBulletAction.class, new UpdateBulletHandler());
 
-		addGameObject(new BackGround(this));
+		new BackGround(this);
 
 		connectToServer();
 		new LoginAction(TankWar.PLAYER_NAME, TankWar.PASSWORD).send(channel, listenBuffer);

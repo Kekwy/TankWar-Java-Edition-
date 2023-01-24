@@ -22,7 +22,10 @@ public abstract class GameAction {
 	public static final int UPDATE_TANK_CODE = 0x20;
 	public static final int UPDATE_BULLET_CODE = 0x21;
 	public static final int UPDATE_MAP_TILE_CODE = 0x22;
-	public static final int UPDATE_BLAST_CODE = 0x23;
+
+	public static final int ENTER_ROOM_CODE = 0x30;
+	public static final int LEAVE_ROOM_ACTION = 0x31;
+	public static final int CHANGE_TEAM_CODE = 0x32;
 
 	static final Map<Integer, Class<? extends GameAction>> ACTION_MAP = new HashMap<>();
 

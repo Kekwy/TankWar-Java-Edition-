@@ -112,8 +112,6 @@ public class PlayerTank extends Tank {
 			isFired = false;
 		}
 
-		if (!getParent().isOnline()) return;
-
 		if (keyStack.isEmpty())
 			setState(State.STATE_IDLE);
 		else {

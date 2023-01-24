@@ -4,6 +4,7 @@ import com.kekwy.tankwar.client.gamescenes.LocalPlayScene;
 import com.kekwy.tankwar.client.gamescenes.MainScene;
 import com.kekwy.tankwar.client.GameScene;
 import com.kekwy.tankwar.client.gamescenes.OnlinePlayScene;
+import com.kekwy.tankwar.client.gamescenes.RoomScene;
 import javafx.application.Application;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -36,7 +37,7 @@ public class Main extends Application {
 		stage.show();
 //		TankWar.LOCAL_PLAY_SCENE.setStage(stage);
 //		TankWar.LOCAL_PLAY_SCENE.start();
-		GameScene scene = new OnlinePlayScene();
+//		GameScene scene = new OnlinePlayScene();
 //		GameScene scene;
 
 		// 判断是否存在保存游戏进度的临时文件
@@ -52,6 +53,7 @@ public class Main extends Application {
 //			scene = new MainScene();
 //		}
 
+		GameScene scene = new RoomScene();
 
 		scene.setStage(stage);
 		scene.start();

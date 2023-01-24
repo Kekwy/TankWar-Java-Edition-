@@ -1,8 +1,10 @@
 package com.kekwy.tankwar.io.handlers.server;
 
+import com.kekwy.tankwar.io.actions.EnterRoomAction;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.io.actions.GameAction;
 import com.kekwy.tankwar.io.actions.LoginAction;
+import com.kekwy.tankwar.server.gamescenes.RoomScene;
 
 import java.nio.ByteBuffer;
 import java.nio.channels.SocketChannel;
@@ -24,6 +26,8 @@ public class LoginHandler implements GameHandler {
 
 	@Override
 	public void handleAction(GameScene scene, GameAction action, SocketChannel channel, ByteBuffer buffer, Logger logger) {
+		if (!(scene instanceof RoomScene roomScene)) return; // 若服务器不处于房间场景，则忽略该请求.
+
 		if (!(action instanceof LoginAction loginAction)) {
 			logger.severe("[SEVERE] 处理用户请求的过程中调用了错误的方法或用户请求参数错误！");
 			throw new RuntimeException();
@@ -45,6 +49,7 @@ public class LoginHandler implements GameHandler {
 					loginAction.userUuid = uuid;
 					loginAction.send(channel, ByteBuffer.allocate(1024));
 					logger.info("[INFO] 用户登入[name=%s, passwd=%s]，登录成功[uuid=%s]".formatted(name, passwd, uuid));
+					roomScene.joinATeam(loginAction.name);
 				}
 			} else {
 				loginAction.stateCode = 1; // 登录失败
