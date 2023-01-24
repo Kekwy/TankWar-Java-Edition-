@@ -1,6 +1,6 @@
 package com.kekwy.tankwar.server.tank;
 
-import com.kekwy.tankwar.server.GameServer;
+import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.util.RandomGen;
 import com.kekwy.tankwar.server.GameObject;
@@ -62,12 +62,12 @@ public abstract class Tank extends GameObject implements Runnable {
 
 	public double r, g, b;
 
-	public Tank(GameScene parent, GameServer server) {
+	public Tank(GameScene parent, ServerCore server) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 	}
 
-	public Tank(GameScene parent, GameServer server, int x, int y, Direction direction, String name, int group) {
+	public Tank(GameScene parent, ServerCore server, int x, int y, Direction direction, String name, int group) {
 		super(parent);
 		setRadius(TANK_RADIUS);
 //		setColliderType(ColliderType.COLLIDER_TYPE_RECT);

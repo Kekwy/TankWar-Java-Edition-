@@ -1,6 +1,6 @@
 package com.kekwy.tankwar.server.tank;
 
-import com.kekwy.tankwar.server.GameServer;
+import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.server.util.ObjectPool;
 import com.kekwy.tankwar.util.RandomGen;
@@ -15,7 +15,7 @@ public class EnemyTank extends Tank {
 	static int count = 0;
 	static Semaphore mutex_count = new Semaphore(10);
 
-	public EnemyTank(GameScene parent, GameServer server) {
+	public EnemyTank(GameScene parent, ServerCore server) {
 		super(parent, server);
 	}
 

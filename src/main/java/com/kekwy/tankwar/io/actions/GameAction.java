@@ -17,6 +17,7 @@ public abstract class GameAction {
 	public static final int NEW_Tank_CODE = 0x10;
 	public static final int NEW_BULLET_CODE = 0x11;
 	public static final int NEW_BLAST_CODE = 0x12;
+	public static final int NEW_MAP_TILE_CODE = 0x13;
 
 
 	public static final int UPDATE_TANK_CODE = 0x20;

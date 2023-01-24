@@ -1,6 +1,7 @@
 package com.kekwy.tankwar;
 
-import com.kekwy.tankwar.server.GameServer;
+import com.kekwy.tankwar.server.ServerCore;
+import com.kekwy.tankwar.server.gamescenes.RoomScene;
 
 import java.io.IOException;
 
@@ -10,7 +11,8 @@ public class ServerMain {
 	private static final String HOST = "localhost";
 
 	public static void main(String[] args) throws IOException {
-		new GameServer(HOST, PORT).launch();
+		new RoomScene().start();
+//		new ServerCore(HOST, PORT).launch();
 	}
 
 }

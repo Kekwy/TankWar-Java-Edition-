@@ -1,6 +1,6 @@
 package com.kekwy.tankwar.server.gamemap;
 
-import com.kekwy.tankwar.server.GameServer;
+import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.server.GameObject;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.server.tank.Bullet;
@@ -14,7 +14,7 @@ public class MapTile extends GameObject {
 
 	int hp = 10;
 
-	public MapTile(GameScene parent, GameServer server, Type type, int x, int y) {
+	public MapTile(GameScene parent, ServerCore server, Type type, int x, int y) {
 		super(parent);
 		this.setRadius(TILE_WIDTH / 2);
 		this.type = type;

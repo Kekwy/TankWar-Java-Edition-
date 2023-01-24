@@ -40,10 +40,8 @@ public class GameScene {
 	private final ExecutorService service = Executors.newCachedThreadPool();
 
 
-
 	public final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 	public final Map<String, GameObject> objectMap = new HashMap<>();
-
 
 
 	/**
@@ -82,7 +80,6 @@ public class GameScene {
 
 	public static final long REFRESH_INTERVAL = 1000 / 30;
 	private boolean active = true;
-
 
 
 	private Thread refreshThread;
@@ -143,7 +140,57 @@ public class GameScene {
 
 	}
 
-	public void forward(GameAction action) {
+	List<GameObject> readBuffer0 = new ArrayList<>();
+
+	public void getActionListAllAsNew(List<GameAction> dst) {
+		readBuffer0.clear();
+		lock.readLock().lock();
+		readBuffer0.addAll(objectMap.values());
+		lock.readLock().unlock();
+
+		for (GameObject object : readBuffer0) {
+			GameAction action = object.getNewObjectAction();
+			if (action != null) {
+				dst.add(action);
+			}
+		}
+
+	}
+
+	List<GameObject> readBuffer1 = new ArrayList<>();
+	List<GameObject> removeBuffer = new ArrayList<>();
+
+	public void getActionList(List<GameAction> dst) {
+		readBuffer1.clear();
+		removeBuffer.clear();
+		lock.readLock().lock();
+		readBuffer1.addAll(objectMap.values());
+		lock.readLock().unlock();
+
+		for (GameObject object : readBuffer1) {
+			if (!object.isActive()) {
+				removeBuffer.add(object);
+			}
+			if (object.isNew()) {
+				object.setNewFalse();
+				GameAction action = object.getNewObjectAction();
+				if (action != null) {
+					dst.add(action);
+				}
+			} else {
+				GameAction action = object.getUpdateObjectAction();
+				if (action != null) {
+					dst.add(action);
+				}
+			}
+		}
+
+		lock.writeLock().lock();
+		for (GameObject object : removeBuffer) {
+			objectMap.remove(object.getIdentity());
+		}
+		lock.writeLock().unlock();
+
 	}
 
 

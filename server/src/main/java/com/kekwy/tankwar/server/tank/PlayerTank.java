@@ -1,7 +1,7 @@
 package com.kekwy.tankwar.server.tank;
 
 
-import com.kekwy.tankwar.server.GameServer;
+import com.kekwy.tankwar.server.ServerCore;
 import com.kekwy.tankwar.util.Direction;
 import com.kekwy.tankwar.server.GameScene;
 import com.kekwy.tankwar.io.actions.GameAction;
@@ -16,7 +16,7 @@ public class PlayerTank extends Tank {
 
 	public static final int DEFAULT_PLAYER_TANK_SPEED = 6;
 
-	public PlayerTank(GameScene parent, GameServer server, String uuid, int x, int y, Direction direction, String name) {
+	public PlayerTank(GameScene parent, ServerCore server, String uuid, int x, int y, Direction direction, String name) {
 		super(parent, server, x, y, direction, name, 1);
 		setSpeed(DEFAULT_PLAYER_TANK_SPEED);
 		// parent.addGameObject(this);

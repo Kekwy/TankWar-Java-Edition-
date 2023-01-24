@@ -46,6 +46,7 @@ public class RoomScene extends GameScene {
 
 		put(UpdateTankAction.class, new UpdateTankHandler());
 		put(UpdateBulletAction.class, new UpdateBulletHandler());
+		put(UpdateMapTileAction.class, new UpdateMapTileHandler());
 	}};
 
 	PlayerTank player;
@@ -109,11 +110,11 @@ public class RoomScene extends GameScene {
 			}
 		}));
 
-		serverCore.open(SERVER_HOST, SERVER_PORT);
-		serverCore.setUpHandlers(HANDLERS);
-		serverCore.setUpGameScene(this);
+//		serverCore.open(SERVER_HOST, SERVER_PORT);
+//		serverCore.setUpHandlers(HANDLERS);
+//		serverCore.setUpGameScene(this);
 
-		serverCore.start();
+//		serverCore.start();
 
 	}
 
@@ -156,7 +157,7 @@ public class RoomScene extends GameScene {
 		private static final Font FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 12);
 		private static final Font EN_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 20);
 		private static final Font CH_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/IPix.ttf"), 20);
-		private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 18);
+		private static final Font NAME_FONT = Font.loadFont(ResourceUtil.getAsPath("/Fonts/Minecraft.ttf"), 16);
 
 
 //		private static final
@@ -194,6 +195,10 @@ public class RoomScene extends GameScene {
 				g.setFont(CH_FONT);
 				g.fillText(teamName[i], SCENE_WIDTH - MENU_WIDTH + 80, lineY);
 
+				g.setFont(NAME_FONT);
+				g.setFill(Color.WHITE);
+				g.fillText("test", SCENE_WIDTH - MENU_WIDTH + 30, lineY + stepLength);
+				g.fillText("test", SCENE_WIDTH - MENU_WIDTH + 30, lineY + 2 * stepLength);
 
 				lineY += stepLength * 4;
 
